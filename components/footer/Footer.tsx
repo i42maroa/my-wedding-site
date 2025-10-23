@@ -1,7 +1,13 @@
+import styles from "./Footer.module.css";
+import LinkButton from "../button/LinkButton";
+
 export default function Footer() {
   return (
-    <footer style={{ textAlign: "center", padding: "1rem", background: "#fafafa", marginTop: "3rem" }}>
-      <p>© 2025 Nuestra Boda 💕</p>
+    <footer className={styles.container}>
+      <div className={styles.content}>
+        <h2>Esperamos verte</h2>
+      <LinkButton href='/form'>Confirmar asistencia</LinkButton>
+      </div>
     </footer>
   );
 }

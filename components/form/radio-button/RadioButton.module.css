@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+  /* border-radius: 8px; */
+  /* border: 2px solid var(--brown); */
+  transition: all 0.2s ease;
+  font-weight: 500;
+  color: var(--green);
+
+  input {
+    display: none;
+  }
+
+  .customRadio {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--brown);
+    /* border-radius: 50%; */
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  input:checked + .customRadio {
+    background-color: var(--brown);
+    border-color: var(--brown);
+  }
+
+  &:hover {
+    background-color: rgba(197, 159, 201, 0.1);
+  }
+
+  .icon {
+    font-size: 1.2rem;
+  }
+}

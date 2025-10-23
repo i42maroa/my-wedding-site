@@ -1,0 +1,23 @@
+.container{
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.contentContainer{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.image{
+    rotate: -2deg;
+    border: 3px solid var(--brown);
+}
+
+.date{
+    text-align: center;
+}
+
+.button{
+    margin:auto
+}

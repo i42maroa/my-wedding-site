@@ -1,17 +1,5 @@
-.main {
-  text-align: center;
-  padding: 4rem 1rem;
-}
-
-.info {
-  margin: 2rem 0;
-  font-size: 1.2rem;
-}
-
-.button {
-  background: #c59fc9;
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  font-weight: bold;
+.mainContainer{
+  display: flex;
+  flex-direction: column;
+  padding: 200px 150px;
 }

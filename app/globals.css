@@ -1,7 +1,41 @@
+
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Allura';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/allura-v23-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/playfair-display-v40-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+@font-face {
+  font-display: swap; 
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/playfair-display-v40-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+@font-face {
+  font-display: swap; 
+  font-family: 'Cardo';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/cardo-v21-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 body {
-  font-family: 'Helvetica Neue', sans-serif;
-  background: #fafafa;
-  color: #333;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; 
+  background: var(--white);
+  color: var(--brown);
   margin: 0;
   padding: 0;
 }
@@ -9,4 +43,83 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+section{
+  margin: 10rem auto;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-family: 'Allura', cursive;
+  font-size: 4rem; /* ajusta según tu diseño */
+  font-weight: 400;
+  text-align: center;
+  margin: 0.5em 0;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+h3{
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.4em;
+}
+
+p{
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  margin-bottom: 1em;
+}
+
+*{
+   box-sizing: border-box; /*asegura que el padding y el borde se incluyan dentro del ancho total, evitando que el input se desborde.*/
+}
+
+:root{
+  --white: #FAF9F6;
+  --green: #7D825E;
+  --brown: #9C6908;
+  --gold: #D1A762;
+  --red: #c44b4b
+
+  --font-header: 'Allura';
+  --font-primary: 'Playfair Display';
+  --font-secondary: 'Cardo'
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+
+/* Tablets (≤ 1024px) */
+@media (max-width: 1024px) {
+  h1 { font-size: 3.2rem; }
+  h2 { font-size: 1.8rem; }
+  h3 { font-size: 1.3rem; }
+  p  { font-size: 0.95rem; }
+}
+
+/* Móviles (≤ 768px) */
+@media (max-width: 768px) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.1rem; }
+  p  { font-size: 0.9rem; }
+  button, .detalle { font-size: 0.85rem; padding: 8px 16px; }
+}
+
+/* Móviles pequeños (≤ 480px) */
+@media (max-width: 480px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.3rem; }
+  h3 { font-size: 1rem; }
+  p  { font-size: 0.85rem; }
 }
