@@ -9,7 +9,7 @@ interface FloralLayoutProps {
   className?: string;
 }
 
-const FloralLayout: FC<FloralLayoutProps> = ({children, className = ""}) => {
+export default function FloralLayout ({children, className }:FloralLayoutProps)  {
   return (
     <div className={`${styles.container} ${className}`}>
       
@@ -23,4 +23,3 @@ const FloralLayout: FC<FloralLayoutProps> = ({children, className = ""}) => {
   );
 };
 
-export default FloralLayout;

@@ -14,18 +14,20 @@ interface BaseButtonProps {
   children: ReactNode;
   /** Clase extra opcional */
   className?: string;
+  disabled?: boolean;
 }
 
 export default function BaseButton({ as: Component = "button", href, onClick, type = "button", children,
-  className = "",...props} : BaseButtonProps & (ButtonHTMLAttributes<HTMLButtonElement> | AnchorHTMLAttributes<HTMLAnchorElement>)) {
+  className = "", disabled = false,...props} : BaseButtonProps & (ButtonHTMLAttributes<HTMLButtonElement> | AnchorHTMLAttributes<HTMLAnchorElement>)) {
+  
     const classNames = `${styles.container} ${className}`;
-
   return (
     <Component
       href={href}
       onClick={onClick}
       type={Component === "button" ? type : "button"}
       className={classNames}
+      disabled={disabled}
       {...props}
     >
       <span>{children}</span>

@@ -6,6 +6,7 @@ interface FormButtonProps {
   onClick?: () => void;
   children: React.ReactNode;
   className?: string;
+  disabled?: boolean;
 }
 
 export default function FormButton({ type = "submit", ...props }: FormButtonProps) {

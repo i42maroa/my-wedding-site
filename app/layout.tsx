@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ToastContainer from "@/components/toast/ToastContainer";
+import SpinnerOverlay from "@/components/spinner/SpinnerOverlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +25,8 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
+        <ToastContainer />
+        <SpinnerOverlay/>
       </body>
     </html>
   );

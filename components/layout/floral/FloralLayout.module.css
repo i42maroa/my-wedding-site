@@ -37,3 +37,10 @@
   border: 3px solid var(--brown);
   margin: 10rem auto;
 }
+
+@media (min-width: 768px) {
+  .topLeft,
+  .bottomRight {
+    width: 200px;
+  }
+}

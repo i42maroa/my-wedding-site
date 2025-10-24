@@ -3,63 +3,58 @@ import { useState } from "react";
 import styles from "./Form.module.css"
 import FormButton from "@/components/button/FormButton";
 import RadioButton from "@/components/form/radio-button/RadioButton";
-import { FormData, FormErrors } from "@/types/formTypes";
-import { emptyErrors, validateForm, submitForm } from "../../services/formService";
+import { FORM_DATA_DEFAULT, FormData, FormErrors } from "@/types/formTypes";
+import { validateForm, submitForm } from "../../services/formService";
 import FormInput from "@/components/form/input/FormInput";
 import FloralLayout from "@/components/layout/floral/FloralLayout";
 import Link from "next/link";
+import { showToast } from "@/services/notificationService";
+import { startLoading, stopLoading } from "@/services/loadingService";
 
 export default function RSVPPage() {
-  const [formData, setFormData] = useState<FormData>({
-    nombre: "",
-    transporte: "",
-    intolerancia: false,
-    detallesIntolerancia: "",
-    mensaje: "",
-  });
+  const [formData, setFormData] = useState<FormData>(FORM_DATA_DEFAULT);
 
-  const [errors, setErrors] = useState<FormErrors>(emptyErrors);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [errors, setErrors] = useState<FormErrors>({});  
+  const [success, setSuccess] = useState(false);
 
-  // Manejadores
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
-  const handleRadioChange = (name: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-      ...(name === "intolerancia" && !value ? { detallesIntolerancia: "" }: {}),
-    }));
-  };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({ ...prev, [name]: value }));
+};
 
 const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccessMessage("");
-
-    const { isValid, errors } = validateForm(formData);
-    setErrors(errors);
-    if (!isValid) return;
+    startLoading();
 
     try {
-      setIsSubmitting(true);
-      await submitForm(formData);
-      setSuccessMessage("🎉 ¡Formulario enviado con éxito!");
-      setFormData({
-        nombre: "",
-        transporte: "",
-        intolerancia: false,
-        detallesIntolerancia: "",
-        mensaje: "",
-      });
-      setErrors(emptyErrors);
+      showToast("Validando datos...", "info");
+      // Validación local
+      const { isValid, errors } = validateForm(formData);
+      setErrors(errors);
+
+      if (!isValid) {
+        showToast("Por favor, corrige los errores del formulario.", "error");
+        stopLoading();
+        return;
+      }
+// Simulamos brevemente el proceso (opcional, mejora UX)
+      await new Promise((r) => setTimeout(r, 400));
+  
+      // Envío a Firestore (asíncrono)
+      const result = await submitForm(formData);
+
+      if (result.success) {
+        showToast("🎉 ¡Confirmación enviada con éxito!", "success");
+        setFormData(FORM_DATA_DEFAULT);
+      } else {
+        showToast(result.error || " Error al enviar la confirmación", "error");
+      }
     } catch (err) {
-      alert("❌ Error al enviar. Inténtalo más tarde.");
+      console.error("Error al enviar formulario:", err);
+      showToast("Error inesperado al enviar la confirmación", "error");
     } finally {
-      setIsSubmitting(false);
+      stopLoading();
     }
   };
 
@@ -76,7 +71,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             label="Indica vuestros nombres"
             placeholder="Ej: Ana García Rosales, Jose María Martinez"
             value={formData.nombre}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
             error={errors.nombre}
           />
@@ -92,26 +87,27 @@ const handleSubmit = async (e: React.FormEvent) => {
               value={false}
               label="No padezco/padecemos ninguna intolerancia"
               selectedValue={formData.intolerancia}
-              onChange={handleRadioChange}
+               onChange={() => setFormData({ ...formData, intolerancia: false })}
             />
             <RadioButton
               name="intolerancia"
               value={true}
               label="Sí, tengo alguna intolerancia"
               selectedValue={formData.intolerancia}
-              onChange={handleRadioChange}
+               onChange={() => setFormData({ ...formData, intolerancia: true })}
             /> 
           </div>
 
           {formData.intolerancia && (
             <FormInput
-            name="detallesIntolerancia"
-            label="Indica tus intolerancias"
-            placeholder="Ej: gluten, lactosa...)"
-            value={formData.detallesIntolerancia}
-            onChange={handleChange}
-            required
-          />
+              name="detallesIntolerancia"
+              label="Indica tus intolerancias"
+              placeholder="Ej: gluten, lactosa...)"
+              value={formData.detallesIntolerancia}
+              onChange={handleInputChange}
+              error={errors.detallesIntolerancia}
+              required
+            />
           )}
         </div>
         <div className={styles.formGroup}>
@@ -122,7 +118,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               value="coche"
               label="Voy en coche"
               selectedValue={formData.transporte}
-              onChange={handleRadioChange}
+              onChange={() => setFormData({ ...formData, transporte: 'coche' })}
             />
 
             <RadioButton
@@ -130,27 +126,25 @@ const handleSubmit = async (e: React.FormEvent) => {
               value="autobus"
               label="Voy en autobús"
               selectedValue={formData.transporte}
-              onChange={handleRadioChange}
+              onChange={() => setFormData({ ...formData, transporte: 'autobus' })}
             />
           </div>
         </div>
         <div className={styles.formGroup}>
           <p>Además, quiero indicar:</p>
             <FormInput
-            name="mensaje"
-            label="Mensaje para los novios (opcional)"
-            placeholder="Ej: Me "
-            value={formData.mensaje}
-            onChange={handleChange}
-          />  
+              name="mensaje"
+              label="Mensaje para los novios (opcional)"
+              placeholder="Ej: Me "
+              value={formData.mensaje}
+              onChange={handleInputChange}
+            />  
         </div>      
-        <FormButton className={styles.button} type="submit">Enviar</FormButton>
-
-        {successMessage && (
-          <p style={{ color: "#4caf50", fontWeight: 500 }}>
-            {successMessage}
-          </p>
-        )}
+        <FormButton className={styles.button}
+                type="submit" 
+                // disabled={loading} TODO: BLOCK WHEN IS LOADING
+                >"Enviar"
+        </FormButton>
       </form>
     </div>
     </FloralLayout>
