@@ -114,6 +114,10 @@ p{
   h3 { font-size: 1.1rem; }
   p  { font-size: 0.9rem; }
   button, .detalle { font-size: 0.85rem; padding: 8px 16px; }
+
+  section{
+    margin: 5rem auto;
+  }
 }
 
 /* Móviles pequeños (≤ 480px) */
@@ -122,4 +126,8 @@ p{
   h2 { font-size: 1.3rem; }
   h3 { font-size: 1rem; }
   p  { font-size: 0.85rem; }
+
+  section{
+    margin: 2.5rem auto;
+  }
 }

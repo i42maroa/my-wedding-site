@@ -38,3 +38,12 @@
   font-size: 0.9rem;
   margin-top: 0.3rem;
 }
+
+
+@media (max-width: 768px) {
+  .label{ font-size: 0.85rem;}
+}
+
+@media (max-width: 480px) {
+  .label { font-size: 0.65rem;}
+}

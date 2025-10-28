@@ -26,4 +26,9 @@
     margin: auto;
     padding: 2rem;
     z-index: 1; 
+
+    h2{
+        text-align: center;
+        margin: 2rem 0;
+    }
 }
