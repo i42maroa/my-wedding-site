@@ -53,7 +53,7 @@ section{
 
 h1 {
   font-family: 'Allura', cursive;
-  font-size: 4rem; /* ajusta según tu diseño */
+  font-size: 56px;
   font-weight: 400;
   text-align: center;
   margin: 0.5em 0;
@@ -61,22 +61,27 @@ h1 {
 
 h2 {
   font-family: 'Playfair Display', serif;
-  font-size: 2rem;
+  font-size: 40px;
   font-weight: 700;
   margin-bottom: 0.5em;
 }
 
 h3{
   font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
+  font-size: 32px;
   font-weight: 600;
   margin-bottom: 0.4em;
 }
 
 p{
   font-family: 'Playfair Display', serif;
-  font-size: 1rem;
+  font-size: 18px;
   margin-bottom: 1em;
+}
+
+label{
+  font-size: 16px;
+  color: var(--gold);
 }
 
 *{
@@ -99,33 +104,35 @@ p{
    RESPONSIVE DESIGN
 =========================== */
 
-/* Tablets (≤ 1024px) */
+/* Tablet horizontal / laptop pequeña */
 @media (max-width: 1024px) {
-  h1 { font-size: 3.2rem; }
-  h2 { font-size: 1.8rem; }
-  h3 { font-size: 1.3rem; }
-  p  { font-size: 0.95rem; }
+  h1 { font-size: 48px; }
+  h2 { font-size: 36px; }
+  h3 { font-size: 28px; }
+  p  { font-size: 18px; }
+  button { font-size: 18px; padding: 8px 16px; }
 }
 
-/* Móviles (≤ 768px) */
+/* Móvil grande / tablet vertical */
 @media (max-width: 768px) {
-  h1 { font-size: 2.5rem; }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.1rem; }
-  p  { font-size: 0.9rem; }
-  button, .detalle { font-size: 0.85rem; padding: 8px 16px; }
-
+  h1 { font-size: 40px; }
+  h2 { font-size: 30px; }
+  h3 { font-size: 22px; }
+  p  { font-size: 16px; }
+  button { font-size: 16px; padding: 8px 16px; }
+  label { font-size: 14px; }
   section{
     margin: 5rem auto;
   }
 }
 
-/* Móviles pequeños (≤ 480px) */
+/* Móvil pequeño */
 @media (max-width: 480px) {
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.3rem; }
-  h3 { font-size: 1rem; }
-  p  { font-size: 0.85rem; }
+  h1 { font-size: 32px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 20px; }
+  p  { font-size: 16px; }
+  button { font-size: 16px; padding: 8px 16px; }
 
   section{
     margin: 2.5rem auto;

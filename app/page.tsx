@@ -1,20 +1,19 @@
-import styles from "@/app/Home.module.css";
-import Link from "next/link";
 import Footer from "@/components/footer/Footer";
 import SectionHeader from "@/components/sections/header/SectionHeader";
 import SectionDate from "@/components/sections/date/SectionDate";
 import SectionVehicle from "@/components/sections/vehicle/SectionVehicle";
 import SectionSleep from "@/components/sections/sleep/SectionSleep";
+import MainLayout from "@/components/layout/main/MainLayout";
 
 export default function Home() {
   return (
     <>
-      <main className={styles.mainContainer}>
+      <MainLayout>
         <SectionHeader></SectionHeader>
         <SectionDate></SectionDate>
         <SectionVehicle></SectionVehicle>
         <SectionSleep></SectionSleep>
-      </main>
+      </MainLayout>
       <Footer />
     </>
   );

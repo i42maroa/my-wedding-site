@@ -7,9 +7,9 @@ import { FORM_DATA_DEFAULT, FormData, FormErrors } from "@/types/formTypes";
 import { validateForm, submitForm } from "../../services/formService";
 import FormInput from "@/components/form/input/FormInput";
 import FloralLayout from "@/components/layout/floral/FloralLayout";
-import Link from "next/link";
 import { showToast } from "@/services/notificationService";
 import { startLoading, stopLoading } from "@/services/loadingService";
+import MainLayout from "@/components/layout/main/MainLayout";
 
 export default function RSVPPage() {
   const [formData, setFormData] = useState<FormData>(FORM_DATA_DEFAULT);
@@ -59,8 +59,8 @@ const handleSubmit = async (e: React.FormEvent) => {
   };
 
   return (
+    <MainLayout>
     <FloralLayout>
-      <Link href={'/'}> - Volver</Link>
     <div className={styles.container}>
       <h2 className={styles.title}>Asistencia</h2>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
@@ -76,7 +76,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             error={errors.nombre}
           />
           <p>y confirmo la asistencia a vuestra boda el día</p>
-          <p>22 de Agosto de 2026</p>
+          <h3 className={styles.date}>22 de Agosto de 2026</h3>
         </div>
         
         <div className={styles.formGroup}>
@@ -148,5 +148,6 @@ const handleSubmit = async (e: React.FormEvent) => {
       </form>
     </div>
     </FloralLayout>
+    </MainLayout>
   );
 }

@@ -4,11 +4,6 @@
   align-items: flex-start;
 }
 
-.label {
-  margin-bottom: 0.4rem;
-  color: var(--gold);
-}
-
 .required {
   color: var(--red);
   margin-left: 0.2rem;
@@ -39,11 +34,6 @@
   margin-top: 0.3rem;
 }
 
-
 @media (max-width: 768px) {
-  .label{ font-size: 0.85rem;}
-}
-
-@media (max-width: 480px) {
-  .label { font-size: 0.65rem;}
+  .label { font-size: 14px; }
 }
