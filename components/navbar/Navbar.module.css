@@ -1,0 +1,146 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--white);
+  backdrop-filter: blur(5px);
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+
+.logo a {
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--brown);
+  transition: color 0.3s ease;
+}
+
+.logo a:hover {
+  color: var(--golden);
+}
+
+
+.navLinks {
+  display: flex;
+  gap: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+
+.navLinks a {
+  color: var(--brown);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  margin: auto;
+}
+
+.navLinks a:hover {
+  color: var(--golden);
+}
+
+.confirmButton{
+  background: var(--brown);
+  padding: 0.4rem;
+
+  span{
+    color: var(--white);
+  }
+}
+
+.hamburgerButton {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1100;
+}
+
+.hamburgerButton span {
+  display: block;
+  height: 3px;
+  background: var(--brown);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburgerButton.open span:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+}
+
+.hamburgerButton.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburgerButton.open span:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+}
+
+
+
+@media (max-width: 768px) {
+
+  .navbar{
+    padding: 1rem 1rem;
+  }
+
+  .logo a{
+    font-size: 22px;
+  }
+
+  .navLinks {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 60%;
+    height: 100vh;
+    background: var(--white);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+  }
+
+  .navLinks.active {
+    right: 0;
+  }
+
+  .hamburgerButton {
+    display: flex;
+  }
+
+  .navbar a{
+      margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  
+  .logo a{
+    font-size: 20px;
+  }
+
+  .navLinks {
+    width: 100%;
+    right: -100%;
+    background: var(--white);
+    backdrop-filter: blur(8px);
+  }
+
+  .navLinks.active {
+    right: 0;
+  }
+}
