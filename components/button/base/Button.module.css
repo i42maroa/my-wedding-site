@@ -1,17 +1,14 @@
 .container{
-    border: 3px solid var(--brown);
     padding: 0.3rem;
     display: flex;
     width: fit-content;
-    background-color: var(--white);
+    background-color: var(--green);
     cursor: pointer;
 }
 
 .container span{
-    border: 1px solid var(--brown);
     padding: 0.5rem 1rem;
     font-family: 'Cardo', serif;
-    font-weight: 700;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -19,6 +16,7 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    color: var(--white);
 }
 
 @media (max-width: 768px) {
