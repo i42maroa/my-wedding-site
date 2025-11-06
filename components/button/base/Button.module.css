@@ -4,6 +4,7 @@
     width: fit-content;
     background-color: var(--green);
     cursor: pointer;
+    border: none;
 }
 
 .container span{
@@ -24,8 +25,5 @@
 }
 
 @media (max-width: 480px) {
-  .container{
-    border: 2px solid var(--brown);
-  }
   .container span { font-size: 0.65rem; padding: 6px 14px; }
 }

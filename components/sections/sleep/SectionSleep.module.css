@@ -9,3 +9,9 @@
     margin: auto;
 }
 }
+
+.hotelContainer{
+    display: flex;
+    margin: auto;
+    gap: 4rem;
+}

@@ -8,9 +8,7 @@ export default function SectionCeremony() {
       <FloralLayout className={styles.layout}>
             <h2>Ceremonia y celebración</h2>
             <p className={styles.text}>19:00h Centro lúdico de Belmez</p>
-            
             <ExternalLinkButton className={styles.button} href='https://maps.app.goo.gl/8jQSVLh2XEj8Uhbv8'>Cómo llegar</ExternalLinkButton>
-
       </FloralLayout>
     </section>
   );
