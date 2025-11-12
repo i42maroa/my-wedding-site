@@ -14,17 +14,17 @@
 }
 
 @media (max-width: 1400px) {
- .questionContainer{
+    .questionContainer{
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
    
-  .item h3{
-    min-height: 4rem;
+    .item h3{
+        min-height: 4rem;
     }
 }
 
 @media (max-width: 1024px) {
- .questionContainer{
+    .questionContainer{
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
    
@@ -37,17 +37,17 @@
      .questionContainer{
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
-  .item h3{
-    min-height: 3rem;
+    .item h3{
+        min-height: 3rem;
     }
 }
 
 @media (max-width: 480px) {
-
-     .questionContainer{
+    .questionContainer{
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
-  .item h3{
-    min-height: auto;
+
+    .item h3{
+        min-height: auto;
     }
 }

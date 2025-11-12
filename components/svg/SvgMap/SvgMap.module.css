@@ -1,0 +1,26 @@
+.container{
+  margin: auto;
+  display: flex;
+}
+.map{
+    fill: #fefefe;
+    stroke-width: 2px;
+    stroke: var(--brown);
+}
+
+.hearth{
+    fill: var(--red);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: heartbeat 1.4s ease-in-out infinite;
+}
+
+/* Animación de latido para el corazón */
+@keyframes heartbeat {
+  0%   { transform: scale(1);     }
+  14%  { transform: scale(1.18);  }
+  28%  { transform: scale(1);     }
+  42%  { transform: scale(1.12);  }
+  70%  { transform: scale(1);     }
+  100% { transform: scale(1);     }
+}
