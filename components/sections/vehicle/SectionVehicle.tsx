@@ -2,7 +2,7 @@ import styles from "./SectionVehicle.module.css";
 
 export default function SectionVehicle() {
   return (
-    <section className={styles.container}>
+    <section id="vehicle" className={styles.container}>
             <h2>Transporte</h2>
             <div className={styles.element}>
                 <h3>Autobús</h3>

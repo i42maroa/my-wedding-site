@@ -4,7 +4,7 @@ import FloralLayout from "@/components/layout/floral/FloralLayout";
 
 export default function SectionCeremony() {
   return (
-    <section className={styles.container}>
+    <section id='ceremony' className={styles.container}>
       <FloralLayout className={styles.layout}>
             <h2>Ceremonia y celebración</h2>
             <p className={styles.text}>19:00h Centro lúdico de Belmez</p>

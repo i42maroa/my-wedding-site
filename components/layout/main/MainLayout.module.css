@@ -1,23 +1,29 @@
 .container{
   display: flex;
   flex-direction: column;
-  padding: 200px 150px;
+  padding: 0 15rem;
+}
+
+@media (max-width: 1400px) {
+  .container{
+    padding: 0 10rem;
+  }
 }
 
 @media (max-width: 1024px) {
   .container{
-    padding: 120px 100px;
-}
+    padding: 0 8rem;
+  }
 }
 
 @media (max-width: 768px) {
   .container{
-    padding: 80px 60px;
+    padding: 0 6rem;
   }
 }
 
 @media (max-width: 480px) {
   .container{
-    padding: 50px 30px;
+    padding: 0 4rem;
   }
 }

@@ -52,7 +52,7 @@ export default function Navbar() {
         <Link href="/#vehicle" onClick={closeMenu}>
           Cómo llegar
         </Link>
-        <Link href="/#faq" onClick={closeMenu}>
+        <Link href="/#question" onClick={closeMenu}>
           Preguntas
         </Link>
         <Link href="/form" onClick={closeMenu} className={styles.confirmButton}>
