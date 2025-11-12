@@ -1,14 +1,19 @@
-.container{
-    margin-left: 0;
-    margin-right: 0;
+.contentContainer{
+    display: flex;
+    gap: 1rem;
 }
 
-.button{
-    margin: auto;
+.content{
+    display: flex;
+    flex-direction: column;
+}
+.bold{
+    font-weight: 800;
 }
 
-@media (max-width: 480px) {
-    .container{
-        margin: 0;
-    }
+
+@media (max-width: 768px) {
+ .contentContainer{
+    flex-direction: column-reverse;
+}
 }

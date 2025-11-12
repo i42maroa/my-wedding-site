@@ -1,0 +1,9 @@
+.layout {
+    gap: 4rem;
+}
+.text{
+    text-align: center;
+}
+.button{
+    margin: auto;
+}
