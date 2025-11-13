@@ -1,0 +1,40 @@
+.container{
+    min-height: 15rem;
+    display: flex;
+    flex-direction: column;
+    outline: 2px solid var(--brown);
+    padding: 1rem;
+    background-color: var(--white);
+}
+
+.title{
+     margin: 0;
+}
+
+.button{
+    margin: auto auto 0 auto;
+}
+
+@media (max-width: 1400px) {
+    .container{
+        min-height: 12rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .container{
+        min-height: 10rem;
+    }
+}
+
+@media (max-width: 768px) {
+     .container{
+        min-height: 8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container{
+        min-height: 3rem;
+    }
+}

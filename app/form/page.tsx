@@ -59,7 +59,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout header={false}>
     <FloralLayout>
     <div className={styles.container}>
       <h2 className={styles.title}>Asistencia</h2>

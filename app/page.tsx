@@ -9,7 +9,7 @@ import SectionQuestions from "@/components/sections/questions/SectionQuestions";
 export default function Home() {
   return (
     <>
-      <MainLayout>
+      <MainLayout header>
         <SectionDate/>
         <SectionCeremony/>
         <SectionVehicle/>

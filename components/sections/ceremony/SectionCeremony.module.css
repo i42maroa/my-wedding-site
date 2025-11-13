@@ -1,5 +1,9 @@
+.container{
+    width: 100%;
+}
+
 .layout {
-    gap: 4rem;
+    width: 100%;
 }
 .text{
     text-align: center;

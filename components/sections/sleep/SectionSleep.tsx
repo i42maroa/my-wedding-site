@@ -1,6 +1,5 @@
 import HotelCard, { HotelCardInterface } from "@/components/card/hotel/HotelCard";
 import styles from "./SectionSleep.module.css";
-import ExternalLinkButton from "@/components/button/ExternalLinkButton";
 
 const HOTELS:HotelCardInterface[] = [
   {title:"Hotel Manolo", city:"Belmez",distance:"10 minutos andando", url:""},
