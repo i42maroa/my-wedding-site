@@ -41,12 +41,7 @@ export default function Navbar() {
       </button>
 
       <nav className={`${styles.navLinks} ${menuOpen ? styles.active : ""}`}>
-        <Link href="/" onClick={closeMenu}>
-          Inicio
-        </Link>
-        <Link href="/#date" onClick={closeMenu}>
-          Fecha
-        </Link>
+
         <Link href="/#ceremony" onClick={closeMenu}>
           Ceremonia
         </Link>
