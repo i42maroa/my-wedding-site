@@ -46,8 +46,8 @@
 }
 
 .confirmButton{
-  background: var(--brown);
-  padding: 0.4rem;
+  background: var(--green);
+  padding: 0.5rem;
 
   span{
     color: var(--white);

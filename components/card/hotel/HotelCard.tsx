@@ -13,8 +13,7 @@ export default function HotelCard({card}:{card:HotelCardInterface}) {
   return (
     <div className={styles.container}>
             <h3 className={styles.title}>{card.title}</h3>
-            <p>{card.city}</p>
-            <p>{card.distance}</p>
+            <p className={styles.text}>{card.city}</p>
             <ExternalLinkButton className={styles.button} href={card.url}>Dónde está</ExternalLinkButton>
     </div>
   );

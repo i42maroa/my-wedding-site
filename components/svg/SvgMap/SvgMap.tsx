@@ -2,10 +2,10 @@
 
 import styles from "./SvgMap.module.css";
 
-export default function ProvinceMap() {
+export default function ProvinceMap({ className }:{className?:string}) {
   return (
     <svg
-    className={styles.container}
+    className={className}
     version="1.0"
     width="251.000000pt"
     height="280.000000pt"

@@ -19,13 +19,34 @@
   position: relative;
   width: 100%;
   height: 30dvh;
+  display: flex;
+}
+
+.flowerContainer::after{
+  content: '';
+  height: 2px;
+  width: 80%;
+  background-color: var(--brown);
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.flowerContainer:first-of-type::after{
+  bottom: -5px;
+}
+.flowerContainer:nth-of-type(2)::after{
+  top: -5px;
 }
 
 .flower1, .flower2{
-    border-bottom: 3px solid var(--brown);
-    /* object-fit: cover;  */
     object-position: center; 
     object-fit: contain;
+    position: relative;
+    display: flex;
 }
 
 .flower2{

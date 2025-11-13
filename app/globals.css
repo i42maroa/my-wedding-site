@@ -71,7 +71,7 @@ section{
 
 h1 {
   font-family: 'Allura', cursive;
-  font-size: 56px;
+  font-size: 72px;
   font-weight: 400;
   text-align: center;
   margin: 0.5em 0;
@@ -126,7 +126,7 @@ label{
 
 /* Tablet horizontal / laptop pequeña */
 @media (max-width: 1024px) {
-  h1 { font-size: 48px; }
+  h1 { font-size: 56px; }
   h2 { font-size: 36px; }
   h3 { font-size: 28px; }
   p  { font-size: 18px; }
@@ -135,7 +135,7 @@ label{
 
 /* Móvil grande / tablet vertical */
 @media (max-width: 768px) {
-  h1 { font-size: 40px; }
+  h1 { font-size: 48px; }
   h2 { font-size: 30px; }
   h3 { font-size: 22px; }
   p  { font-size: 16px; }
@@ -148,7 +148,7 @@ label{
 
 /* Móvil pequeño */
 @media (max-width: 480px) {
-  h1 { font-size: 32px; }
+  h1 { font-size: 40px; }
   h2 { font-size: 24px; }
   h3 { font-size: 20px; }
   p  { font-size: 16px; }

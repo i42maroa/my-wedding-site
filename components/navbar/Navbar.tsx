@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
+import LinkButton from "../button/LinkButton";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);

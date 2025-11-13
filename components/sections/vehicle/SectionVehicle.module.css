@@ -1,6 +1,16 @@
-.contentContainer{
+.container{
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    width: 100%;
+}
+
+.map{
+    margin: auto;
+}
+
+.contentContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .content{
@@ -11,9 +21,13 @@
     font-weight: 800;
 }
 
-
 @media (max-width: 768px) {
- .contentContainer{
-    flex-direction: column-reverse;
-}
+    .contentContainer{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .map{
+        width: 100%;
+        margin: 0;
+    }
 }
