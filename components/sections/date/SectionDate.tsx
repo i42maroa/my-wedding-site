@@ -79,9 +79,9 @@ export default function SectionDate() {
   
   const p2     = rangeProgress(progress, 0.12, 0.30);
   const p3     = rangeProgress(progress, 0.28, 0.45);
-  const p4     = rangeProgress(progress, 0.45, 0.60);
-  const pTitle = rangeProgress(progress, 0.60, 0.70);
-  const p5     = rangeProgress(progress, 0.70, 0.85);
+  const p4     = rangeProgress(progress, 0.45, 0.65);
+  const pTitle = rangeProgress(progress, 0.65, 0.75);
+  const p5     = rangeProgress(progress, 0.65, 0.85);
 
   
   // Estilos calculados para cada foto

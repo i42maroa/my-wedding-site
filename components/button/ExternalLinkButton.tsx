@@ -9,12 +9,6 @@ interface ExternalLinkButtonProps {
 
 export default function ExternalLinkButton({ href, ...props }: ExternalLinkButtonProps) {
   return (
-    <BaseButton
-      as="a"
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      {...props}
-    />
+    <BaseButton as="a" href={href} target="_blank" rel="noopener noreferrer" {...props}/>
   );
 }

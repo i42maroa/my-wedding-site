@@ -11,7 +11,6 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-
 .logo a {
   font-family: "Playfair Display", serif;
   font-size: 22px;
@@ -25,13 +24,11 @@
   color: var(--golden);
 }
 
-
 .navLinks {
   display: flex;
   gap: 1.5rem;
   transition: all 0.3s ease;
 }
-
 
 .navLinks a {
   color: var(--brown);
@@ -46,12 +43,26 @@
 }
 
 .confirmButton{
-  background: var(--green);
+  position: relative;
   padding: 0.5rem;
 
   span{
     color: var(--white);
   }
+}
+
+.confirmButton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--green);
+  z-index: -1;
+  transition: transform 0.5s ease-out;
+  transform: scale(1); 
+}
+
+.confirmButton:hover::before{
+   transform: scale(1.05);
 }
 
 .hamburgerButton {

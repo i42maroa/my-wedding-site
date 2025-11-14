@@ -2,9 +2,24 @@
     padding: 0.3rem;
     display: flex;
     width: fit-content;
-    background-color: var(--green);
     cursor: pointer;
     border: none;
+    position: relative;
+    background-color: var(--green);
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--green);
+  z-index: -1;
+  transition: transform 0.5s ease-out;
+  transform: scale(1); 
+}
+
+.container:hover::before{
+   transform: scale(1.05);
 }
 
 .container span{
