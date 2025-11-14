@@ -34,6 +34,6 @@ export default function AddToGoogleCalendarButton({ className = "",}: {className
   url.searchParams.set("details", "Nos vemos allí");
 
   return (
-    <ExternalLinkButton  className={` ${className}`} href={url.toString()}> Añadir a Google Calendar</ExternalLinkButton>
+    <ExternalLinkButton  className={` ${className}`} href={url.toString()}> Añadir al calendario</ExternalLinkButton>
   );
 }

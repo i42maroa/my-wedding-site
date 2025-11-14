@@ -1,5 +1,4 @@
 .container{
-    /* min-height: 15rem; */
     display: flex;
     flex-direction: column;
     outline: 2px solid var(--brown);
@@ -22,21 +21,18 @@
 
 @media (max-width: 1400px) {
     .container{
-        /* min-height: 12rem; */
         width: 16rem;
     }
 }
 
 @media (max-width: 1024px) {
     .container{
-        /* min-height: 10rem; */
         width: 14rem;
     }
 }
 
 @media (max-width: 768px) {
      .container{
-        /* min-height: 8rem; */
         width: 12rem;
     }
     .container{
@@ -47,6 +43,5 @@
 @media (max-width: 480px) {
     .container{
         width: 10rem;
-        /* min-height: 3rem; */
     }
 }
