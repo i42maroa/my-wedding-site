@@ -93,12 +93,12 @@ export default function SectionDate() {
   // Estilos para cada foto
   const photo1Style = {
     opacity: p1,
-    transform: `translate(${lerp(-120, 0, p1)}px, ${lerp(80, 0, p1)}px) rotate(${lerp(-10, -6, p1)}deg)`,
+    transform: `translate(${lerp(0, 0, p1)}px, ${lerp(80, 0, p1)}px) rotate(${lerp(-10, -6, p1)}deg)`,
   };
 
   const photo2Style = {
     opacity: p2,
-    transform: `translate(${lerp(120, 0, p2)}px, ${lerp(80, 0, p2)}px) rotate(${lerp(10, 4, p2)}deg)`,
+    transform: `translate(${lerp(0, 0, p2)}px, ${lerp(80, 0, p2)}px) rotate(${lerp(10, 4, p2)}deg)`,
   };
 
   const photo3Style = {
@@ -109,12 +109,12 @@ export default function SectionDate() {
 
   const photo4Style = {
     opacity: p4,
-    transform: `translate(${lerp(-100, 0, p4)}px, ${lerp(-80, 0, p4)}px) rotate(${lerp(-8, -2, p4)}deg)`,
+    transform: `translate(${lerp(-10, 0, p4)}px, ${lerp(-80, 0, p4)}px) rotate(${lerp(-8, -2, p4)}deg)`,
   };
 
   const photo5Style = {
     opacity: p5,
-    transform: `translate(${lerp(100, 0, p5)}px, ${lerp(-60, 0, p5)}px) rotate(${lerp(8, 3, p5)}deg)`,
+    transform: `translate(${lerp(10, 0, p5)}px, ${lerp(-60, 0, p5)}px) rotate(${lerp(8, 3, p5)}deg)`,
   };
 
   return (

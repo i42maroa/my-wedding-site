@@ -40,7 +40,24 @@
   gap: 1rem;
   background-color: var(--white);
   min-width: 40dvw;
+  opacity: 0;
+
+  animation: appear linear forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
 }
+
+@keyframes appear {
+  from {
+    /* transform: translate(-50%, 100%); */
+    opacity: 0;
+  }
+  to {
+    /* transform: translate(-50%, 0%); */
+    opacity: 1;
+  }
+}
+
 
 @media (max-width: 768px) {
  .imageContainer{

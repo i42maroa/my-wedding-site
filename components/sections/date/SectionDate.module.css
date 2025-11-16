@@ -42,8 +42,8 @@
   object-fit: cover;             /* equivalente a background-size: cover */
 }
 
-.photo1 { top: 20%; left: 0%; z-index: 1; }
-.photo2 { top: 22%; right: 0%; z-index: 2; }
+.photo1 { top: 20%; left: 2%; z-index: 1; }
+.photo2 { top: 22%; right: 2%; z-index: 2; }
 .photo3 { top: 25%; left: 10%; z-index: 3; }
 .photo4 { top: 20%; right: 5%; z-index: 4; }
 .photo5 { top: 20%; left: 0%; right: 0%; z-index: 5; 
