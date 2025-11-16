@@ -10,7 +10,7 @@
   position: sticky;
   top: 0;
   height: 100dvh;
-  padding: 10dvh 0 15dvh 0;
+  padding: 7dvh 0;
   display: flex;
   flex-direction: row;
   gap: 4rem;
@@ -32,8 +32,8 @@
 
 .photo {
   position: absolute;
-  width: 30rem;
-  height: 40rem;
+  width: 25rem;
+  height: 30rem;
 }
 
 .image {
@@ -47,8 +47,8 @@
 .photo3 { top: 25%; left: 10%; z-index: 3; }
 .photo4 { top: 20%; right: 5%; z-index: 4; }
 .photo5 { top: 20%; left: 0%; right: 0%; z-index: 5; 
-  width: 30rem;
-  height: 45rem;
+  width: 25rem;
+  height: 35rem;
   margin: auto;
 }
 
@@ -82,12 +82,12 @@
 
   .photo {
     width: 25rem;
-    height: 35rem;
+    height: 30rem;
   }
 
   .photo5 { 
     width: 25rem;
-    height: 40rem;
+    height: 35rem;
   }
 }
 
@@ -97,24 +97,24 @@
   }
 
   .photo {
-    width: 20rem;
+    width: 25rem;
     height: 30rem;
   }
 
   .photo5 { 
-    width: 20rem;
+    width: 25rem;
     height: 35rem;
   }
 }
 
 @media (max-width: 480px) {
   .photo {
-    width: 15rem;
-    height: 25rem;
+    width: 18rem;
+    height: 20rem;
   }
 
   .photo5 { 
-    width: 15rem;
-    height: 30rem;
+    width: 18rem;
+    height: 25rem;
   }
 }
