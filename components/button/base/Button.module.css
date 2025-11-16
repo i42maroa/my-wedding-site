@@ -8,6 +8,10 @@
     background-color: var(--green);
 }
 
+.container:focus{
+  outline: 3px solid var(--gold);
+}
+
 .container::before {
   content: "";
   position: absolute;

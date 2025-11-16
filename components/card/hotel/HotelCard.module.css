@@ -28,13 +28,13 @@
 @media (max-width: 1024px) {
     .container{
         width: 14rem;
+        padding: 1rem;
     }
 }
 
 @media (max-width: 768px) {
      .container{
         width: 12rem;
-        padding: 1rem ;
     }
 }
 

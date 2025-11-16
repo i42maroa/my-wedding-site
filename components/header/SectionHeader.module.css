@@ -4,7 +4,8 @@
     justify-content: center;
     height: 85dvh;
     align-items: center;
-    margin: 2rem;
+    margin: 1rem;
+    position: relative;
     h1{
         text-align: center;
     }
@@ -24,7 +25,7 @@
 
 .flowerContainer::after{
   content: '';
-  height: 2px;
+  height: 1px;
   width: 80%;
   background-color: var(--brown);
   position: absolute;
@@ -36,7 +37,7 @@
 }
 
 .flowerContainer:first-of-type::after{
-  bottom: -5px;
+  bottom: -10px;
 }
 .flowerContainer:nth-of-type(2)::after{
   top: -5px;
@@ -53,6 +54,57 @@
     transform: rotate(180deg);
 }
 
+.scrollContainer{
+    position: absolute;
+    bottom: 0px;
+    margin: auto;
+    right: 50px;
+    display: flex;
+    width: fit-content;
+    font-size: 20px;
+}
+
+.scrollContainer span{
+  position: relative;
+  opacity: 0;
+  animation: appear 1s 1s forwards;
+  transform: translate(0, 10px);
+}
+.scrollContainer span::before{
+    content: '';
+    position: absolute;
+    width: 1px;
+    background-color: var(--brown);
+    height: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 35px;
+    animation: appearLine 1s 2s forwards;
+}
+
+@keyframes appear {
+  from{
+    opacity: 0;
+    transform: translate(0, 10px);
+  }
+  to{
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes appearLine {
+  from{
+    opacity: 0;
+    height: 0;
+  }
+  to{
+    opacity: 1;
+    height: 300px;
+  }
+}
+
 @media (max-width: 1024px) {
   /* .flowerContainer {
     height: 250px;
@@ -63,6 +115,13 @@
   .flowerContainer{
     height: 20dvh;
   }
+
+  .scrollContainer{
+    margin: auto;
+    right: 0;
+    left: 0;
+    font-size: 16px;
+}
 }
 
 @media (max-width: 480px) {

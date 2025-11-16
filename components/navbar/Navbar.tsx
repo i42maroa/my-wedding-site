@@ -42,17 +42,17 @@ export default function Navbar() {
 
       <nav className={`${styles.navLinks} ${menuOpen ? styles.active : ""}`}>
 
-        <Link href="/#ceremony" onClick={closeMenu}>
+        <Link className={styles.navlink} href="/#ceremony" onClick={closeMenu}>
           Ceremonia
         </Link>
-        <Link href="/#vehicle" onClick={closeMenu}>
+        <Link className={styles.navlink} href="/#vehicle" onClick={closeMenu}>
           Cómo llegar
         </Link>
-        <Link href="/#question" onClick={closeMenu}>
+        <Link className={styles.navlink} href="/#question" onClick={closeMenu}>
           Preguntas
         </Link>
-        <Link href="/form" onClick={closeMenu} className={styles.confirmButton}>
-          <span>Confirmar</span>
+        <Link href="/form" onClick={closeMenu} className={`${styles.navlink} ${styles.confirmButton}`}>
+          <span>Confirmar asistencia</span>
         </Link>
       </nav>
     </header>

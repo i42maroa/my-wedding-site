@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from "react";
-import styles from "./SectionDate.module.css";
+import styles from "./SectionGallery.module.css";
 import Image from "next/image";
 
 //Limita un numero dentro de un rango
@@ -19,7 +19,7 @@ function rangeProgress(p: number, start: number, end: number) {
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
-export default function SectionDate() {
+export default function SectionGallery() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [progress, setProgress] = useState(0); // 0 → inicio sección, 1 → final sección
 
@@ -131,6 +131,7 @@ export default function SectionDate() {
                       fill
                       className={styles.image}
                       priority={false}
+                      sizes="40rem"
                     />
                   </div>
               </div>
@@ -142,6 +143,7 @@ export default function SectionDate() {
                       fill
                       className={styles.image}
                       priority={false}
+                      sizes="40rem"
                     />
                   </div>
               </div>
@@ -154,6 +156,7 @@ export default function SectionDate() {
                       fill
                       className={styles.image}
                       priority={false}
+                      sizes="40rem"
                     />
                   </div>
               </div>
@@ -166,6 +169,7 @@ export default function SectionDate() {
                       fill
                       className={styles.image}
                       priority={false}
+                      sizes="40rem"
                     />
                   </div>
               </div>
@@ -178,6 +182,7 @@ export default function SectionDate() {
                       fill
                       className={styles.image}
                       priority={false}
+                      sizes="40rem"
                     />
                   </div>
               </div>

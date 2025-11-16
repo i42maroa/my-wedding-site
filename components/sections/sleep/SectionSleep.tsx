@@ -9,7 +9,7 @@ const HOTELS:HotelCardInterface[] = [
 
 export default function SectionSleep() {
   return (
-    <section className={styles.container}>
+    <section className={styles.container} id="sleep">
         <h2>¿Quieres quedarte a dormir allí?</h2>
         
         <div className={styles.hotelContainer}>

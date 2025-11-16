@@ -6,13 +6,13 @@ import SectionHeader from "@/components/header/SectionHeader";
 
 export default function MainLayout ({header = false, children }: Readonly<{header:boolean, children: React.ReactNode}>)  {
   return (
-    <>
-      <Navbar />
+    <div className={styles.container}>
+      <Navbar/>
       {header && <SectionHeader/>}
-      <div className={`${styles.container}`}>
+      <div className={`${styles.content}`}>
           {children}
       </div>
-    </>
+    </div>
   );
 };
 

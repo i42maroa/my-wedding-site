@@ -62,7 +62,7 @@
   opacity: 0;
   transform: translate(0, 40px) scale(0.9); /* estado inicial de seguridad */
   transition: transform 0.1s linear, opacity 0.1s linear;
-
+  position: relative;
 }
 
 @media (max-width: 1440px) {
