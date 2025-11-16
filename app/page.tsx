@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <MainLayout header>
-        {/* <SectionDate/> */}
+        <SectionDate/>
         <SectionCeremony/>
         <SectionVehicle/>
         <SectionSleep/>
