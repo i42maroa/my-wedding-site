@@ -1,6 +1,6 @@
 // services/formService.ts
-import { db } from "@/services/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { ASISTENCIAS_COLLECTION, db } from "@/services/firebase";
+import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc } from "firebase/firestore";
 import { FormData } from "@/types/formTypes";
 import { showToast } from "@/services/notificationService";
 /**
@@ -13,10 +13,22 @@ export interface FormErrors {
   detallesIntolerancia?: string;
 }
 
-export function validateForm(data: FormData): { isValid: boolean; errors: FormErrors } {
+export interface Family {
+  assistance?: {
+    transporte: 'bus' | 'car';
+    confirm: boolean;
+    mensaje?: string;
+    detalleIntolerancia:string;
+    intolerancia:boolean;
+  };
+  name: string;
+  users: string[];
+}
+
+export function validateForm(data: FormData, id:string): { isValid: boolean; errors: FormErrors } {
   const errors: FormErrors = {};
 
-  if (!data.nombre.trim()) {
+  if (id=== "" && !data.nombre.trim()) { // Si no tiene codigo de familia
     errors.nombre = "El nombre es obligatorio.";
   }
 
@@ -36,14 +48,24 @@ export function validateForm(data: FormData): { isValid: boolean; errors: FormEr
  * Envía el formulario a Firebase (pendiente de integración).
  * Actualmente simula un envío con un delay.
  */
-export async function submitForm(
-  data: FormData
-): Promise<{ success: boolean; error?: string }> {
+export async function submitForm( data: FormData, familyId?:string): Promise<{ success: boolean; error?: string }> {
   try {
-    await addDoc(collection(db, "asistencias"), {
-      ...data,
-      createdAt: serverTimestamp(),
-    });
+     if (familyId) {
+      const familyRef = doc(db, ASISTENCIAS_COLLECTION, familyId);
+
+      await updateDoc(familyRef, {
+        assistance: {
+          confirm: true, 
+          transporte: data.transporte,
+          intolerancia: data.intolerancia,
+          detalleIntolerancia: data.intolerancia ? data.detallesIntolerancia : "",
+          mensaje: data.mensaje || "",
+        },
+        updatedAt: serverTimestamp(),
+      });
+    } else {
+      await addDoc(collection(db, ASISTENCIAS_COLLECTION), {...data, createdAt: serverTimestamp()});
+    }
 
     return { success: true };
   } catch (err) {
@@ -51,3 +73,12 @@ export async function submitForm(
     return { success: false, error: "No se pudo enviar el formulario." };
   }
 }
+
+export const getFamilyById = async (id: string): Promise<Family | null> => {
+  const docRef = doc(db, ASISTENCIAS_COLLECTION, id); // cambia "families" si tu colección tiene otro nombre
+  const snapshot = await getDoc(docRef);
+
+  if (!snapshot.exists()) return null;
+
+  return snapshot.data() as Family;
+};

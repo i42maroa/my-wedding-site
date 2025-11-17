@@ -1,21 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Form.module.css"
 import FormButton from "@/components/button/FormButton";
 import RadioButton from "@/components/form/radio-button/RadioButton";
 import { FORM_DATA_DEFAULT, FormData, FormErrors } from "@/types/formTypes";
-import { validateForm, submitForm } from "../../services/formService";
+import { validateForm, submitForm, getFamilyById,  } from "../../services/formService";
 import FormInput from "@/components/form/input/FormInput";
 import FloralLayout from "@/components/layout/floral/FloralLayout";
 import { showToast } from "@/services/notificationService";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import MainLayout from "@/components/layout/main/MainLayout";
+import { useSearchParams } from "next/navigation";
 
 export default function RSVPPage() {
   const [formData, setFormData] = useState<FormData>(FORM_DATA_DEFAULT);
 
   const [errors, setErrors] = useState<FormErrors>({});  
   const [success, setSuccess] = useState(false);
+  const [names, setNames] = useState(['']);
+  const [id, setId] = useState('');
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -23,14 +26,15 @@ export default function RSVPPage() {
   setFormData((prev) => ({ ...prev, [name]: value }));
 };
 
+  const isFamilyLoaded = id !== "";
+
 const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     startLoading();
 
     try {
-      showToast("Validando datos...", "info");
       // Validación local
-      const { isValid, errors } = validateForm(formData);
+      const { isValid, errors } = validateForm(formData, id);
       setErrors(errors);
 
       if (!isValid) {
@@ -38,11 +42,12 @@ const handleSubmit = async (e: React.FormEvent) => {
         stopLoading();
         return;
       }
-// Simulamos brevemente el proceso (opcional, mejora UX)
+
+      // Simulamos brevemente el proceso (opcional, mejora UX)
       await new Promise((r) => setTimeout(r, 400));
   
       // Envío a Firestore (asíncrono)
-      const result = await submitForm(formData);
+      const result = await submitForm(formData, id);
 
       if (result.success) {
         showToast("🎉 ¡Confirmación enviada con éxito!", "success");
@@ -58,6 +63,54 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
   };
 
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const loadFamilyData = async () => {
+      const id = searchParams.get("id");
+
+      if (!id) return; // si no viene en la URL, no hacemos nada
+      setId(id);
+
+      try {
+        startLoading();
+
+        const family = await getFamilyById(id);
+
+        if (!family) {
+          showToast(
+            "No hemos encontrado tu invitación. Revisa el enlace o contacta con los novios ❤️",
+            "error"
+          );
+          setId(''); //Ponemos a empty para que rellenen el nombre
+          return;
+        }
+
+        // Precargamos siempre los nombres de invitados
+         setNames(family.users);
+        const newFormData: FormData = {
+          ...FORM_DATA_DEFAULT,
+        };
+
+        if (family.assistance?.confirm) {
+          newFormData.intolerancia = family.assistance.intolerancia;
+          newFormData.detallesIntolerancia =
+            family.assistance.detalleIntolerancia || "";
+          newFormData.transporte = family.assistance.transporte;
+          newFormData.mensaje = family.assistance.mensaje || "";
+        }
+
+        setFormData(newFormData);
+      } catch (error) {
+        console.error("Error al cargar datos de la familia:", error);
+        showToast("No hemos podido cargar tus datos automáticamente.", "error");
+      } finally {
+        stopLoading();
+      }
+    };
+
+    loadFamilyData();
+  }, [searchParams]);
+
   return (
     <MainLayout header={false}>
     <FloralLayout>
@@ -65,17 +118,31 @@ const handleSubmit = async (e: React.FormEvent) => {
       <h2 className={styles.title}>Asistencia</h2>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
-          <p>Hola, soy/somos:</p>
-          <FormInput
-            name="nombre"
-            label="Indica vuestros nombres"
-            placeholder="Ej: Ana García Rosales, Jose María Martinez"
-            value={formData.nombre}
-            onChange={handleInputChange}
-            required
-            error={errors.nombre}
-          />
-          <p>y confirmo la asistencia a vuestra boda el día</p>
+          <p>Hola, { names.length > 1 ? 'somos ': 'soy '}
+           {
+            isFamilyLoaded && (
+              <>
+                <span className={styles.names}>{ names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' y ' + names[names.length - 1]}</span>
+                <span> y { names.length > 1 ? 'confirmamos': 'confirmo'} la asistencia a vuestra boda el día:</span>
+              </>
+            )} 
+           </p>      
+          {
+            !isFamilyLoaded && (
+              <>
+              <FormInput
+                name="nombre"
+                label="Indica vuestros nombres"
+                placeholder="Ej: Ana García Rosales, Jose María Martinez"
+                value={formData.nombre}
+                onChange={handleInputChange}
+                required
+                error={errors.nombre}/>
+                <p>y { names.length > 1 ? 'confirmamos': 'confirmo'} la asistencia a vuestra boda el día</p>
+              </>
+            ) 
+          }
+             
           <h3 className={styles.date}>22 de Agosto de 2026</h3>
         </div>
         
@@ -115,18 +182,18 @@ const handleSubmit = async (e: React.FormEvent) => {
           <div className={styles.radioButtonContainer}>
             <RadioButton
               name="transporte"
-              value="coche"
+              value="car"
               label="Voy en coche"
               selectedValue={formData.transporte}
-              onChange={() => setFormData({ ...formData, transporte: 'coche' })}
+              onChange={() => setFormData({ ...formData, transporte: 'car' })}
             />
 
             <RadioButton
               name="transporte"
-              value="autobus"
+              value="bus"
               label="Voy en autobús"
               selectedValue={formData.transporte}
-              onChange={() => setFormData({ ...formData, transporte: 'autobus' })}
+              onChange={() => setFormData({ ...formData, transporte: 'bus' })}
             />
           </div>
         </div>

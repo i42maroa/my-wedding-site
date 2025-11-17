@@ -1,6 +1,6 @@
 export interface FormData {
-  nombre: string;
-  transporte: "coche" | "autobus";
+  nombre:string;
+  transporte: "car" | "bus";
   intolerancia: boolean;
   detallesIntolerancia: string;
   mensaje: string;
@@ -8,8 +8,8 @@ export interface FormData {
 }
 
 export const FORM_DATA_DEFAULT:FormData ={
-    nombre: "",
-    transporte: "coche",
+    nombre:'',
+    transporte: "car",
     intolerancia: false,
     detallesIntolerancia: "",
     mensaje: "",
