@@ -1,4 +1,4 @@
-export interface FormData {
+export interface FormDataAsistencia {
   nombre:string;
   transporte: "car" | "bus";
   intolerancia: boolean;
@@ -7,7 +7,11 @@ export interface FormData {
   createdAt?: Date;
 }
 
-export const FORM_DATA_DEFAULT:FormData ={
+export interface FormDataLogin {
+  accessCode:string;
+}
+
+export const FORM_DATA_DEFAULT:FormDataAsistencia ={
     nombre:'',
     transporte: "car",
     intolerancia: false,

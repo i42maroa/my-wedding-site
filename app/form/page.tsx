@@ -3,22 +3,23 @@ import { useEffect, useState } from "react";
 import styles from "./Form.module.css"
 import FormButton from "@/components/button/FormButton";
 import RadioButton from "@/components/form/radio-button/RadioButton";
-import { FORM_DATA_DEFAULT, FormData, FormErrors } from "@/types/formTypes";
+import { FORM_DATA_DEFAULT, FormDataAsistencia, FormErrors } from "@/types/formTypes";
 import { validateForm, submitForm, getFamilyById,  } from "../../services/formService";
 import FormInput from "@/components/form/input/FormInput";
 import FloralLayout from "@/components/layout/floral/FloralLayout";
 import { showToast } from "@/services/notificationService";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import MainLayout from "@/components/layout/main/MainLayout";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function RSVPPage() {
-  const [formData, setFormData] = useState<FormData>(FORM_DATA_DEFAULT);
+  const [formData, setFormData] = useState<FormDataAsistencia>(FORM_DATA_DEFAULT);
 
   const [errors, setErrors] = useState<FormErrors>({});  
-  const [success, setSuccess] = useState(false);
   const [names, setNames] = useState(['']);
   const [id, setId] = useState('');
+
+  const router = useRouter();
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -33,7 +34,6 @@ const handleSubmit = async (e: React.FormEvent) => {
     startLoading();
 
     try {
-      // Validación local
       const { isValid, errors } = validateForm(formData, id);
       setErrors(errors);
 
@@ -51,7 +51,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       if (result.success) {
         showToast("🎉 ¡Confirmación enviada con éxito!", "success");
-        setFormData(FORM_DATA_DEFAULT);
+        router.push(`/`)
       } else {
         showToast(result.error || " Error al enviar la confirmación", "error");
       }
@@ -68,44 +68,60 @@ const handleSubmit = async (e: React.FormEvent) => {
     const loadFamilyData = async () => {
       const id = searchParams.get("id");
 
-      if (!id) return; // si no viene en la URL, no hacemos nada
+      if (!id) {
+        router.push('/login');
+        return;
+      }; 
       setId(id);
 
-      try {
-        startLoading();
-
-        const family = await getFamilyById(id);
-
-        if (!family) {
-          showToast(
-            "No hemos encontrado tu invitación. Revisa el enlace o contacta con los novios ❤️",
-            "error"
-          );
-          setId(''); //Ponemos a empty para que rellenen el nombre
-          return;
+      startLoading();
+      console.log("loading")
+      //ver si está en el localStorage
+       const raw = localStorage.getItem(id);
+      
+       
+      let family;
+      if (raw) {
+        console.log("loading from LocalStorage")
+          family = JSON.parse(raw);
+      }else{
+        try {
+          console.log("loading from firebase")
+          family = await getFamilyById(id);
+        } catch (error) {
+          console.error("Error al cargar datos de la familia:", error);
+          router.push('/login');
+          showToast("No hemos podido cargar tus datos automáticamente.", "error");      
+        } finally {
+          stopLoading();
         }
-
-        // Precargamos siempre los nombres de invitados
-         setNames(family.users);
-        const newFormData: FormData = {
-          ...FORM_DATA_DEFAULT,
-        };
-
-        if (family.assistance?.confirm) {
-          newFormData.intolerancia = family.assistance.intolerancia;
-          newFormData.detallesIntolerancia =
-            family.assistance.detalleIntolerancia || "";
-          newFormData.transporte = family.assistance.transporte;
-          newFormData.mensaje = family.assistance.mensaje || "";
-        }
-
-        setFormData(newFormData);
-      } catch (error) {
-        console.error("Error al cargar datos de la familia:", error);
-        showToast("No hemos podido cargar tus datos automáticamente.", "error");
-      } finally {
-        stopLoading();
       }
+
+       if (!family) {
+            showToast(
+              "No hemos encontrado tu invitación. Revisa el enlace o contacta con los novios ❤️",
+              "error"
+            );
+            setId(''); //Ponemos a empty para que rellenen el nombre
+            return;
+          }
+
+          // Precargamos siempre los nombres de invitados
+          setNames(family.users);
+          const newFormData: FormDataAsistencia = {
+            ...FORM_DATA_DEFAULT,
+          };
+
+          if (family.assistance?.confirm) {
+            newFormData.intolerancia = family.assistance.intolerancia;
+            newFormData.detallesIntolerancia =
+              family.assistance.detalleIntolerancia || "";
+            newFormData.transporte = family.assistance.transporte;
+            newFormData.mensaje = family.assistance.mensaje || "";
+          }
+
+          setFormData(newFormData);
+      stopLoading();
     };
 
     loadFamilyData();

@@ -1,7 +1,7 @@
 // services/formService.ts
 import { ASISTENCIAS_COLLECTION, db } from "@/services/firebase";
-import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc } from "firebase/firestore";
-import { FormData } from "@/types/formTypes";
+import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc, query, where, getDocs } from "firebase/firestore";
+import { FormDataAsistencia } from "@/types/formTypes";
 import { showToast } from "@/services/notificationService";
 /**
  * Crea un objeto de errores vacío.
@@ -14,6 +14,7 @@ export interface FormErrors {
 }
 
 export interface Family {
+  id:string;
   assistance?: {
     transporte: 'bus' | 'car';
     confirm: boolean;
@@ -25,7 +26,7 @@ export interface Family {
   users: string[];
 }
 
-export function validateForm(data: FormData, id:string): { isValid: boolean; errors: FormErrors } {
+export function validateForm(data: FormDataAsistencia, id:string): { isValid: boolean; errors: FormErrors } {
   const errors: FormErrors = {};
 
   if (id=== "" && !data.nombre.trim()) { // Si no tiene codigo de familia
@@ -48,7 +49,7 @@ export function validateForm(data: FormData, id:string): { isValid: boolean; err
  * Envía el formulario a Firebase (pendiente de integración).
  * Actualmente simula un envío con un delay.
  */
-export async function submitForm( data: FormData, familyId?:string): Promise<{ success: boolean; error?: string }> {
+export async function submitForm( data: FormDataAsistencia, familyId?:string): Promise<{ success: boolean; error?: string }> {
   try {
      if (familyId) {
       const familyRef = doc(db, ASISTENCIAS_COLLECTION, familyId);
@@ -63,9 +64,10 @@ export async function submitForm( data: FormData, familyId?:string): Promise<{ s
         },
         updatedAt: serverTimestamp(),
       });
+      localStorage.removeItem(familyId);
     } else {
       await addDoc(collection(db, ASISTENCIAS_COLLECTION), {...data, createdAt: serverTimestamp()});
-    }
+    } 
 
     return { success: true };
   } catch (err) {
@@ -81,4 +83,17 @@ export const getFamilyById = async (id: string): Promise<Family | null> => {
   if (!snapshot.exists()) return null;
 
   return snapshot.data() as Family;
+};
+
+export const getFamilyByAccessCode = async (code: string): Promise<Family | null> => {
+  const familiesRef = collection(db, ASISTENCIAS_COLLECTION); // cambia si usas otro nombre
+  const q = query(familiesRef, where("accessCode", "==", code));
+
+  const snapshot = await getDocs(q);
+
+  if (snapshot.empty) return null;
+
+  const doc = snapshot.docs[0];
+
+  return { id: doc.id, ...doc.data()} as Family;
 };
