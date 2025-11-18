@@ -32,12 +32,13 @@ export function validateFormLogin(data: FormDataLogin): { isValid: boolean; erro
   return { isValid, errors };
 }
 
-export async function submitForm(formData:FormDataAsistencia, id:string):Promise<HandleErrorInterface> {
-    return isFormWithAccessCode(id) ? await updateAsistencia(formData, id) : await createNewAsistencia(formData);
+export async function submitForm(formData:FormDataAsistencia, accessCode:string):Promise<HandleErrorInterface> {
+    return isFormWithAccessCode(accessCode) ? await updateAsistencia(formData, accessCode) : await createNewAsistencia(formData);
 }
 
 export function preloadForm(family: Family): FormDataAsistencia{
     return family.assistance? {
+        id:family.id,
         intolerancia: family.assistance.intolerancia,
         detallesIntolerancia: family.assistance.detalleIntolerancia || "",
         transporte: family.assistance.transporte,

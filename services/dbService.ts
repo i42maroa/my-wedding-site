@@ -19,9 +19,9 @@ export async function createNewAsistencia( data: FormDataAsistencia): Promise<Ha
   }
 }
 
-export async function updateAsistencia(data: FormDataAsistencia, familyId:string): Promise<HandleErrorInterface> {
+export async function updateAsistencia(data: FormDataAsistencia, accessCode:string): Promise<HandleErrorInterface> {
   try {
-      await updateDocument<AssistanceFamily>(familyId, {
+      await updateDocument<AssistanceFamily>(data.id!, {
         assistance: {
           confirm: true,
           transporte: data.transporte,
@@ -30,7 +30,7 @@ export async function updateAsistencia(data: FormDataAsistencia, familyId:string
           mensaje: data.mensaje || "",
         }
       });
-      localStorage.removeItem(familyId);
+      localStorage.removeItem(accessCode);
     return { success: true };
   } catch (err) {
     return { success: false, error: "No se pudo enviar el formulario." };

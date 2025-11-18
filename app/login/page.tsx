@@ -7,11 +7,11 @@ import styles from './Login.module.css'
 import FormInput from "@/components/form/input/FormInput";
 import FormButton from "@/components/button/FormButton";
 import { startLoading, stopLoading } from "@/services/loadingService";
-import { showToast, showToastError } from "@/services/notificationService";
+import { showToastError } from "@/services/notificationService";
 import { useRouter } from "next/navigation";
 import { getFamilyByAccessCode } from "@/services/dbService";
 import { saveItemInLocalStorage } from "@/services/localStorageService";
-import { validateForm, validateFormLogin } from "@/services/formService";
+import { validateFormLogin } from "@/services/formService";
 
 export default function LoginPage() {
     const [formData, setFormData] = useState<FormDataLogin>({accessCode:''});
@@ -23,8 +23,8 @@ export default function LoginPage() {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const goToForm = (id:string) =>{
-      router.push(`/form?id=${id}`)
+    const goToForm = (accessCode:string) =>{
+      router.push(`/form/${accessCode}`)
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -40,8 +40,8 @@ export default function LoginPage() {
         await getFamilyByAccessCode(formData.accessCode)
         .then(family => {
           if(family){
-            saveItemInLocalStorage<Family>(family, family.id);
-            goToForm(family.id);
+            saveItemInLocalStorage<Family>(family, formData.accessCode);
+            goToForm(formData.accessCode);
           }else{
             showToastError("No se ha encontrado ninguna familia con ese código.");
           }

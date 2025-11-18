@@ -5,7 +5,8 @@ import { ASISTENCIAS_COLLECTION, db } from "@/services/firebase";
 
 export const createDocument = async <T extends DocumentData>(data: T, collectionName: string = ASISTENCIAS_COLLECTION): Promise<string> => {
   const colRef = collection(db, collectionName);
-  const docRef = await addDoc(colRef, data);
+  const dataWithDateChange = {...data, updatedAt: serverTimestamp()}
+  const docRef = await addDoc(colRef, dataWithDateChange);
   return docRef.id;
 };
 

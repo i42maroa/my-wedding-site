@@ -1,5 +1,6 @@
 
 export interface FormDataAsistencia {
+  id?:string;
   nombre?:string;
   transporte: "car" | "bus";
   intolerancia: boolean;

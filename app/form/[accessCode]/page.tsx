@@ -1,25 +1,28 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import styles from "./Form.module.css"
 import FormButton from "@/components/button/FormButton";
 import RadioButton from "@/components/form/radio-button/RadioButton";
 import { Family, FORM_DATA_DEFAULT, FormDataAsistencia, FormErrors } from "@/interfaces/formTypes";
-import { isFormWithAccessCode, preloadForm, submitForm, validateForm, } from "../../services/formService";
+import { isFormWithAccessCode, preloadForm, submitForm, validateForm } from "../../../services/formService";
 import FormInput from "@/components/form/input/FormInput";
 import FloralLayout from "@/components/layout/floral/FloralLayout";
-import { showToast, showToastError, showToastSuccess } from "@/services/notificationService";
+import { showToastError, showToastSuccess } from "@/services/notificationService";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import MainLayout from "@/components/layout/main/MainLayout";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getFamilyById,  } from "@/services/dbService";
+import { getFamilyByAccessCode } from "@/services/dbService";
 import { loadItemFromLocalStorage } from "@/services/localStorageService";
 
-export default function RSVPPage() {
+type FormPageProps = {
+  params: Promise<{ accessCode: string }>;
+};
+export default function RSVPPage({params}:FormPageProps) {
   const [formData, setFormData] = useState<FormDataAsistencia>(FORM_DATA_DEFAULT);
   const [errors, setErrors] = useState<FormErrors>({});  
   const [names, setNames] = useState(['']);
-  const [id, setId] = useState('');
   const router = useRouter();
+  const {accessCode} = use( params);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -31,13 +34,13 @@ export default function RSVPPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const { isValid, errors } = validateForm(formData, id);
+    const { isValid, errors } = validateForm(formData, accessCode);
     if (!isValid) {
       setErrors(errors);
       return;
     }
     startLoading();    
-    submitForm(formData, id)
+    submitForm(formData, accessCode)
       .then(result => {
         if (result.success) {
             showToastSuccess("¡Confirmación enviada con éxito!");
@@ -50,26 +53,14 @@ export default function RSVPPage() {
       .finally(() => stopLoading())
   };
 
-  const getIdFromUrl = ():string =>{
-      const id = searchParams.get("id");
-      if (!id) {
-        router.push('/login');
-        return '';
-      }; 
-      return id;
-  }
-
   const loadFamilyData = async () => { 
-       const id = getIdFromUrl();
-       setId(id);
-       
-       const dataFromLocalStorage = loadItemFromLocalStorage<Family>(id);
+       const dataFromLocalStorage = loadItemFromLocalStorage<Family>(accessCode);
  
        if(dataFromLocalStorage){
           prechargeForm(dataFromLocalStorage);
        }else{ //Go to DB
           startLoading();
-          await getFamilyById(id)
+          await getFamilyByAccessCode(accessCode)
             .then(family => {
               if(family){
                 prechargeForm(family);
@@ -97,7 +88,6 @@ export default function RSVPPage() {
 
 
   return (
-    <Suspense fallback={<div>Cargando...</div>}>
       <MainLayout header={false}>
       <FloralLayout>
       <div className={styles.container}>
@@ -106,7 +96,7 @@ export default function RSVPPage() {
           <div className={styles.formGroup}>
             <p>Hola, { names.length > 1 ? 'somos ': 'soy '}
             {
-              isFormWithAccessCode(id) && (
+              isFormWithAccessCode(accessCode) && (
                 <>
                   <span className={styles.names}>{ names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' y ' + names[names.length - 1]}</span>
                   <span> y { names.length > 1 ? 'confirmamos': 'confirmo'} la asistencia a vuestra boda el día:</span>
@@ -114,7 +104,7 @@ export default function RSVPPage() {
               )} 
             </p>      
             {
-              !isFormWithAccessCode(id) && (
+              !isFormWithAccessCode(accessCode) && (
                 <>
                 <FormInput
                   name="nombre"
@@ -202,6 +192,5 @@ export default function RSVPPage() {
       </div>
       </FloralLayout>
       </MainLayout>
-    </Suspense>
   );
 }
