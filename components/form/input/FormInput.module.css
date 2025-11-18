@@ -10,18 +10,24 @@
 }
 
 .input {
-  /* display: inline-flex; */
   padding: 0.8rem 1rem;
-  /* border-radius: 8px; */
   border: 2px solid var(--brown);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   width: 100%;
+  font-family: 'Cardo', serif;
+  color: var(--brown);
+  font-weight: 400;
+  font-size: 14px;
 
   &:focus {
     outline: none;
     border-color: var(--brown);
     box-shadow: 0 0 0 3px rgba(197, 159, 201, 0.2);
   }
+}
+
+.label{
+  font-size: 14px;
 }
 
 .errorInput {
@@ -35,5 +41,6 @@
 }
 
 @media (max-width: 768px) {
-  .label { font-size: 14px; }
+  .label { font-size: 12px; }
+  .input{font-size:12px}
 }

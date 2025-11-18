@@ -14,6 +14,13 @@ export function unsubscribeFromNotifications(callback: Subscriber) {
   subscribers.delete(callback);
 }
 
+export function showToastSuccess(message: string) {
+  return showToast(message, 'success');
+}
+
+export function showToastError(message: string) {
+  return showToast(message, 'error');
+}
 
 export function showToast(message: string, type: "success" | "error" | "info" = "info") {
   const toast: ToastItem = {

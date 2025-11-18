@@ -51,7 +51,7 @@ export default function Navbar() {
         <Link className={styles.navlink} href="/#question" onClick={closeMenu}>
           Preguntas
         </Link>
-        <Link href="/form" onClick={closeMenu} className={`${styles.navlink} ${styles.confirmButton}`}>
+        <Link href="/login" onClick={closeMenu} className={`${styles.navlink} ${styles.confirmButton}`}>
           <span>Confirmar asistencia</span>
         </Link>
       </nav>
