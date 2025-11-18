@@ -3,129 +3,98 @@ import { useEffect, useState } from "react";
 import styles from "./Form.module.css"
 import FormButton from "@/components/button/FormButton";
 import RadioButton from "@/components/form/radio-button/RadioButton";
-import { FORM_DATA_DEFAULT, FormDataAsistencia, FormErrors } from "@/types/formTypes";
-import { validateForm, submitForm, getFamilyById,  } from "../../services/formService";
+import { Family, FORM_DATA_DEFAULT, FormDataAsistencia, FormErrors } from "@/interfaces/formTypes";
+import { isFormWithAccessCode, preloadForm, submitForm, validateForm, } from "../../services/formService";
 import FormInput from "@/components/form/input/FormInput";
 import FloralLayout from "@/components/layout/floral/FloralLayout";
-import { showToast } from "@/services/notificationService";
+import { showToast, showToastError, showToastSuccess } from "@/services/notificationService";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import MainLayout from "@/components/layout/main/MainLayout";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getFamilyById,  } from "@/services/dbService";
+import { loadItemFromLocalStorage } from "@/services/localStorageService";
 
 export default function RSVPPage() {
   const [formData, setFormData] = useState<FormDataAsistencia>(FORM_DATA_DEFAULT);
-
   const [errors, setErrors] = useState<FormErrors>({});  
   const [names, setNames] = useState(['']);
   const [id, setId] = useState('');
-
   const router = useRouter();
 
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  const { name, value } = e.target;
-  setFormData((prev) => ({ ...prev, [name]: value }));
-};
-
-  const isFamilyLoaded = id !== "";
-
-const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    startLoading();
-
-    try {
-      const { isValid, errors } = validateForm(formData, id);
-      setErrors(errors);
-
-      if (!isValid) {
-        showToast("Por favor, corrige los errores del formulario.", "error");
-        stopLoading();
-        return;
-      }
-
-      // Simulamos brevemente el proceso (opcional, mejora UX)
-      await new Promise((r) => setTimeout(r, 400));
-  
-      // Envío a Firestore (asíncrono)
-      const result = await submitForm(formData, id);
-
-      if (result.success) {
-        showToast("🎉 ¡Confirmación enviada con éxito!", "success");
-        router.push(`/`)
-      } else {
-        showToast(result.error || " Error al enviar la confirmación", "error");
-      }
-    } catch (err) {
-      console.error("Error al enviar formulario:", err);
-      showToast("Error inesperado al enviar la confirmación", "error");
-    } finally {
-      stopLoading();
-    }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const searchParams = useSearchParams();
-  useEffect(() => {
-    const loadFamilyData = async () => {
-      const id = searchParams.get("id");
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const { isValid, errors } = validateForm(formData, id);
+    if (!isValid) {
+      setErrors(errors);
+      return;
+    }
+    startLoading();    
+    submitForm(formData, id)
+      .then(result => {
+        if (result.success) {
+            showToastSuccess("¡Confirmación enviada con éxito!");
+            router.push(`/`) // Go to main page
+          } else {
+            showToastError(result.error || " Error al enviar la confirmación");
+          }
+      })
+      .catch(() => showToastError("Error inesperado al enviar la confirmación"))
+      .finally(() => stopLoading())
+  };
+
+  const getIdFromUrl = ():string =>{
+      const id = searchParams.get("id");
       if (!id) {
         router.push('/login');
-        return;
+        return '';
       }; 
-      setId(id);
+      return id;
+  }
 
-      startLoading();
-      console.log("loading")
-      //ver si está en el localStorage
-       const raw = localStorage.getItem(id);
-      
+  const loadFamilyData = async () => { 
+       const id = getIdFromUrl();
+       setId(id);
        
-      let family;
-      if (raw) {
-        console.log("loading from LocalStorage")
-          family = JSON.parse(raw);
-      }else{
-        try {
-          console.log("loading from firebase")
-          family = await getFamilyById(id);
-        } catch (error) {
-          console.error("Error al cargar datos de la familia:", error);
-          router.push('/login');
-          showToast("No hemos podido cargar tus datos automáticamente.", "error");      
-        } finally {
-          stopLoading();
-        }
-      }
-
-       if (!family) {
-            showToast(
-              "No hemos encontrado tu invitación. Revisa el enlace o contacta con los novios ❤️",
-              "error"
-            );
-            setId(''); //Ponemos a empty para que rellenen el nombre
-            return;
-          }
-
-          // Precargamos siempre los nombres de invitados
-          setNames(family.users);
-          const newFormData: FormDataAsistencia = {
-            ...FORM_DATA_DEFAULT,
-          };
-
-          if (family.assistance?.confirm) {
-            newFormData.intolerancia = family.assistance.intolerancia;
-            newFormData.detallesIntolerancia =
-              family.assistance.detalleIntolerancia || "";
-            newFormData.transporte = family.assistance.transporte;
-            newFormData.mensaje = family.assistance.mensaje || "";
-          }
-
-          setFormData(newFormData);
-      stopLoading();
+       const dataFromLocalStorage = loadItemFromLocalStorage<Family>(id);
+ 
+       if(dataFromLocalStorage){
+          prechargeForm(dataFromLocalStorage);
+       }else{ //Go to DB
+          startLoading();
+          await getFamilyById(id)
+            .then(family => {
+              if(family){
+                prechargeForm(family);
+              } else{
+                showToastError("No asignada ninguna familia a este id.");
+                // router.push('/login');  
+              }             
+            })
+            .catch((err) => {
+               showToastError("No hemos podido cargar tus datos automáticamente."); 
+                // router.push('/login');           
+            })
+            .finally(() => stopLoading());
+       }
     };
+  
 
-    loadFamilyData();
-  }, [searchParams]);
+  const prechargeForm = (data:Family) => {
+      setNames(data.users);
+      const newFormData = preloadForm(data);
+      setFormData(newFormData);
+  }
+
+  useEffect(() => { loadFamilyData();}, [searchParams]);
+
 
   return (
     <MainLayout header={false}>
@@ -136,7 +105,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         <div className={styles.formGroup}>
           <p>Hola, { names.length > 1 ? 'somos ': 'soy '}
            {
-            isFamilyLoaded && (
+            isFormWithAccessCode(id) && (
               <>
                 <span className={styles.names}>{ names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' y ' + names[names.length - 1]}</span>
                 <span> y { names.length > 1 ? 'confirmamos': 'confirmo'} la asistencia a vuestra boda el día:</span>
@@ -144,13 +113,13 @@ const handleSubmit = async (e: React.FormEvent) => {
             )} 
            </p>      
           {
-            !isFamilyLoaded && (
+            !isFormWithAccessCode(id) && (
               <>
               <FormInput
                 name="nombre"
                 label="Indica vuestros nombres"
                 placeholder="Ej: Ana García Rosales, Jose María Martinez"
-                value={formData.nombre}
+                value={formData.nombre!}
                 onChange={handleInputChange}
                 required
                 error={errors.nombre}/>

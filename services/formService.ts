@@ -1,35 +1,15 @@
-// services/formService.ts
-import { ASISTENCIAS_COLLECTION, db } from "@/services/firebase";
-import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc, query, where, getDocs } from "firebase/firestore";
-import { FormDataAsistencia } from "@/types/formTypes";
-import { showToast } from "@/services/notificationService";
-/**
- * Crea un objeto de errores vacío.
- */
-export interface FormErrors {
-  nombre?: string;
-  transporte?: string;
-  intolerancia?: string;
-  detallesIntolerancia?: string;
-}
+import { Family, FORM_DATA_DEFAULT, FormDataAsistencia, FormDataLogin, FormErrors } from "@/interfaces/formTypes";
+import { createNewAsistencia, updateAsistencia } from "./dbService";
+import { HandleErrorInterface } from "@/interfaces/error.interface";
 
-export interface Family {
-  id:string;
-  assistance?: {
-    transporte: 'bus' | 'car';
-    confirm: boolean;
-    mensaje?: string;
-    detalleIntolerancia:string;
-    intolerancia:boolean;
-  };
-  name: string;
-  users: string[];
+export function isFormWithAccessCode(id:string):boolean{
+  return id !== "";
 }
 
 export function validateForm(data: FormDataAsistencia, id:string): { isValid: boolean; errors: FormErrors } {
   const errors: FormErrors = {};
 
-  if (id=== "" && !data.nombre.trim()) { // Si no tiene codigo de familia
+  if (!isFormWithAccessCode(id) && !data.nombre!.trim()) { 
     errors.nombre = "El nombre es obligatorio.";
   }
 
@@ -37,63 +17,30 @@ export function validateForm(data: FormDataAsistencia, id:string): { isValid: bo
     errors.transporte = "Selecciona cómo vas a venir.";
   }
 
-  // if (data.intolerancia && !data.detallesIntolerancia.trim()) {
-  //   errors.detallesIntolerancia = "Por favor, especifica tus intolerancias.";
-  // }
+  const isValid = Object.keys(errors).length === 0;
+  return { isValid, errors };
+}
+
+export function validateFormLogin(data: FormDataLogin): { isValid: boolean; errors: FormErrors } {
+  const errors: FormErrors = {};
+
+  if (!data.accessCode) {
+    errors.accessCode = "Introduce el codigo de familia";
+  }
 
   const isValid = Object.keys(errors).length === 0;
   return { isValid, errors };
 }
 
-/**
- * Envía el formulario a Firebase (pendiente de integración).
- * Actualmente simula un envío con un delay.
- */
-export async function submitForm( data: FormDataAsistencia, familyId?:string): Promise<{ success: boolean; error?: string }> {
-  try {
-     if (familyId) {
-      const familyRef = doc(db, ASISTENCIAS_COLLECTION, familyId);
-
-      await updateDoc(familyRef, {
-        assistance: {
-          confirm: true, 
-          transporte: data.transporte,
-          intolerancia: data.intolerancia,
-          detalleIntolerancia: data.intolerancia ? data.detallesIntolerancia : "",
-          mensaje: data.mensaje || "",
-        },
-        updatedAt: serverTimestamp(),
-      });
-      localStorage.removeItem(familyId);
-    } else {
-      await addDoc(collection(db, ASISTENCIAS_COLLECTION), {...data, createdAt: serverTimestamp()});
-    } 
-
-    return { success: true };
-  } catch (err) {
-    showToast("🎉 ¡Confirmación enviada con éxito!", "error");
-    return { success: false, error: "No se pudo enviar el formulario." };
-  }
+export async function submitForm(formData:FormDataAsistencia, id:string):Promise<HandleErrorInterface> {
+    return isFormWithAccessCode(id) ? await updateAsistencia(formData, id) : await createNewAsistencia(formData);
 }
 
-export const getFamilyById = async (id: string): Promise<Family | null> => {
-  const docRef = doc(db, ASISTENCIAS_COLLECTION, id); // cambia "families" si tu colección tiene otro nombre
-  const snapshot = await getDoc(docRef);
+export function preloadForm(family: Family): FormDataAsistencia{
+    return family.assistance? {
+        intolerancia: family.assistance.intolerancia,
+        detallesIntolerancia: family.assistance.detalleIntolerancia || "",
+        transporte: family.assistance.transporte,
+        mensaje: family.assistance.mensaje || ""}: FORM_DATA_DEFAULT;
+}
 
-  if (!snapshot.exists()) return null;
-
-  return snapshot.data() as Family;
-};
-
-export const getFamilyByAccessCode = async (code: string): Promise<Family | null> => {
-  const familiesRef = collection(db, ASISTENCIAS_COLLECTION); // cambia si usas otro nombre
-  const q = query(familiesRef, where("accessCode", "==", code));
-
-  const snapshot = await getDocs(q);
-
-  if (snapshot.empty) return null;
-
-  const doc = snapshot.docs[0];
-
-  return { id: doc.id, ...doc.data()} as Family;
-};
