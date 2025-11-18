@@ -7,7 +7,7 @@ export default function Footer() {
       <div className={styles.wrapper}>
         <div className={styles.content}>
           <h2>Esperamos verte</h2>
-        <LinkButton className={styles.button} href='/form'>Confirmar asistencia</LinkButton>
+        <LinkButton className={styles.button} href='/login'>Confirmar asistencia</LinkButton>
         </div>
       </div>
     </footer>

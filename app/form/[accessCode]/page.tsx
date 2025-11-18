@@ -10,7 +10,7 @@ import FloralLayout from "@/components/layout/floral/FloralLayout";
 import { showToastError, showToastSuccess } from "@/services/notificationService";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import MainLayout from "@/components/layout/main/MainLayout";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { getFamilyByAccessCode } from "@/services/dbService";
 import { loadItemFromLocalStorage } from "@/services/localStorageService";
 
@@ -28,8 +28,6 @@ export default function RSVPPage({params}:FormPageProps) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  const searchParams = useSearchParams();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,26 +64,24 @@ export default function RSVPPage({params}:FormPageProps) {
                 prechargeForm(family);
               } else{
                 showToastError("No asignada ninguna familia a este id.");
-                // router.push('/login');  
+                router.push('/login');  
               }             
             })
             .catch((err) => {
                showToastError("No hemos podido cargar tus datos automáticamente."); 
-                // router.push('/login');           
+               router.push('/login');           
             })
             .finally(() => stopLoading());
        }
     };
   
-
   const prechargeForm = (data:Family) => {
       setNames(data.users);
       const newFormData = preloadForm(data);
       setFormData(newFormData);
   }
 
-  useEffect(() => { loadFamilyData();}, [searchParams]);
-
+  useEffect(() => { loadFamilyData();}, []);
 
   return (
       <MainLayout header={false}>

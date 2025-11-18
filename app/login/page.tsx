@@ -31,17 +31,18 @@ export default function LoginPage() {
         e.preventDefault();
         startLoading();
     
+        const accessCode = formData.accessCode.toUpperCase();
         const { isValid, errors } = validateFormLogin(formData);
         if (!isValid) {
             setErrors(errors);
             return;
         }
 
-        await getFamilyByAccessCode(formData.accessCode)
+        await getFamilyByAccessCode(accessCode)
         .then(family => {
           if(family){
-            saveItemInLocalStorage<Family>(family, formData.accessCode);
-            goToForm(formData.accessCode);
+            saveItemInLocalStorage<Family>(family, accessCode);
+            goToForm(accessCode);
           }else{
             showToastError("No se ha encontrado ninguna familia con ese código.");
           }
