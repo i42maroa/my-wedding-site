@@ -63,7 +63,8 @@ export default function LoginPage() {
                                 onChange={handleInputChange}
                                 required
                                 error={errors.accessCode}
-                                />        
+                                />      
+                       <span className={styles.text}>Se encuentra en la invitación</span>           
                     <FormButton className={styles.button}type="submit" >Enviar</FormButton>
                   </form>                           
             </div>

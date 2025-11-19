@@ -17,6 +17,10 @@
     margin: 1rem auto 2rem auto;
 }
 
+.text{
+    text-align: center;
+}
+
 @media (max-width: 480px) {
   .formContainer{
     padding: 0 2rem;

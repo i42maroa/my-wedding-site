@@ -1,0 +1,18 @@
+.container{
+    height: 93vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.error{
+    font-size: 32px;
+    font-style: 'Cardo', serif;
+    text-align: center;
+}
+
+
+.boyfriend{
+    fill: var(--brown);
+    margin: 0 auto;
+}
