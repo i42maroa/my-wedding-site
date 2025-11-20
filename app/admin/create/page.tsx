@@ -42,7 +42,7 @@ export default function AdminCreatePage() {
       submitForm(formData)
       .then(result => {
             if (result.success) {
-                showToastSuccess("¡Confirmación enviada con éxito!");
+                showToastSuccess("Familia creada correctamente");
                 setFormData(FORM_DATA_ADMIN_DEFAULT);
                 setErrors({})
               } else {
@@ -59,22 +59,25 @@ export default function AdminCreatePage() {
         <h1 className={styles.title}>Crear nueva familia</h1>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          <FormInput
-            name="name"
-            label="Nombre de familia"
-            value={formData.name}
-             onChange={handleInputChange}
-            required
-            error={errors.nombre}
-          />
-          <FormInput
-            name="mesa"
-            label="Mesa"
-            value={formData.mesa}
-            onChange={handleInputChange}
-            required
-            error={errors.mesa}
-          />
+          <div className={styles.formGroup}>
+            <FormInput
+              name="name"
+              label="Nombre de familia"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+              error={errors.nombre}
+            />
+            <FormInput
+              name="mesa"
+              label="Mesa"
+              value={formData.mesa}
+              onChange={handleInputChange}
+              required
+              error={errors.mesa}
+            />
+          </div>
+          
 
         <div className={styles.userContainer}>          
           

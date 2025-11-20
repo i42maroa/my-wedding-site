@@ -6,7 +6,7 @@ export interface FormDataAsistencia {
   intolerancia: boolean;
   detallesIntolerancia: string;
   mensaje: string;
-  createdAt?: Date;
+  assistanceConfirm:boolean;
 }
 
 export interface FormDataAdmin {
@@ -26,6 +26,7 @@ export const FORM_DATA_DEFAULT:FormDataAsistencia = {
     intolerancia: false,
     detallesIntolerancia: "",
     mensaje: "",
+    assistanceConfirm:true
   }
 
   export const FORM_DATA_ADMIN_DEFAULT:FormDataAdmin = {
@@ -56,7 +57,7 @@ export interface FormErrors {
   detallesIntolerancia?: string;
 }
 
-export interface Family {
+export interface FamilyInterface {
   id:string;
   assistance?:AssistanceFamily;
   assistanceConfirm:boolean;

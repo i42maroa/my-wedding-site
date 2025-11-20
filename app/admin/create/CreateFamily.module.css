@@ -4,6 +4,8 @@
 .form{
     display: flex;
     flex-direction: column;
+    max-width: 40rem;
+    margin: auto;
 }
 
 .userContainer{
@@ -26,6 +28,13 @@
         color: var(--white);
         cursor: pointer;
     }
+}
+
+.formGroup{
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    gap: 1rem;
+    width: 100%;
 }
 
 .button{

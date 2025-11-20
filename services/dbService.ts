@@ -1,21 +1,21 @@
-import { Family, FamilyUpdate, FormDataAdmin, FormDataAsistencia, FormDataLogin } from "@/interfaces/formTypes";
+import { FamilyInterface, FamilyUpdate, FormDataAdmin, FormDataAsistencia, FormDataLogin } from "@/interfaces/formTypes";
 import { createDocument, getCollection, getCollectionByFilter, getDocument, getDocumentByField, updateDocument } from "./repositoryFirebase";
 import { HandleErrorInterface } from "@/interfaces/error.interface";
 
-export const getFamilyById = async (id: string): Promise<Family | null> => {
+export const getFamilyById = async (id: string): Promise<FamilyInterface | null> => {
   return getDocument(id);
 };
 
-export const getFamilyByAccessCode = async (code: string): Promise<Family | null> => {
-    return getDocumentByField<Family, "accessCode">("accessCode", code);
+export const getFamilyByAccessCode = async (code: string): Promise<FamilyInterface | null> => {
+    return getDocumentByField<FamilyInterface, "accessCode">("accessCode", code);
 };
 
-export const getAllFamilies = async ():Promise<Family[]> =>{
-  return getCollection<Family>()
+export const getAllFamilies = async ():Promise<FamilyInterface[]> =>{
+  return getCollection<FamilyInterface>()
 }
 
-export const getAllFamiliesByAssistence = async (assist:boolean):Promise<Family[]> =>{
-  return getCollectionByFilter<Family,"assistanceConfirm">("assistanceConfirm", assist);
+export const getAllFamiliesByAssistence = async (assist:boolean):Promise<FamilyInterface[]> =>{
+  return getCollectionByFilter<FamilyInterface,"assistanceConfirm">("assistanceConfirm", assist);
 }
 
 export async function createNewAsistencia( data: FormDataAsistencia): Promise<HandleErrorInterface> {

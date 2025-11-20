@@ -6,11 +6,12 @@ import styles from "./AdminFamily.module.css";
 import { showToastError } from "@/services/notificationService";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import { getAllFamilies, getAllFamiliesByAssistence } from "@/services/dbService";
-import { Family } from "@/interfaces/formTypes";
+import { FamilyInterface } from "@/interfaces/formTypes";
 import BaseButton from "@/components/button/base/BaseButton";
+import FamilyCard from "@/components/card/family/FamilyCard";
 
 export default function AdminFamilyListPage() {
-  const [families, setFamilies] = useState<Family[]>([]);
+  const [families, setFamilies] = useState<FamilyInterface[]>([]);
 
   const loadFamilies = async () => {
     startLoading();
@@ -53,16 +54,11 @@ export default function AdminFamilyListPage() {
         </div>
             {
                 families.length > 0 && 
-                <ul className={styles.table}>
+                <div className={styles.table}>
                     {
-                        families.map(fam =>
-                            <li key={fam.name}>
-                                <span>{fam.name}</span> - 
-                                <span>{fam.assistanceConfirm ? ' Confirmado' : ' En espera'}</span>                          
-                            </li>
-                        )
+                        families.map(fam =><FamilyCard key={fam.id} card={fam}></FamilyCard>)
                     }
-                </ul>            
+                </div>            
             }
             {
                 families.length == 0 && <span>No hay familias</span>

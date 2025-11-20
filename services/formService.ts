@@ -1,4 +1,4 @@
-import { Family, FORM_DATA_DEFAULT, FormDataAsistencia, FormDataLogin, FormErrors } from "@/interfaces/formTypes";
+import { FamilyInterface, FORM_DATA_DEFAULT, FormDataAsistencia, FormDataLogin, FormErrors } from "@/interfaces/formTypes";
 import { updateAsistencia } from "./dbService";
 import { HandleErrorInterface } from "@/interfaces/error.interface";
 
@@ -36,7 +36,7 @@ export async function submitForm(formData:FormDataAsistencia, accessCode:string)
     return await updateAsistencia(formData, accessCode);
 }
 
-export function preloadForm(family: Family): FormDataAsistencia{
+export function preloadForm(family: FamilyInterface): FormDataAsistencia{
     return family.assistance? {
         id:family.id,
         intolerancia: family.assistance.intolerancia,
