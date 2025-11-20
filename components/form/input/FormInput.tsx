@@ -6,7 +6,7 @@ import styles from "./FormInput.module.css";
 export interface InputInterface {
   name: string;
   label?: string;
-  value: string;
+  value: string | number;
   placeholder?: string;
   type?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;

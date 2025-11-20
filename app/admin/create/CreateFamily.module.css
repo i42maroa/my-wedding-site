@@ -1,0 +1,33 @@
+.container{
+    min-height: 93vh;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+}
+
+.userContainer{
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+}
+
+.userTitle{
+    display: flex;
+    justify-content: space-between;
+
+    button{
+        margin: auto 0;
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+        border: none;
+        background-color: var(--green);
+        color: var(--white);
+        cursor: pointer;
+    }
+}
+
+.button{
+    margin: 0 auto;
+}

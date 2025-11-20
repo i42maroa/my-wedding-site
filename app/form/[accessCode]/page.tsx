@@ -4,7 +4,7 @@ import styles from "./Form.module.css"
 import FormButton from "@/components/button/FormButton";
 import RadioButton from "@/components/form/radio-button/RadioButton";
 import { Family, FORM_DATA_DEFAULT, FormDataAsistencia, FormErrors } from "@/interfaces/formTypes";
-import { isFormWithAccessCode, preloadForm, submitForm, validateForm } from "../../../services/formService";
+import { preloadForm, submitForm, validateForm } from "../../../services/formService";
 import FormInput from "@/components/form/input/FormInput";
 import FloralLayout from "@/components/layout/floral/FloralLayout";
 import { showToastError, showToastSuccess } from "@/services/notificationService";
@@ -20,7 +20,7 @@ type FormPageProps = {
 export default function RSVPPage({params}:FormPageProps) {
   const [formData, setFormData] = useState<FormDataAsistencia>(FORM_DATA_DEFAULT);
   const [errors, setErrors] = useState<FormErrors>({});  
-  const [names, setNames] = useState(['']);
+  const [names, setNames] = useState<string[]>([]);
   const router = useRouter();
   const {accessCode} = use( params);
 
@@ -37,7 +37,8 @@ export default function RSVPPage({params}:FormPageProps) {
       setErrors(errors);
       return;
     }
-    startLoading();    
+    startLoading(); 
+    console.log(formData)   
     submitForm(formData, accessCode)
       .then(result => {
         if (result.success) {
@@ -91,29 +92,9 @@ export default function RSVPPage({params}:FormPageProps) {
         <form className={styles.formContainer} onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
             <p>Hola, { names.length > 1 ? 'somos ': 'soy '}
-            {
-              isFormWithAccessCode(accessCode) && (
-                <>
-                  <span className={styles.names}>{ names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' y ' + names[names.length - 1]}</span>
-                  <span> y { names.length > 1 ? 'confirmamos': 'confirmo'} la asistencia a vuestra boda el día:</span>
-                </>
-              )} 
-            </p>      
-            {
-              !isFormWithAccessCode(accessCode) && (
-                <>
-                <FormInput
-                  name="nombre"
-                  label="Indica vuestros nombres"
-                  placeholder="Ej: Ana García Rosales, Jose María Martinez"
-                  value={formData.nombre!}
-                  onChange={handleInputChange}
-                  required
-                  error={errors.nombre}/>
-                  <p>y { names.length > 1 ? 'confirmamos': 'confirmo'} la asistencia a vuestra boda el día</p>
-                </>
-              ) 
-            }
+                <span className={styles.names}>{ names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' y ' + names[names.length - 1]}</span>
+                <span> y { names.length > 1 ? 'confirmamos': 'confirmo'} la asistencia a vuestra boda el día:</span>
+            </p>        
               
             <h3 className={styles.date}>22 de Agosto de 2026</h3>
           </div>
