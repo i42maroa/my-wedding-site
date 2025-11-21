@@ -11,7 +11,7 @@ export default function MesaCard({mesa, families}:{mesa:number, families:FamilyI
                   <h3 className={styles.title}><span>Mesa {mesa}</span> <span>{amountUsersByMesa()}</span></h3>
                   <ul className={styles.familyContainer}>
                     {families.map(family => (
-                      <li key={family.id}>{family.name} {family.assistanceConfirm?'💚':'🚫'}                       
+                      <li className={styles.family} key={family.id}>{family.name} {family.assistanceConfirm?'💚':'🚫'}                       
                             <ul>
                                 {
                                     family.users.map(user =>

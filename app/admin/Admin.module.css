@@ -1,24 +1,30 @@
 .container {
-  max-width: 960px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  min-height: 93vh;
+  margin: 2rem 0;
 }
 
-
 .actions {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+  margin: 2rem 0;
+  p{
+    text-align: center;
+    color: var(--gold);
+  }
 }
 
 .card {
-  padding: 1.25rem;
-  border-radius: 0.75rem;
-  border: 1px solid #ddd;
+  padding: 2rem;
+  border: 1px solid var(--gold);
   text-decoration: none;
   color: inherit;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: auto;
 }
 
 .card:hover {

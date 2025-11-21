@@ -39,6 +39,7 @@ export async function submitForm(formData:FormDataAsistencia, accessCode:string)
 export function preloadForm(family: FamilyInterface): FormDataAsistencia{
     return family.assistance? {
         id:family.id,
+        assistanceConfirm:true,
         intolerancia: family.assistance.intolerancia,
         detallesIntolerancia: family.assistance.detalleIntolerancia || "",
         transporte: family.assistance.transporte,

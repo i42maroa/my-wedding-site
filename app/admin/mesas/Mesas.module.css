@@ -9,3 +9,11 @@
 .button{
     margin: 1rem auto;
 }
+
+
+@media (max-width: 480px) {
+    .container{
+        display: flex;
+        flex-direction: column;
+    }
+}
