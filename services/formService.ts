@@ -1,5 +1,5 @@
-import { Family, FORM_DATA_DEFAULT, FormDataAsistencia, FormDataLogin, FormErrors } from "@/interfaces/formTypes";
-import { createNewAsistencia, updateAsistencia } from "./dbService";
+import { FamilyInterface, FORM_DATA_DEFAULT, FormDataAsistencia, FormDataLogin, FormErrors } from "@/interfaces/formTypes";
+import { updateAsistencia } from "./dbService";
 import { HandleErrorInterface } from "@/interfaces/error.interface";
 
 export function isFormWithAccessCode(id:string):boolean{
@@ -33,15 +33,17 @@ export function validateFormLogin(data: FormDataLogin): { isValid: boolean; erro
 }
 
 export async function submitForm(formData:FormDataAsistencia, accessCode:string):Promise<HandleErrorInterface> {
-    return isFormWithAccessCode(accessCode) ? await updateAsistencia(formData, accessCode) : await createNewAsistencia(formData);
+    return await updateAsistencia(formData, accessCode);
 }
 
-export function preloadForm(family: Family): FormDataAsistencia{
+export function preloadForm(family: FamilyInterface): FormDataAsistencia{
     return family.assistance? {
         id:family.id,
+        assistanceConfirm:true,
         intolerancia: family.assistance.intolerancia,
         detallesIntolerancia: family.assistance.detalleIntolerancia || "",
         transporte: family.assistance.transporte,
-        mensaje: family.assistance.mensaje || ""}: FORM_DATA_DEFAULT;
+        mensaje: family.assistance.mensaje || ""} : 
+        {...FORM_DATA_DEFAULT, id:family.id};
 }
 

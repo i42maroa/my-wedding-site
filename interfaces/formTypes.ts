@@ -1,12 +1,18 @@
 
 export interface FormDataAsistencia {
-  id?:string;
+  id:string;
   nombre?:string;
   transporte: "car" | "bus";
   intolerancia: boolean;
   detallesIntolerancia: string;
   mensaje: string;
-  createdAt?: Date;
+  assistanceConfirm:boolean;
+}
+
+export interface FormDataAdmin {
+  name:string;
+  mesa:number;
+  users:string[];
 }
 
 export interface FormDataLogin {
@@ -14,11 +20,19 @@ export interface FormDataLogin {
 }
 
 export const FORM_DATA_DEFAULT:FormDataAsistencia = {
+    id:'',
     nombre:'',
     transporte: "car",
     intolerancia: false,
     detallesIntolerancia: "",
     mensaje: "",
+    assistanceConfirm:true
+  }
+
+  export const FORM_DATA_ADMIN_DEFAULT:FormDataAdmin = {
+    name:"",
+    mesa:0,
+    users:['']
   }
 
 export interface FormErrors {
@@ -27,6 +41,8 @@ export interface FormErrors {
   intolerancia?: string;
   detallesIntolerancia?: string;
   accessCode?:string;
+  users?:string;
+  mesa?:string;
 }
 
 export interface ValidationResult {
@@ -41,18 +57,24 @@ export interface FormErrors {
   detallesIntolerancia?: string;
 }
 
-export interface Family {
+export interface FamilyInterface {
   id:string;
-  assistance?:AssistanceFamily;
+  assistance?:AssistanceFamilyInterface;
+  assistanceConfirm:boolean;
   name: string;
   users: string[];
   accessCode:string;
+  mesa:number;
 }
 
-export interface AssistanceFamily{
-transporte: 'bus' | 'car';
-    confirm: boolean;
+export interface AssistanceFamilyInterface{
+    transporte: 'bus' | 'car';
     mensaje?: string;
     detalleIntolerancia:string;
     intolerancia:boolean;
+}
+
+export interface FamilyUpdate{
+  assistanceConfirm:boolean;
+  assistance:AssistanceFamilyInterface;
 }

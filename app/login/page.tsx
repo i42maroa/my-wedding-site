@@ -1,7 +1,7 @@
 'use client'
 
 import MainLayout from "@/components/layout/main/MainLayout";
-import {  Family, FormDataLogin, FormErrors } from "@/interfaces/formTypes";
+import {  FamilyInterface, FormDataLogin, FormErrors } from "@/interfaces/formTypes";
 import { useState } from "react";
 import styles from './Login.module.css'
 import FormInput from "@/components/form/input/FormInput";
@@ -41,7 +41,7 @@ export default function LoginPage() {
         await getFamilyByAccessCode(accessCode)
         .then(family => {
           if(family){
-            saveItemInLocalStorage<Family>(family, accessCode);
+            saveItemInLocalStorage<FamilyInterface>(family, accessCode);
             goToForm(accessCode);
           }else{
             showToastError("No se ha encontrado ninguna familia con ese código.");

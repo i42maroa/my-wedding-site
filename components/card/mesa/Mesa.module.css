@@ -1,0 +1,26 @@
+.container{
+    background-color: var(--gold);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.title{
+    color: var(--white);
+    margin: 0;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.familyContainer{
+    background-color: var(--white);
+    height: 100%;
+    margin: 0;
+    padding: 1rem;
+    list-style: none;
+}
+
+.family{
+    margin: 0.5rem 0;
+}

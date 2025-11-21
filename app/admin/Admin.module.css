@@ -1,0 +1,33 @@
+.container {
+  margin: 2rem 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  margin: 2rem 0;
+  p{
+    text-align: center;
+    color: var(--gold);
+  }
+}
+
+.card {
+  padding: 2rem;
+  border: 1px solid var(--gold);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: auto;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}

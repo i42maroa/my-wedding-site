@@ -10,7 +10,7 @@ export const createDocument = async <T extends DocumentData>(data: T, collection
   return docRef.id;
 };
 
-export const updateDocument = async<T> (docId: string, data: Record<string,T>, collectionName:string = ASISTENCIAS_COLLECTION): Promise<void> => {
+export const updateDocument = async<T> (docId: string, data: T, collectionName:string = ASISTENCIAS_COLLECTION): Promise<void> => {
   const ref = doc(db, collectionName, docId);
   const dataWithDateChange = {...data, updatedAt: serverTimestamp()}
   await updateDoc(ref, dataWithDateChange);
@@ -25,9 +25,17 @@ export const getDocument = async <T extends DocumentData>( docId: string, collec
   return {id: snap.id, ...(snap.data() as T)};
 };
 
-export const getCollection = async <T extends DocumentData>(collectionName: string = ASISTENCIAS_COLLECTION, ...constraints: QueryConstraint[]): Promise<Array<T>> => {
+export const getCollection = async <T extends DocumentData>(collectionName: string = ASISTENCIAS_COLLECTION): Promise<Array<T>> => {
   const colRef = collection(db, collectionName);
-  const qRef = constraints.length ? query(colRef, ...constraints) : colRef;
+
+  const snap = await getDocs(colRef);
+
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as T)}));
+};
+
+export const getCollectionByFilter = async <T extends DocumentData, K extends keyof T>(field: K, value: T[K],collectionName: string = ASISTENCIAS_COLLECTION): Promise<Array<T>> => {
+  const colRef = collection(db, collectionName);
+  const qRef = query(colRef, where(field as string, "==", value));
 
   const snap = await getDocs(qRef);
 

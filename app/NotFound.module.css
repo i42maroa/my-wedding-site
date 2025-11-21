@@ -1,8 +1,8 @@
 .container{
-    height: 93vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 93vh;
 }
 
 .error{

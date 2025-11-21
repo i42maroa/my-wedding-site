@@ -3,12 +3,12 @@ import { use, useEffect, useState } from "react";
 import styles from "./Form.module.css"
 import FormButton from "@/components/button/FormButton";
 import RadioButton from "@/components/form/radio-button/RadioButton";
-import { Family, FORM_DATA_DEFAULT, FormDataAsistencia, FormErrors } from "@/interfaces/formTypes";
-import { isFormWithAccessCode, preloadForm, submitForm, validateForm } from "../../../services/formService";
+import { FamilyInterface, FORM_DATA_DEFAULT, FormDataAsistencia, FormErrors } from "@/interfaces/formTypes";
+import { preloadForm, submitForm, validateForm } from "../../../services/formService";
 import FormInput from "@/components/form/input/FormInput";
 import FloralLayout from "@/components/layout/floral/FloralLayout";
 import { showToastError, showToastSuccess } from "@/services/notificationService";
-import { startLoading, stopLoading } from "@/services/loadingService";
+import { startLoading, stopLoading, subscribeToLoading, unsubscribeFromLoading } from "@/services/loadingService";
 import MainLayout from "@/components/layout/main/MainLayout";
 import { useRouter } from "next/navigation";
 import { getFamilyByAccessCode } from "@/services/dbService";
@@ -20,9 +20,10 @@ type FormPageProps = {
 export default function RSVPPage({params}:FormPageProps) {
   const [formData, setFormData] = useState<FormDataAsistencia>(FORM_DATA_DEFAULT);
   const [errors, setErrors] = useState<FormErrors>({});  
-  const [names, setNames] = useState(['']);
+  const [names, setNames] = useState<string[]>([]);
   const router = useRouter();
-  const {accessCode} = use( params);
+  const {accessCode} = use(params);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -37,7 +38,8 @@ export default function RSVPPage({params}:FormPageProps) {
       setErrors(errors);
       return;
     }
-    startLoading();    
+    startLoading(); 
+    console.log(formData)   
     submitForm(formData, accessCode)
       .then(result => {
         if (result.success) {
@@ -52,7 +54,7 @@ export default function RSVPPage({params}:FormPageProps) {
   };
 
   const loadFamilyData = async () => { 
-       const dataFromLocalStorage = loadItemFromLocalStorage<Family>(accessCode);
+       const dataFromLocalStorage = loadItemFromLocalStorage<FamilyInterface>(accessCode);
  
        if(dataFromLocalStorage){
           prechargeForm(dataFromLocalStorage);
@@ -75,13 +77,22 @@ export default function RSVPPage({params}:FormPageProps) {
        }
     };
   
-  const prechargeForm = (data:Family) => {
+  const prechargeForm = (data:FamilyInterface) => {
       setNames(data.users);
       const newFormData = preloadForm(data);
       setFormData(newFormData);
   }
 
-  useEffect(() => { loadFamilyData();}, []);
+  useEffect(() => { 
+      loadFamilyData();
+      const handleLoading = (loading: boolean) => setIsLoading(loading);
+      subscribeToLoading(handleLoading);
+      return () => unsubscribeFromLoading(handleLoading);
+  }, []);
+
+  const textSomosOrSoy = () => names.length > 1 ? 'somos ': 'soy ';
+  const textConfirmamosOrConfirmo = () => names.length > 1 ? 'Confirmamos': 'Confirmo';
+  const userNames = () => names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' y ' + names[names.length - 1];
 
   return (
       <MainLayout header={false}>
@@ -90,31 +101,14 @@ export default function RSVPPage({params}:FormPageProps) {
         <h2 className={styles.title}>Asistencia</h2>
         <form className={styles.formContainer} onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
-            <p>Hola, { names.length > 1 ? 'somos ': 'soy '}
-            {
-              isFormWithAccessCode(accessCode) && (
-                <>
-                  <span className={styles.names}>{ names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' y ' + names[names.length - 1]}</span>
-                  <span> y { names.length > 1 ? 'confirmamos': 'confirmo'} la asistencia a vuestra boda el día:</span>
-                </>
-              )} 
-            </p>      
-            {
-              !isFormWithAccessCode(accessCode) && (
-                <>
-                <FormInput
-                  name="nombre"
-                  label="Indica vuestros nombres"
-                  placeholder="Ej: Ana García Rosales, Jose María Martinez"
-                  value={formData.nombre!}
-                  onChange={handleInputChange}
-                  required
-                  error={errors.nombre}/>
-                  <p>y { names.length > 1 ? 'confirmamos': 'confirmo'} la asistencia a vuestra boda el día</p>
-                </>
-              ) 
-            }
-              
+            <p>Hola, {textSomosOrSoy()} <span className={styles.names}>{userNames()}</span></p> 
+            <RadioButton
+                name="assistanceConfirm"
+                value={true}
+                label={`${textConfirmamosOrConfirmo()} la asistencia a vuestra boda el día`}
+                selectedValue={formData.assistanceConfirm}
+                onChange={() => setFormData({ ...formData})}
+              />                    
             <h3 className={styles.date}>22 de Agosto de 2026</h3>
           </div>
           
@@ -179,11 +173,7 @@ export default function RSVPPage({params}:FormPageProps) {
                 onChange={handleInputChange}
               />  
           </div>      
-          <FormButton className={styles.button}
-                  type="submit" 
-                  // disabled={loading} TODO: BLOCK WHEN IS LOADING
-                  >Enviar
-          </FormButton>
+          <FormButton className={styles.button}type="submit" disabled={isLoading}>Enviar</FormButton>
         </form>
       </div>
       </FloralLayout>
