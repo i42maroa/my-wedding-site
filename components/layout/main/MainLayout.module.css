@@ -10,6 +10,7 @@
   background-size: auto;           /* mantiene la textura original */
   background-attachment: fixed;    /* el fondo no se mueve al hacer scroll */
   background-position: center;
+  min-height: 100vh;
 }
 
 /* --- Capa translúcida para suavizar la textura --- */

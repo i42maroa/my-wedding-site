@@ -12,11 +12,18 @@ import FamilyCard from "@/components/card/family/FamilyCard";
 
 export default function AdminFamilyListPage() {
   const [families, setFamilies] = useState<FamilyInterface[]>([]);
+  const [isFilterConfirm, setIsFilterConfirm] = useState(false);
+  const [familiesFiltered, setFamiliesFiltered] = useState<FamilyInterface[]>([]);
 
   const loadFamilies = async () => {
     startLoading();
     await getAllFamilies()
-    .then(families => setFamilies(families))
+    .then(families => {
+      setFamilies(families);
+      setFamiliesFiltered(families);
+      setIsFilterConfirm(true);
+      
+    })
     .catch(() => showToastError("Error al cargar las familias"))
     .finally(() => stopLoading());
   };
@@ -24,19 +31,26 @@ export default function AdminFamilyListPage() {
   const filterFamilies = async (assist:boolean) => {
     startLoading();
     await getAllFamiliesByAssistence(assist)
-    .then(families => setFamilies(families))
+    .then(families => {
+      setFamilies(families);
+      setFamiliesFiltered(families);
+      setIsFilterConfirm(assist);})
     .catch(() => showToastError("Error al cargar las familias"))
     .finally(() => stopLoading());
   }
 
-  const filterFamiliesByBus = async () => {
-    await getAllFamiliesByAssistence(true)
-        .then(families => {
-             const famWithBus = families.filter(fam => fam.assistance && fam.assistance.transporte == 'bus')
-            setFamilies(famWithBus);
-        })
-        .catch(() => showToastError("Error al cargar las familias"))
-        .finally(() => stopLoading()); 
+  const filterFamiliesByBus = () => {
+    const famWithBus = families.filter(fam => fam.assistance && fam.assistance.transporte == 'bus')
+    setFamiliesFiltered(famWithBus); 
+  }
+
+  const filterFamiliesByIntolerancia = () => {
+    const famWithIntolerancia = families.filter(fam => fam.assistance && fam.assistance.intolerancia)
+    setFamiliesFiltered(famWithIntolerancia); 
+  }
+
+  const clearFilters = () => {
+    setFamiliesFiltered(families); 
   }
 
   useEffect(() => {
@@ -48,21 +62,33 @@ export default function AdminFamilyListPage() {
       <div className={styles.container}>
         <h2 className={styles.title}>Familias</h2>
         <div className={styles.buttonContainer}>
+            <BaseButton onClick={() => loadFamilies()}>Todos</BaseButton>
             <BaseButton onClick={() => filterFamilies(true)}>Confirmado</BaseButton>
             <BaseButton onClick={() => filterFamilies(false)}>No confirmado</BaseButton>
-            <BaseButton onClick={() => filterFamiliesByBus()}>Bus</BaseButton>
         </div>
+        {
+          isFilterConfirm &&  <div className={styles.buttonContainer}>
+            <BaseButton onClick={() => filterFamiliesByBus()}>Bus</BaseButton>
+            <BaseButton onClick={() => filterFamiliesByIntolerancia()}>Intolerancia</BaseButton>
+            <BaseButton onClick={() => clearFilters()}>Clear</BaseButton>
+
+        </div>
+        }   
             {
-                families.length > 0 && 
-                <div className={styles.table}>
+                familiesFiltered.length > 0 && 
+                <div className={styles.familyContainer}>
                     {
-                        families.map(fam =><FamilyCard key={fam.id} card={fam}></FamilyCard>)
+                        familiesFiltered.map(fam =><FamilyCard key={fam.id} card={fam}></FamilyCard>)
                     }
                 </div>            
             }
             {
-                families.length == 0 && <span>No hay familias</span>
-            }     
+
+                familiesFiltered.length == 0 && <div className={styles.noFamilyContainer}>
+                  <span>No hay familias</span>
+                  </div>
+            } 
+           
       </div>
     </MainLayout>
   );

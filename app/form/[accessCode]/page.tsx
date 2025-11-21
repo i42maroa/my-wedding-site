@@ -91,7 +91,7 @@ export default function RSVPPage({params}:FormPageProps) {
   }, []);
 
   const textSomosOrSoy = () => names.length > 1 ? 'somos ': 'soy ';
-  const textConfirmamosOrConfirmo = () => names.length > 1 ? 'confirmamos': 'confirmo';
+  const textConfirmamosOrConfirmo = () => names.length > 1 ? 'Confirmamos': 'Confirmo';
   const userNames = () => names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' y ' + names[names.length - 1];
 
   return (
@@ -101,16 +101,14 @@ export default function RSVPPage({params}:FormPageProps) {
         <h2 className={styles.title}>Asistencia</h2>
         <form className={styles.formContainer} onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
-            <p>Hola, {textSomosOrSoy()}
-                <span className={styles.names}>{userNames()}</span>
-                <RadioButton
+            <p>Hola, {textSomosOrSoy()} <span className={styles.names}>{userNames()}</span></p> 
+            <RadioButton
                 name="assistanceConfirm"
                 value={true}
                 label={`${textConfirmamosOrConfirmo()} la asistencia a vuestra boda el día`}
                 selectedValue={formData.assistanceConfirm}
                 onChange={() => setFormData({ ...formData})}
-              />
-            </p>                     
+              />                    
             <h3 className={styles.date}>22 de Agosto de 2026</h3>
           </div>
           

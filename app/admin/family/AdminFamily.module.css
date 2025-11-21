@@ -1,8 +1,42 @@
-.container{
-    height: 93vh;
-}
 .buttonContainer{
     display: flex;
     width: 100%;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+.familyContainer{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     justify-content: space-around;
+    margin: 2rem 0;
+}
+
+.noFamilyContainer{
+    display: flex;
+    margin: 8rem 0;
+
+    span{
+        text-align: center;
+        color: var(--gold);
+        margin: auto;
+        font-size: 24px;
+        position: relative;
+    }
+
+    span::after, span::before{
+        content: '';
+        position: absolute;
+        right: -120px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 100px;
+        height: 1px;
+        background-color: var(--gold);
+    }
+
+    span::before{
+        left: -420px;
+    }
 }

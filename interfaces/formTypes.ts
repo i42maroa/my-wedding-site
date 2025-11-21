@@ -59,7 +59,7 @@ export interface FormErrors {
 
 export interface FamilyInterface {
   id:string;
-  assistance?:AssistanceFamily;
+  assistance?:AssistanceFamilyInterface;
   assistanceConfirm:boolean;
   name: string;
   users: string[];
@@ -67,7 +67,7 @@ export interface FamilyInterface {
   mesa:number;
 }
 
-export interface AssistanceFamily{
+export interface AssistanceFamilyInterface{
     transporte: 'bus' | 'car';
     mensaje?: string;
     detalleIntolerancia:string;
@@ -76,5 +76,5 @@ export interface AssistanceFamily{
 
 export interface FamilyUpdate{
   assistanceConfirm:boolean;
-  assistance:AssistanceFamily;
+  assistance:AssistanceFamilyInterface;
 }

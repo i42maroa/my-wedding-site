@@ -20,6 +20,11 @@ export default function AdminPage() {
             <h2>Ver familias</h2>
             <p>Consultar quién ha confirmado y quién sigue pendiente</p>
           </Link>
+
+          <Link href="/admin/mesas" className={styles.card}>
+            <h2>Ver mesas</h2>
+            <p>Consultar la administración de las mesas</p>
+          </Link>
         </div>
       </div>
     </MainLayout>
