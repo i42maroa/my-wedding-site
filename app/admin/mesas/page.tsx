@@ -40,7 +40,7 @@ export default function AdminFamilyListPage() {
     }, []);
 
     return(
-        <MainLayout header={false}>
+        <>
             <BaseButton className={styles.button} onClick={() => loadFamilies()}>Cargar Mesas</BaseButton>
             <div className={styles.container}>              
             {
@@ -49,7 +49,7 @@ export default function AdminFamilyListPage() {
                 .sort(([mesaA],[mesaB]) => mesaA - mesaB)
                 .map(([mesa, families]) => <MesaCard mesa={mesa} key={mesa} families={families}></MesaCard>)
             } 
-            </div>
-        </MainLayout>   
+            </div> 
+        </>
     );
 }

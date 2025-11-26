@@ -47,7 +47,9 @@ export default function LoginPage() {
             showToastError("No se ha encontrado ninguna familia con ese código.");
           }
         })
-        .catch(() => showToastError("Error al enviar el código"))
+        .catch(e => {
+          showToastError("Error al enviar el código");
+          console.error(e)})
         .finally(() => stopLoading())
     }
 

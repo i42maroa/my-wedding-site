@@ -24,7 +24,10 @@ export default function AdminFamilyListPage() {
       setIsFilterConfirm(true);
       
     })
-    .catch(() => showToastError("Error al cargar las familias"))
+    .catch(e => {
+      showToastError("Error al cargar las familias");
+      console.error(e);
+    })
     .finally(() => stopLoading());
   };
 
@@ -35,7 +38,10 @@ export default function AdminFamilyListPage() {
       setFamilies(families);
       setFamiliesFiltered(families);
       setIsFilterConfirm(assist);})
-    .catch(() => showToastError("Error al cargar las familias"))
+    .catch(e => {
+      showToastError("Error al cargar las familias");
+      console.error(e);
+    })
     .finally(() => stopLoading());
   }
 
@@ -58,7 +64,6 @@ export default function AdminFamilyListPage() {
 }, []);
 
   return (
-    <MainLayout header={false}>
       <div className={styles.container}>
         <h2 className={styles.title}>Familias</h2>
         <div className={styles.buttonContainer}>
@@ -90,6 +95,5 @@ export default function AdminFamilyListPage() {
             } 
            
       </div>
-    </MainLayout>
   );
 }
