@@ -113,6 +113,11 @@
   transform: translateY(-7.5px) rotate(-45deg);
 }
 
+.userEmail{
+  font-size: 12px;
+  color: #5e5e5e;
+}
+
 
 @media (max-width: 768px) {
 

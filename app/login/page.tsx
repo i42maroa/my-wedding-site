@@ -1,6 +1,5 @@
 'use client'
 
-import MainLayout from "@/components/layout/main/MainLayout";
 import {  FamilyInterface, FormDataLogin, FormErrors } from "@/interfaces/formTypes";
 import { useState } from "react";
 import styles from './Login.module.css'
@@ -54,7 +53,6 @@ export default function LoginPage() {
     }
 
     return(
-        <MainLayout header={false}>
             <div className={styles.container}>
                   <form className={styles.formContainer} onSubmit={handleSubmit}>
                     <h2 className={styles.title}>Introduce tu código de familia</h2>
@@ -70,6 +68,5 @@ export default function LoginPage() {
                     <FormButton className={styles.button}type="submit" >Enviar</FormButton>
                   </form>                           
             </div>
-        </MainLayout>
     )
 }

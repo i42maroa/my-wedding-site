@@ -3,42 +3,40 @@
 import { useEffect, useState } from "react";
 import { auth, googleProvider } from "@/firebase/config";
 import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { startLoading, stopLoading } from "@/services/loadingService";
+import { useRouter } from "next/navigation";
 
-const ADMIN_EMAIL = "amrodriguezjarote@gmail.com"; 
-
+const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 export function useAdminGuard() {
-  const [loading, setLoading] = useState(true);
+  const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      if (user && user.email === ADMIN_EMAIL) {
+      if (user && user.email === adminEmail) {
         setIsAdmin(true);
         setUserEmail(user.email);
       } else {
         setIsAdmin(false);
         setUserEmail(user?.email ?? null);
       }
-      setLoading(false);
+      stopLoading()
     });
 
     return () => unsub();
   }, []);
 
   const loginWithGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
+    startLoading()
+    await signInWithPopup(auth, googleProvider)
+      .then(() => stopLoading());
   };
 
   const logout = async () => {
     await auth.signOut();
+    router.push("/");
   };
 
-  return {
-    loading,
-    isAdmin,
-    userEmail,
-    loginWithGoogle,
-    logout,
-  };
+  return {isAdmin, userEmail, loginWithGoogle, logout};
 }
