@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ToastContainer from "@/components/toast/ToastContainer";
 import SpinnerOverlay from "@/components/spinner/SpinnerOverlay";
+import MainLayout from "@/components/layout/main/MainLayout";
+import Footer from "@/components/footer/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,9 +14,12 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
   return (
     <html lang="en">
       <body>
-        {children}
-        <ToastContainer />
-        <SpinnerOverlay/>
+        <MainLayout>   
+          {children}
+          <ToastContainer />
+          <SpinnerOverlay/>
+         </MainLayout>      
+        <Footer/>
       </body>
     </html>
   );

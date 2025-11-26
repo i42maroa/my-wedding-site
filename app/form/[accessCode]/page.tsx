@@ -9,7 +9,6 @@ import FormInput from "@/components/form/input/FormInput";
 import FloralLayout from "@/components/layout/floral/FloralLayout";
 import { showToastError, showToastSuccess } from "@/services/notificationService";
 import { startLoading, stopLoading, subscribeToLoading, unsubscribeFromLoading } from "@/services/loadingService";
-import MainLayout from "@/components/layout/main/MainLayout";
 import { useRouter } from "next/navigation";
 import { getFamilyByAccessCode } from "@/services/dbService";
 import { loadItemFromLocalStorage } from "@/services/localStorageService";
@@ -95,7 +94,6 @@ export default function RSVPPage({params}:FormPageProps) {
   const userNames = () => names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' y ' + names[names.length - 1];
 
   return (
-      <MainLayout header={false}>
       <FloralLayout>
       <div className={styles.container}>
         <h2 className={styles.title}>Asistencia</h2>
@@ -177,6 +175,5 @@ export default function RSVPPage({params}:FormPageProps) {
         </form>
       </div>
       </FloralLayout>
-      </MainLayout>
   );
 }

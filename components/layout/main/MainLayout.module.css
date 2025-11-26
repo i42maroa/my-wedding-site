@@ -13,6 +13,10 @@
   min-height: 100vh;
 }
 
+.containerWithFooter{
+  margin-bottom: 100vh;
+}
+
 /* --- Capa translúcida para suavizar la textura --- */
 .container::before {
   content: "";

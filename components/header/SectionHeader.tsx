@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from "./SectionHeader.module.css";
 
-export default function SectionHeader() {
+export default function SectionHeader() {  
   return (
   <div className={styles.container}>
       <div className={styles.flowerContainer}>

@@ -54,7 +54,6 @@ export default function AdminCreatePage() {
     };
 
   return (
-    <MainLayout header={false}>
       <div className={styles.container}>
         <h1 className={styles.title}>Crear nueva familia</h1>
 
@@ -101,6 +100,5 @@ export default function AdminCreatePage() {
           </FormButton>
         </form>
       </div>
-    </MainLayout>
   );
 }
