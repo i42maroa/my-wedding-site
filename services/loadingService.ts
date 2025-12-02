@@ -1,4 +1,3 @@
-// services/loadingService.ts
 type LoadingSubscriber = (isLoading: boolean) => void;
 
 const subscribers = new Set<LoadingSubscriber>();

@@ -1,6 +1,5 @@
 import { FamilyInterface, FORM_DATA_DEFAULT, FormDataAsistencia, FormDataLogin, FormErrors } from "@/interfaces/formTypes";
 import { updateAsistencia } from "./dbService";
-import { HandleErrorInterface } from "@/interfaces/error.interface";
 
 export const validateForm = (data: FormDataAsistencia): { isValid: boolean; errors: FormErrors } =>{
   const errors: FormErrors = {};
@@ -26,7 +25,7 @@ export const  validateFormLogin = (data: FormDataLogin): { isValid: boolean; err
   return { isValid: isValid(errors), errors };
 }
 
-export async function submitForm (formData:FormDataAsistencia, accessCode:string):Promise<HandleErrorInterface> {
+export async function submitForm (formData:FormDataAsistencia, accessCode:string):Promise<void> {
     return await updateAsistencia(formData, accessCode);
 }
 

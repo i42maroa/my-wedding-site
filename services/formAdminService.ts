@@ -1,6 +1,5 @@
 import { FormDataAdmin, FormErrors } from "@/interfaces/formTypes";
 import { createNewFamily } from "./dbService";
-import { HandleErrorInterface } from "@/interfaces/error.interface";
 import { generateAccessCode } from "./accessCodeService";
 
 
@@ -22,7 +21,7 @@ export function validateFormAdmin(data: FormDataAdmin): { isValid: boolean; erro
   return { isValid, errors };
 }
 
-export async function submitForm(formData:FormDataAdmin):Promise<HandleErrorInterface> {
+export async function submitForm(formData:FormDataAdmin):Promise<string> {
     const usersClean = formData.users.filter(item => item !=='');
     const formDataClean = {...formData,
       assistanceConfirm:false,

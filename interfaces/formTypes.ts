@@ -48,13 +48,6 @@ export interface ValidationResult {
   errors: FormErrors;
 }
 
-export interface FormErrors {
-  nombre?: string;
-  transporte?: string;
-  intolerancia?: string;
-  detallesIntolerancia?: string;
-}
-
 export interface FamilyInterface {
   id:string;
   assistance?:AssistanceFamilyInterface;
