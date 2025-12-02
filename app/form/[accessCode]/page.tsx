@@ -13,15 +13,13 @@ import { useRouter } from "next/navigation";
 import { getFamilyByAccessCode } from "@/services/dbService";
 import { loadItemFromLocalStorage } from "@/services/localStorageService";
 
-type FormPageProps = {
-  params: Promise<{ accessCode: string }>;
-};
+type FormPageProps = {params: { accessCode: string }};
 export default function RSVPPage({params}:FormPageProps) {
   const [formData, setFormData] = useState<FormDataAsistencia>(FORM_DATA_DEFAULT);
   const [errors, setErrors] = useState<FormErrors>({});  
   const [names, setNames] = useState<string[]>([]);
   const router = useRouter();
-  const {accessCode} = use(params);
+  const {accessCode} = params;
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -32,7 +30,7 @@ export default function RSVPPage({params}:FormPageProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const { isValid, errors } = validateForm(formData, accessCode);
+    const { isValid, errors } = validateForm(formData);
     if (!isValid) {
       setErrors(errors);
       return;

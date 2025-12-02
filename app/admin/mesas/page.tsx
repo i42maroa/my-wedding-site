@@ -8,7 +8,6 @@ import { startLoading, stopLoading } from '@/services/loadingService';
 import { showToastError } from '@/services/notificationService';
 import { getAllFamilies } from '@/services/dbService';
 import BaseButton from '@/components/button/base/BaseButton';
-import MainLayout from '@/components/layout/main/MainLayout';
 
 export default function AdminFamilyListPage() {
 

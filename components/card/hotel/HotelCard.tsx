@@ -13,7 +13,7 @@ export default function HotelCard({card}:{card:HotelCardInterface}) {
     <div className={styles.container}>
         <h3 className={styles.title}>{card.title}</h3>
         <p className={styles.text}>{card.city}</p>
-          <ExternalLinkButton className={styles.button} href={card.url}>Ver</ExternalLinkButton>
+        <ExternalLinkButton className={styles.button} href={card.url}>Ver</ExternalLinkButton>
     </div>
   );
 }
