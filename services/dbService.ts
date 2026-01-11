@@ -1,45 +1,29 @@
-import { FamilyInterface, FamilyUpdate, FormDataAdmin, FormDataAsistencia, FormDataLogin } from "@/interfaces/formTypes";
+import { FamilyInterface, FamilyUpdate, FormDataAdmin, FormDataAsistencia } from "@/interfaces/formTypes";
 import { createDocument, getCollection, getCollectionByFilter, getDocument, getDocumentByField, updateDocument } from "./repositoryFirebase";
-import { HandleErrorInterface } from "@/interfaces/error.interface";
+import { mapFirebaseError } from "@/helper/mapFirebaseError";
 
 export const getFamilyById = async (id: string): Promise<FamilyInterface | null> => {
-  return getDocument(id);
+  return handleFirebaseResponse(async () => getDocument(id));
 };
 
 export const getFamilyByAccessCode = async (code: string): Promise<FamilyInterface | null> => {
-    return getDocumentByField<FamilyInterface, "accessCode">("accessCode", code);
+  return handleFirebaseResponse(async () => getDocumentByField<FamilyInterface, "accessCode">("accessCode", code));
 };
 
 export const getAllFamilies = async ():Promise<FamilyInterface[]> =>{
-  return getCollection<FamilyInterface>()
+  return handleFirebaseResponse(async () => getCollection<FamilyInterface>());
 }
 
 export const getAllFamiliesByAssistence = async (assist:boolean):Promise<FamilyInterface[]> =>{
-  return getCollectionByFilter<FamilyInterface,"assistanceConfirm">("assistanceConfirm", assist);
+  return handleFirebaseResponse(async () => getCollectionByFilter<FamilyInterface,"assistanceConfirm">("assistanceConfirm", assist));
 }
 
-export async function createNewAsistencia( data: FormDataAsistencia): Promise<HandleErrorInterface> {
-  try {
-      await createNewAsistencia(data);
-    return { success: true };
-  } catch (err) {
-    return { success: false, error: "No se pudo enviar el formulario." };
-  }
+export async function createNewFamily( data: FormDataAdmin): Promise<string> {
+   return handleFirebaseResponse(async () => await createDocument(data))
 }
 
-export async function createNewFamily( data: FormDataAdmin): Promise<HandleErrorInterface> {
-  try {
-      await createDocument(data);
-    return { success: true };
-  } catch (err) {
-    return { success: false, error: "No se pudo enviar el formulario." };
-  }
-}
-
-export async function updateAsistencia(data: FormDataAsistencia, accessCode:string): Promise<HandleErrorInterface> {
-  try {
-    console.log(data)
-      await updateDocument<FamilyUpdate>(data.id!, {
+export async function updateAsistencia(data: FormDataAsistencia, accessCode:string): Promise<void> {
+  const assistance = {
         assistanceConfirm:true,
         assistance: {
           transporte: data.transporte,
@@ -47,11 +31,16 @@ export async function updateAsistencia(data: FormDataAsistencia, accessCode:stri
           detalleIntolerancia: data.intolerancia ? data.detallesIntolerancia : "",
           mensaje: data.mensaje || "",
         }
-      });
-      localStorage.removeItem(accessCode);
-    return { success: true };
+      }
+  localStorage.removeItem(accessCode);
+
+  return handleFirebaseResponse(async () => await updateDocument<FamilyUpdate>(data.id!, assistance));
+}
+
+async function handleFirebaseResponse<T>(fn: () => Promise<T>): Promise<T> {
+  try {
+    return await fn();
   } catch (err) {
-    console.error(err)
-    return { success: false, error: "No se pudo enviar el formulario." };
+    throw mapFirebaseError(err);
   }
 }

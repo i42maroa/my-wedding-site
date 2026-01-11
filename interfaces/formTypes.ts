@@ -1,7 +1,6 @@
 
 export interface FormDataAsistencia {
   id:string;
-  nombre?:string;
   transporte: "car" | "bus";
   intolerancia: boolean;
   detallesIntolerancia: string;
@@ -21,7 +20,6 @@ export interface FormDataLogin {
 
 export const FORM_DATA_DEFAULT:FormDataAsistencia = {
     id:'',
-    nombre:'',
     transporte: "car",
     intolerancia: false,
     detallesIntolerancia: "",
@@ -50,13 +48,6 @@ export interface ValidationResult {
   errors: FormErrors;
 }
 
-export interface FormErrors {
-  nombre?: string;
-  transporte?: string;
-  intolerancia?: string;
-  detallesIntolerancia?: string;
-}
-
 export interface FamilyInterface {
   id:string;
   assistance?:AssistanceFamilyInterface;
@@ -65,6 +56,15 @@ export interface FamilyInterface {
   users: string[];
   accessCode:string;
   mesa:number;
+}
+
+export const FAMILY_DEFAULT:FamilyInterface ={
+  id:'',
+  assistanceConfirm:false,
+  name:'',
+  users:[],
+  accessCode:'',
+  mesa:0
 }
 
 export interface AssistanceFamilyInterface{

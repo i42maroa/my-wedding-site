@@ -2,23 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./SectionGallery.module.css";
 import Image from "next/image";
+import { lerp, rangeProgress } from "@/helper/mapMovement";
 
-//Limita un numero dentro de un rango
-//Asegura que el progrose nunca pase de 0 a 1
-function clamp(v: number, min = 0, max = 1) {
-  return Math.min(Math.max(v, min), max);
-}
-
-//Convierte un valor p en un progreso solo dentro de un tramo
-function rangeProgress(p: number, start: number, end: number) {
-  if (end === start) return 0;
-  return clamp((p - start) / (end - start));
-}
-
-//Calcula valor entre a y b segun porcentaje t
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
-}
 export default function SectionGallery() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [progress, setProgress] = useState(0); // 0 → inicio sección, 1 → final sección
@@ -76,7 +61,6 @@ export default function SectionGallery() {
 
   // Progresos individuales por foto (tramos)
   const p1     = rangeProgress(progress, 0.00, 0.15);
-  
   const p2     = rangeProgress(progress, 0.12, 0.30);
   const p3     = rangeProgress(progress, 0.28, 0.45);
   const p4     = rangeProgress(progress, 0.45, 0.65);

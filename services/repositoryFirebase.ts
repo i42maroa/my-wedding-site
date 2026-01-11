@@ -2,7 +2,6 @@
 import { collection, addDoc, serverTimestamp, doc, updateDoc, query, where, getDocs, DocumentData, getDoc, QueryConstraint } from "firebase/firestore";
 import { ASISTENCIAS_COLLECTION, db } from "@/firebase/config";
 
-
 export const createDocument = async <T extends DocumentData>(data: T, collectionName: string = ASISTENCIAS_COLLECTION): Promise<string> => {
   const colRef = collection(db, collectionName);
   const dataWithDateChange = {...data, updatedAt: serverTimestamp()}

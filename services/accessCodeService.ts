@@ -1,11 +1,19 @@
 import { FormDataAdmin } from "@/interfaces/formTypes";
 
 export const generateAccessCode = (formData:FormDataAdmin) => {
-    return getFirstLetterFromName(formData.users) + formData.users.length + formData.mesa;
+    if(formData.users && formData.mesa && formData.users.length > 0){
+        const code = getFirstLetterFromNames(formData.users);
+        
+        if(code == '') return '';
+        return  code + formData.users.length + formData.mesa;
+    }
+    return "";
 }
 
-const getFirstLetterFromName = (names:string[]):string => {
+const getFirstLetterFromNames = (names:string[]):string => {
     return names
-    .map(n => n.trim()[0].toUpperCase())
+    .map(n => n.trim())
+    .map(n => n.toUpperCase())
+    .map(n => n[0])
     .join("");
 }

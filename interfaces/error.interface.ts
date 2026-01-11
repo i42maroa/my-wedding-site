@@ -1,1 +1,0 @@
-export interface HandleErrorInterface { success: boolean; error?: string }
