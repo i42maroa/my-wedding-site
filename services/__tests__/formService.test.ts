@@ -1,135 +1,153 @@
-import {  validateForm, validateFormLogin, submitForm, preloadForm} from "../formService";
+import { describe, it, expect, vi } from "vitest";
+import {
+  validateForm,
+  validateFormLogin,
+  submitForm,
+  preloadForm
+} from "../formService";
 import { updateAsistencia } from "../dbService";
-import {  FORM_DATA_DEFAULT,  FormDataAsistencia, FormDataLogin, FamilyInterface, FAMILY_DEFAULT,} from "@/interfaces/formTypes";
-import { MockedFunction } from "vitest";
+import {
+  FamilyInterface,
+  FORM_DATA_DEFAULT,
+  FormDataAsistencia,
+  FormDataLogin
+} from "@/interfaces/formTypes";
+
 
 vi.mock("../dbService", () => ({
   updateAsistencia: vi.fn(),
 }));
 
-const mockedUpdateAsistencia = updateAsistencia as unknown as MockedFunction<typeof updateAsistencia>;
+const mockedUpdateAsistencia = vi.mocked(updateAsistencia);
 
-describe("Form Service test", () => {
-
-  //ValidateForm tests
-  test("validateForm should return errors", () => {
-    const data = {
-      ...FORM_DATA_DEFAULT,
-      transporte: undefined,
-      intolerancia:true,
-      detallesIntolerancia:""
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any;
+describe("validateForm", () => {
+  it("devuelve error si no hay transporte", () => {
+    const data = {id:'', intolerancia: false} as FormDataAsistencia;
 
     const result = validateForm(data);
+
     expect(result.isValid).toBe(false);
-    expect(result.errors.transporte).toEqual(expect.any(String));
-    expect(result.errors.detallesIntolerancia).toEqual(expect.any(String));
+    expect(result.errors.transporte).toBe("Selecciona cómo vas a venir.");
   });
 
-  test("validateForm should be isValid", () => {
+  it("devuelve error si hay intolerancia pero no detalles", () => {
     const data: FormDataAsistencia = {
       ...FORM_DATA_DEFAULT,
       transporte: "car",
-      intolerancia:true,
-      detallesIntolerancia:"Soy celíaco",
-      mensaje:"Quiero una bicicleta para poder entrar"
+      intolerancia: true,
+      detallesIntolerancia: "",
     };
 
     const result = validateForm(data);
-    expect(result.isValid).toBe(true);
-    expect(result.errors).toEqual({});
-  });
 
-  // validateFormLogin tests
-  test("validateFormLogin should return errors", () => {
-    const loginData: FormDataLogin = { accessCode: "" };
-
-    const result = validateFormLogin(loginData);
     expect(result.isValid).toBe(false);
-    expect(result.errors.accessCode).toEqual(expect.any(String));
+    expect(result.errors.detallesIntolerancia).toBe(
+      "Indica que intolerancia tienes."
+    );
   });
 
-  test("validateFormLogin should be valid", () => {
-    const loginData: FormDataLogin = { accessCode: "ACW2" };
+  it("es válido con datos correctos", () => {
+    const data: FormDataAsistencia = {
+      ...FORM_DATA_DEFAULT,
+      transporte: "bus",
+      intolerancia: false,
+    };
 
-    const result = validateFormLogin(loginData);
+    const result = validateForm(data);
+
     expect(result.isValid).toBe(true);
     expect(result.errors).toEqual({});
   });
+});
 
-  //SubmitForm tests
-  test("submitForm should call updateAsistencia and return its result", async () => {
-    const formData: FormDataAsistencia = FORM_DATA_DEFAULT;
-    const accessCode = "ACW2";
 
-    const mockedResponseTrue: {success:boolean} = {success:true};
-    mockedUpdateAsistencia.mockResolvedValue(mockedResponseTrue);
+describe("validateFormLogin", () => {
+  it("devuelve error si accessCode está vacío", () => {
+    const data: FormDataLogin = { accessCode: "" };
 
-    const result = await submitForm(formData, accessCode);
+    const result = validateFormLogin(data);
 
-    expect(mockedUpdateAsistencia).toHaveBeenCalledWith(formData, accessCode);
-    expect(result).toEqual(mockedResponseTrue);
+    expect(result.isValid).toBe(false);
+    expect(result.errors.accessCode).toBe(
+      "Introduce el codigo de familia"
+    );
   });
 
-  test("submitForm should call updateAsistencia and return error", async () => {
-    const formData: FormDataAsistencia = FORM_DATA_DEFAULT;
-    const accessCode = "ACW2";
+  it("es válido si accessCode existe", () => {
+    const data: FormDataLogin = { accessCode: "ABC123" };
 
-    const mockedResponseFalse: {success:boolean} = {success:false};
-    mockedUpdateAsistencia.mockResolvedValue(mockedResponseFalse);
+    const result = validateFormLogin(data);
 
-    const result = await submitForm(formData, accessCode);
-
-    expect(mockedUpdateAsistencia).toHaveBeenCalledWith(formData, accessCode);
-    expect(result).toEqual(mockedResponseFalse);
+    expect(result.isValid).toBe(true);
+    expect(result.errors).toEqual({});
   });
+});
 
-  //PreloadForm tests
-  test("preloadForm by default", () => {
-    const familyWithoutAsistance:FamilyInterface = {
-      id:'mocked id',
-      accessCode:'mocked accessCode',
-      mesa:0,
-      name:"mocked name",
-      users:[],
-      assistance:undefined,
-      assistanceConfirm:false
-    }; 
+describe("submitForm", () => {
+  it("llama a updateAsistencia con los datos correctos", async () => {
+    mockedUpdateAsistencia.mockResolvedValue();
 
-    const result = preloadForm(familyWithoutAsistance) as FormDataAsistencia;
+    const formData: FormDataAsistencia = {
+      ...FORM_DATA_DEFAULT,
+      transporte: "car",
+    };
 
-    expect(result.id).toBe(familyWithoutAsistance.id);
-    expect(result.assistanceConfirm).toBe(true);
-    expect(result.intolerancia).toBe(false);
-    expect(result.detallesIntolerancia).toBe("");
-    expect(result.transporte).toBe("car");
-    expect(result.mensaje).toBe("");
+    await submitForm(formData, "ABC123");
+
+    expect(mockedUpdateAsistencia).toHaveBeenCalledOnce();
+    expect(mockedUpdateAsistencia).toHaveBeenCalledWith(
+      formData,
+      "ABC123"
+    );
   });
+});
 
-   test("preloadForm by existing assitance", () => {
-    const familyWithoutAsistance:FamilyInterface = {
-      id:'mocked id',
-      accessCode:'mocked accessCode',
-      mesa:0,
-      name:"mocked name",
-      users:[],
-      assistance:{
-        transporte:'bus',
-        intolerancia:true,
-        detalleIntolerancia:"celiaco",
-        mensaje:'Que vivan los novios'
+
+describe("preloadForm", () => {
+  it("carga datos de asistencia si existen", () => {
+    const family: FamilyInterface = {
+      id: "1",
+      users: ["Antonio"],
+      accessCode: "A1",
+      name: "Familia A",
+      mesa: 2,
+      assistanceConfirm: true,
+      assistance: {
+        intolerancia: true,
+        detalleIntolerancia: "gluten",
+        transporte: "bus",
+        mensaje: "todo ok",
       },
-      assistanceConfirm:true
-    }; 
+    };
 
-    const result = preloadForm(familyWithoutAsistance) as FormDataAsistencia;
+    const result = preloadForm(family);
 
-    expect(result.id).toBe(familyWithoutAsistance.id);
-    expect(result.assistanceConfirm).toBe(true);
-    expect(result.intolerancia).toBe(true);
-    expect(result.detallesIntolerancia).toBe(familyWithoutAsistance.assistance!.detalleIntolerancia);
-    expect(result.transporte).toBe("bus");
-    expect(result.mensaje).toBe(familyWithoutAsistance.assistance!.mensaje);
+    expect(result).toEqual({
+      id: "1",
+      assistanceConfirm: true,
+      intolerancia: true,
+      detallesIntolerancia: "gluten",
+      transporte: "bus",
+      mensaje: "todo ok",
+    });
+  });
+
+  it("devuelve valores por defecto si no hay asistencia", () => {
+    const family: FamilyInterface = {
+      id: "2",
+      users: ["Ana"],
+      accessCode: "A2",
+      name: "Familia B",
+      mesa: 4,
+      assistanceConfirm: false,
+      assistance: undefined,
+    };
+
+    const result = preloadForm(family);
+
+    expect(result).toEqual({
+      ...FORM_DATA_DEFAULT,
+      id: "2",
+    });
   });
 });

@@ -1,8 +1,6 @@
 
 import { collection, addDoc, serverTimestamp, doc, updateDoc, query, where, getDocs, DocumentData, getDoc, QueryConstraint } from "firebase/firestore";
 import { ASISTENCIAS_COLLECTION, db } from "@/firebase/config";
-import { mapFirebaseError } from "@/helper/mapFirebaseError";
-
 
 export const createDocument = async <T extends DocumentData>(data: T, collectionName: string = ASISTENCIAS_COLLECTION): Promise<string> => {
   const colRef = collection(db, collectionName);

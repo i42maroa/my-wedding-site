@@ -1,4 +1,3 @@
-// services/notificationService.ts
 import { v4 as uuidv4 } from "uuid";
 import type { ToastItem } from "@/components/toast/ToastContainer";
 import { AppError } from "@/helper/mapFirebaseError";

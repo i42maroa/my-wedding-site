@@ -5,11 +5,12 @@ import { generateAccessCode } from "./accessCodeService";
 
 export function validateFormAdmin(data: FormDataAdmin): { isValid: boolean; errors: FormErrors } {
   const errors: FormErrors = {};
-  const usersClean = data.users.filter(item => item !=='');
+  const usersClean = cleanUsers(data.users);
+
    if (!data.name) {
-    errors.transporte = "Selecciona cómo vas a venir.";
+    errors.nombre = "Selecciona cómo vas a venir.";
   }
-  if (!data.mesa) {
+  if (!data.mesa || data.mesa < 0) {
     errors.mesa = "Numero de mesa obligatorio.";
   }
 
@@ -22,7 +23,7 @@ export function validateFormAdmin(data: FormDataAdmin): { isValid: boolean; erro
 }
 
 export async function submitForm(formData:FormDataAdmin):Promise<string> {
-    const usersClean = formData.users.filter(item => item !=='');
+    const usersClean = cleanUsers(formData.users);
     const formDataClean = {...formData,
       assistanceConfirm:false,
       users:usersClean,
@@ -31,3 +32,8 @@ export async function submitForm(formData:FormDataAdmin):Promise<string> {
     return await createNewFamily(formDataClean);
 }
 
+const cleanUsers = (user:string[]): string[] => {
+ return user
+  .map(user => user.trim())
+    .filter(item => item !=='');
+}
