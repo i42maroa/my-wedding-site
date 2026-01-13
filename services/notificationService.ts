@@ -1,6 +1,6 @@
-// services/notificationService.ts
 import { v4 as uuidv4 } from "uuid";
 import type { ToastItem } from "@/components/toast/ToastContainer";
+import { AppError } from "@/helper/mapFirebaseError";
 
 type Subscriber = (toast: ToastItem) => void;
 
@@ -19,6 +19,11 @@ export function showToastSuccess(message: string) {
 }
 
 export function showToastError(message: string) {
+  return showToast(message, 'error');
+}
+
+export function showToastAppError(message: string, error:AppError) {
+  console.error(error.code, error.message, error.cause);
   return showToast(message, 'error');
 }
 

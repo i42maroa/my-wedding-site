@@ -1,4 +1,3 @@
-// services/loadingService.ts
 type LoadingSubscriber = (isLoading: boolean) => void;
 
 const subscribers = new Set<LoadingSubscriber>();
@@ -17,19 +16,16 @@ function notifySubscribers() {
   for (const callback of subscribers) callback(isLoading);
 }
 
-/** Inicia el estado de carga */
 export function startLoading() {
   loadingCount++;
   notifySubscribers();
 }
 
-/** Finaliza el estado de carga */
 export function stopLoading() {
   if (loadingCount > 0) loadingCount--;
   notifySubscribers();
 }
 
-/** Reinicia el contador de carga */
 export function resetLoading() {
   loadingCount = 0;
   notifySubscribers();
