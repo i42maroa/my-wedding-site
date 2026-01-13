@@ -142,3 +142,23 @@ label{
   p  { font-size: 16px; }
   button { font-size: 16px; padding: 8px 16px; }
 }
+
+/*404 Page*/
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 93vh;
+}
+
+.error{
+    font-size: 32px;
+    font-style: 'Cardo', serif;
+    text-align: center;
+}
+
+
+.boyfriend{
+    fill: var(--brown);
+    margin: 0 auto;
+}
