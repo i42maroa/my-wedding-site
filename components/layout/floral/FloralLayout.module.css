@@ -9,8 +9,8 @@
 
 .imageContainer{
   position: absolute;
-   height: 40dvh;
-   width: 40dvh;
+   height: 40vh;
+   width: 40vh;
 }
 
 .flower {
@@ -39,29 +39,29 @@
   flex-direction: column;
   gap: 1rem;
   background-color: var(--white);
-  min-width: 40dvw;
+  min-width: 40vw;
   opacity: 1;
 }
 
 
 @media (max-width: 768px) {
  .imageContainer{
-    height: 35dvh;
-    width: 35dvh;
+    height: 35vh;
+    width: 35vh;
   }
 
   .content {
-    margin: 20dvh auto;
+    margin: 20vh auto;
     width: 100%;
   }
 }
 
 @media (max-width: 480px) {
   .imageContainer{
-    height: 30dvh;
-    width: 30dvh;
+    height: 30vh;
+    width: 30vh;
   }
  .content {
-    margin: 15dvh 0;
+    margin: 15vh 0;
   }
 }
