@@ -11,13 +11,25 @@
     flex-direction: column;
     max-width: 400px;
     margin: 0 auto;
+
+    h3{
+        padding: 0;
+        margin: 0;
+        min-height: 4.5rem;
+        animation-name: reveal;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 20% cover 30%;
+    }
+
+    p{
+        animation-name: reveal;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 20% cover 40%;
+    }  
 }
 
-.item h3{
-    padding: 0;
-    margin: 0;
-    min-height: 4.5rem;
-}
 .link{
     font-weight: 800;
     text-decoration: underline;
@@ -50,5 +62,19 @@
     }
     .item h3{
         min-height: auto;
+    }
+}
+
+@keyframes reveal {
+    0%{
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    30%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0);
     }
 }

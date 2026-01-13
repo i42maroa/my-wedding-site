@@ -16,6 +16,13 @@
 .content{
     display: flex;
     flex-direction: column;
+
+    p{
+        animation-name: reveal;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 20% 40%;
+    }
 }
 .bold{
     font-weight: 800;
@@ -23,6 +30,10 @@
 
 .button{
     margin: 1rem auto;
+    animation-name: reveal;
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range: entry 20% 30%;
 }
 
 @media (max-width: 768px) {
@@ -33,5 +44,20 @@
     .map{
         width: 100%;
         margin: 0;
+    }
+}
+
+
+@keyframes reveal {
+    0%{
+        opacity: 1;
+        transform: translateX(20px);
+    }
+    30%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0);
     }
 }

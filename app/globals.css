@@ -73,6 +73,11 @@ h2 {
   font-weight: 600;
   margin-bottom: 0.5em;
   text-align: center;
+
+  animation-name: appear_up;
+  animation-fill-mode: both;
+  animation-timeline: view();
+  animation-range: entry 30% cover 80%;
 }
 
 h3{
@@ -161,4 +166,18 @@ label{
 .boyfriend{
     fill: var(--brown);
     margin: 0 auto;
+}
+
+@keyframes appear_up {
+    0%{
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    30%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
