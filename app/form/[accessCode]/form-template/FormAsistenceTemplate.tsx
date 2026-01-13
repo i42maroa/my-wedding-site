@@ -22,13 +22,15 @@ export default function FormTemplateAssistance({prechargeFamily, onSuccessSubmit
         <form className={styles.formContainer} onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
             <p>Hola, {textSomosOrSoy(names)} <span className={styles.names}>{userNames(names)}</span></p> 
-            <RadioButton
-                name="assistanceConfirm"
-                value={true}
-                label={`${textConfirmamosOrConfirmo(names)} la asistencia a vuestra boda el día`}
-                selectedValue={formData.assistanceConfirm}
-                onChange={() => setFormData({ ...formData})}
-              />                    
+            <div className={styles.radioButtonContainer}>
+              <RadioButton
+                  name="assistanceConfirm"
+                  value={true}
+                  label={`${textConfirmamosOrConfirmo(names)} la asistencia a vuestra boda el día`}
+                  selectedValue={formData.assistanceConfirm}
+                  onChange={() => setFormData({ ...formData})}
+                />  
+              </div>                  
             <h3 className={styles.date}>22 de Agosto de 2026</h3>
           </div>
           
@@ -55,7 +57,7 @@ export default function FormTemplateAssistance({prechargeFamily, onSuccessSubmit
               <FormInput
                 name="detallesIntolerancia"
                 label="Indica tus intolerancias"
-                placeholder="Ej: gluten, lactosa...)"
+                placeholder="Ej: gluten, lactosa..."
                 value={formData.detallesIntolerancia}
                 onChange={handleInputChange}
                 error={formErrors.detallesIntolerancia}
@@ -88,7 +90,7 @@ export default function FormTemplateAssistance({prechargeFamily, onSuccessSubmit
               <FormInput
                 name="mensaje"
                 label="Mensaje para los novios (opcional)"
-                placeholder="Ej: Me "
+                placeholder="Ej: No me ha quedado claro..., me gustaría saber..."
                 value={formData.mensaje}
                 onChange={handleInputChange}
               />  

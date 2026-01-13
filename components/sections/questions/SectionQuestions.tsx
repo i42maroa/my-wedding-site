@@ -26,7 +26,7 @@ export default function SectionQuestions() {
 
         <div className={styles.item}>
             <h3>¿Dónde puedo quedarme a dormir ?</h3>
-            <p> <Link href={'/#sleep'} className={styles.link}>Aquí te indico donde quedarte</Link>. Puedes quedarte también en Peñarroya, ya que el autobús de vuelta pasará por ahí</p>
+            <p> <Link href={'/#sleep'} className={styles.link}>Aquí te indico donde quedarte</Link>. Puedes quedarte también en Peñarroya, ya que el autobús de vuelta pasará por ahí.</p>
         </div>
         
     </div>

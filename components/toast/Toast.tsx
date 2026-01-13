@@ -13,7 +13,7 @@ export default function Toast({
   id,
   message,
   type = "info",
-  duration = 3000,
+  duration = 5000,
   onClose,
 }: ToastProps) {
   useEffect(() => {

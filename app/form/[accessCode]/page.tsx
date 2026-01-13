@@ -24,7 +24,7 @@ export default function RSVPPage({params}:FormPageProps) {
     }, [loading, error, router]);
 
     const onSuccessSubmit = () => {
-        showToastSuccess("Formulario enviado correctamente")
+        showToastSuccess("Confirmación enviada correctamente. \n ¡Viva los novios!🎉💍")
         router.push("/");
     }
  

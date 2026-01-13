@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Toast from "./Toast";
 import styles from "./ToastContainer.module.css";
 import { subscribeToNotifications, unsubscribeFromNotifications } from "@/services/notificationService";
