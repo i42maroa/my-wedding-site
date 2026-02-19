@@ -36,7 +36,9 @@ export function preloadForm(family: FamilyInterface): FormDataAsistencia{
         intolerancia: family.assistance.intolerancia,
         detallesIntolerancia: family.assistance.detalleIntolerancia || "",
         transporte: family.assistance.transporte,
-        mensaje: family.assistance.mensaje || ""} : 
+        mensaje: family.assistance.mensaje || "",
+        origen: family.origen || 'novio'
+      } : 
         {...FORM_DATA_DEFAULT, id:family.id};
 }
 

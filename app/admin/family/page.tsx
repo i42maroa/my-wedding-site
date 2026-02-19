@@ -8,7 +8,7 @@ import { useFilterFamilies } from "@/hooks/useFilterFamilies";
 
 export default function AdminFamilyListPage() {
   const {filteredFamilies, allFamilies, apiError, filterByAssistance,
-        filterFamiliesByBus,filterFamiliesByIntolerancia, clearFilters} = useFilterFamilies();
+        filterFamiliesByBus,filterFamiliesByIntolerancia, filterFamiliesByOrigin, clearFilters} = useFilterFamilies();
   useApiErrorToast(apiError, "Error al cargar las familias");
 
   return (
@@ -19,13 +19,14 @@ export default function AdminFamilyListPage() {
             <BaseButton onClick={() => filterByAssistance(true)}>Confirmado</BaseButton>
             <BaseButton onClick={() => filterByAssistance(false)}>No confirmado</BaseButton>
         </div>
-        {
-          filteredFamilies.length > 0 &&  <div className={styles.buttonContainer}>
+         <div className={styles.buttonContainer}>
             <BaseButton onClick={() => filterFamiliesByBus()}>Bus</BaseButton>
             <BaseButton onClick={() => filterFamiliesByIntolerancia()}>Intolerancia</BaseButton>
+            <BaseButton onClick={() => filterFamiliesByOrigin('novio')}>Novio</BaseButton>
+            <BaseButton onClick={() => filterFamiliesByOrigin('novia')}>Novia</BaseButton>
             <BaseButton onClick={() => clearFilters()}>Clear</BaseButton>
           </div>
-        }   
+           
         {
             filteredFamilies.length > 0 && 
             <div className={styles.familyContainer}>

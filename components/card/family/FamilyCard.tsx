@@ -12,14 +12,22 @@ export default function FamilyCard({card}:{card:FamilyInterface}) {
 
     return (
       <div className={styles.container} onClick={()=> toggleInformation()}>
-        <span className={styles.title}><span>{card.name}</span> <span>{card.assistanceConfirm?'💚':'🚫'}</span></span>
+        
+
+        <span className={styles.title}>
+          <span>{card.name}</span> 
+          <span>{card.origen == 'novio' ? '🤵':'👰'}</span> 
+          <span>{card.assistanceConfirm?'💚':'🚫'}</span> 
+          <span>{card.accessCode}</span>
+          <ul className={styles.userContainer}>
+              {card.users.map(user => <li key={user}>{user}</li>)}         
+            </ul>
+         </span>
+         
         {
           showDetails &&
           <div className={styles.detailsContainer}>
-            <span>Mesa {card.mesa}</span>
-            <ul className={styles.userContainer}>
-              {card.users.map(user => <li key={user}>{user}</li>)}
-            </ul>
+            <span>{card!.mesa || card.mesa == 0 ?  "Sin mesa" :`Mesa ${card.mesa}`}</span>                    
             {
                 card.assistance && 
                     <ul className={styles.detailsTextContainer}>

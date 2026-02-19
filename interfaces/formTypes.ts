@@ -5,12 +5,16 @@ export interface FormDataAsistencia {
   intolerancia: boolean;
   detallesIntolerancia: string;
   mensaje: string;
+  origen:OrigenType;
   assistanceConfirm:boolean;
 }
+
+export type OrigenType = 'novio' | 'novia';
 
 export interface FormDataAdmin {
   name:string;
   mesa:number;
+  origen:OrigenType;
   users:string[];
 }
 
@@ -21,6 +25,7 @@ export interface FormDataLogin {
 export const FORM_DATA_DEFAULT:FormDataAsistencia = {
     id:'',
     transporte: "car",
+    origen:'novio',
     intolerancia: false,
     detallesIntolerancia: "",
     mensaje: "",
@@ -30,6 +35,7 @@ export const FORM_DATA_DEFAULT:FormDataAsistencia = {
   export const FORM_DATA_ADMIN_DEFAULT:FormDataAdmin = {
     name:"",
     mesa:0,
+    origen:'novio',
     users:['']
   }
 
@@ -52,6 +58,7 @@ export interface FamilyInterface {
   id:string;
   assistance?:AssistanceFamilyInterface;
   assistanceConfirm:boolean;
+  origen:OrigenType;
   name: string;
   users: string[];
   accessCode:string;
@@ -64,6 +71,7 @@ export const FAMILY_DEFAULT:FamilyInterface ={
   name:'',
   users:[],
   accessCode:'',
+  origen:'novio',
   mesa:0
 }
 

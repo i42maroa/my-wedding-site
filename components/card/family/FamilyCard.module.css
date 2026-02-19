@@ -1,16 +1,17 @@
 .container{
     display: flex;
+    flex-direction: column;
     margin: 0.5rem 0; 
     gap: 0.5rem;
     background-color: var(--gold);
     cursor: pointer;
 }
 .title{
-    display: flex;
-    min-width: 12rem;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 4fr;
     padding: 0.5rem;  
     color: var(--white);  
+    width: 100%;
 }
 
 .detailsContainer{
@@ -27,9 +28,14 @@
     list-style-type: none;
     padding: 0;
     
+    gap: 0.5rem;
     li{
         margin: 0.1rem 0;
     }
+}
+
+.userContainer{
+    display: flex;
 }
 
 @media (max-width: 768px) {
@@ -37,10 +43,10 @@
         flex-direction: column;
     }
     .detailsContainer{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-    gap: 0.5rem;
-}
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+        gap: 0.5rem;
+    }
 }

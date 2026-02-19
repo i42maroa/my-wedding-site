@@ -6,10 +6,11 @@ import styles from "./CreateFamily.module.css";
 import { useCreateFamilyForm } from "@/hooks/useCreateFamilyForm";
 import { useLoadingStatus } from "@/hooks/useIsLoadingStatus";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
+import RadioButton from "@/components/form/radio-button/RadioButton";
 
 export default function AdminCreatePage() {
 
-  const {formData, formErrors, handleInputChange, handleSubmit,
+  const {formData, formErrors, handleInputChange, setFormData, handleSubmit,
       apiError, addUser, handleIntegranteChange } = useCreateFamilyForm();
   const isLoading = useLoadingStatus();
   useApiErrorToast(apiError, "Error al enviar el formulario");
@@ -36,6 +37,22 @@ export default function AdminCreatePage() {
               required
               error={formErrors.mesa}
             />
+           <div className={styles.radioButtonContainer}>
+              <RadioButton
+                name="origen"
+                value={'novio'}
+                label="Parte novio"
+                selectedValue={formData.origen}
+                onChange={() => setFormData({ ...formData, origen: 'novio' })}
+              />
+              <RadioButton
+                name="origen"
+                value={'novia'}
+                label="Parte novia"
+                selectedValue={formData.origen}
+                onChange={() => setFormData({ ...formData, origen: 'novia' })}
+              /> 
+            </div>
           </div>
           
 

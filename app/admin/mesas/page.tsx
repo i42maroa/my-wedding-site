@@ -16,7 +16,6 @@ export default function AdminFamilyListPage() {
             <div className={styles.container}>              
             {            
               filteredFamilies && Array.from(filteredFamilies.entries())
-                .sort(([mesaA],[mesaB]) => mesaA - mesaB)
                 .map(([mesa, families]) => <MesaCard mesa={mesa} key={mesa} families={families}></MesaCard>)
             } 
             </div> 

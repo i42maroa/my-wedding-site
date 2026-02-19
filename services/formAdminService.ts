@@ -10,9 +10,6 @@ export function validateFormAdmin(data: FormDataAdmin): { isValid: boolean; erro
    if (!data.name) {
     errors.nombre = "Selecciona cómo vas a venir.";
   }
-  if (!data.mesa || data.mesa < 0) {
-    errors.mesa = "Numero de mesa obligatorio.";
-  }
 
   if(!data.users || usersClean.length < 1 ){
     errors.users = "Minimo un usuario por familia";

@@ -112,11 +112,12 @@ describe("preloadForm", () => {
       name: "Familia A",
       mesa: 2,
       assistanceConfirm: true,
+      origen:'novio',
       assistance: {
         intolerancia: true,
         detalleIntolerancia: "gluten",
         transporte: "bus",
-        mensaje: "todo ok",
+        mensaje: "todo ok"
       },
     };
 
@@ -129,6 +130,7 @@ describe("preloadForm", () => {
       detallesIntolerancia: "gluten",
       transporte: "bus",
       mensaje: "todo ok",
+      origen:'novio'
     });
   });
 
@@ -141,6 +143,7 @@ describe("preloadForm", () => {
       mesa: 4,
       assistanceConfirm: false,
       assistance: undefined,
+      origen: 'novio'
     };
 
     const result = preloadForm(family);

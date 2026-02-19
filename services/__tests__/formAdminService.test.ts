@@ -16,6 +16,7 @@ vi.mock("../accessCodeService", () => ({
 const baseForm: FormDataAdmin = {
   name: "Familia García",
   mesa: 3,
+  origen:'novio',
   users: ["Ana"],
 };
 
@@ -28,26 +29,6 @@ describe("validateFormAdmin", () => {
 
     expect(isValid).toBe(false);
     expect(errors.nombre).toBeDefined();
-  });
-
-  test("falla si no hay mesa", () => {
-    const { isValid, errors } = validateFormAdmin({
-      ...baseForm,
-      mesa: 0,
-    });
-
-    expect(isValid).toBe(false);
-    expect(errors.mesa).toBe("Numero de mesa obligatorio.");
-  });
-
-  test("falla si el valor de mesa es negativo", () => {
-    const { isValid, errors } = validateFormAdmin({
-      ...baseForm,
-      mesa: -1,
-    });
-
-    expect(isValid).toBe(false);
-    expect(errors.mesa).toBe("Numero de mesa obligatorio.");
   });
 
   test("falla si no hay usuarios válidos", () => {
@@ -74,6 +55,7 @@ describe("submitForm", () => {
     const formData: FormDataAdmin = {
       name: "Familia López",
       mesa: 4,
+      origen:'novio',
       users: ["Ana", "", "Luis"],
     };
 
@@ -93,6 +75,7 @@ describe("submitForm", () => {
       users: ["Ana", "Luis"],
       assistanceConfirm: false,
       accessCode: "AL24",
+      origen:'novio'
     });
 
     expect(result).toBe("family-id-123");

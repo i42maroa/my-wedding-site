@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { useLoadAllFamilies } from "./useLoadAllFamilies";
-import { FamilyInterface } from "@/interfaces/formTypes";
+import { FamilyInterface, OrigenType } from "@/interfaces/formTypes";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import { getAllFamiliesByAssistence } from "@/services/dbService";
+import { sortByStringField } from "@/helper/sortByStringField";
 
 
 export function useFilterFamilies() {
     const {families, loadFamilies, apiError, setApiError} = useLoadAllFamilies();
     const [filteredFamilies, setFilteredFamilies] = useState<FamilyInterface[]>([]);
 
+    
+
     const allFamilies = () => {
         loadFamilies()
-            .then(families => setFilteredFamilies(families));
+            .then(families => {
+                const sortedFamilies = sortByStringField(families, "name", "asc");
+                setFilteredFamilies(sortedFamilies);
+        });
     }
 
 
@@ -19,7 +25,8 @@ export function useFilterFamilies() {
         startLoading();
         getAllFamiliesByAssistence(assistance)
             .then(families => {
-                setFilteredFamilies(families)          
+                const sortedFamilies = sortByStringField(families, "name", "asc");
+                setFilteredFamilies(sortedFamilies);
             })
             .catch(err => setApiError(err))
             .finally(() => stopLoading());
@@ -35,6 +42,11 @@ export function useFilterFamilies() {
         setFilteredFamilies(famWithIntolerancia); 
     }
 
+    const filterFamiliesByOrigin = (origin:OrigenType) =>{
+         const famFromOrigin = families.filter(fam => fam.origen == origin)
+        setFilteredFamilies(famFromOrigin); 
+    }
+
     const clearFilters = () => {
         setFilteredFamilies(families); 
     }
@@ -45,6 +57,7 @@ export function useFilterFamilies() {
         filterByAssistance,
         filterFamiliesByBus,
         filterFamiliesByIntolerancia,
+        filterFamiliesByOrigin,
         clearFilters,
         apiError,
     }
