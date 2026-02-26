@@ -26,7 +26,7 @@ export function useLoadFamiliesByMesas() {
     }
 
     const getNumOfMesa = (family:FamilyInterface) => {
-        return  family!.mesa || family.mesa == 0  ?"Sin mesa": "Mesa" + family.mesa;
+        return  family.mesa === null || family.mesa === undefined || family.mesa == 0  ?"Sin mesa": "Mesa " + family.mesa;
     }
 
     return {

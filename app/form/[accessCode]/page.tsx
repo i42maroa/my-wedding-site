@@ -2,16 +2,16 @@
 
 import styles from "./Form.module.css"
 import FloralLayout from "@/components/layout/floral/FloralLayout";
-import FormTemplateAssistance from "./form-template/FormAsistenceTemplate";
+import FormTemplateAssistance from "../../../components/form-template/FormAsistenceTemplate";
 import { useLoadFamily } from "@/hooks/useLoadFamily";
-import { use, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useMemo } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { showToastAppError, showToastError, showToastSuccess } from "@/services/notificationService";
 
-type FormPageProps = { params: Promise<{ accessCode: string }>};
-export default function RSVPPage({params}:FormPageProps) {
+export default function RSVPPage() {
   
-    const {accessCode} = use(params);
+    const params = useParams<{ accessCode: string }>();
+    const accessCode = useMemo(() => params?.accessCode, [params]);
     const { family, loading, error } = useLoadFamily(accessCode);
     const router = useRouter();
 

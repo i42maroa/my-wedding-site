@@ -11,14 +11,10 @@ export default function MesaCard({mesa, families}:{mesa:string, families:FamilyI
                   <h3 className={styles.title}><span>{mesa}</span> <span>{amountUsersByMesa()}</span></h3>
                   <ul className={styles.familyContainer}>
                     {families.map(family => (
-                      <li className={styles.family} key={family.id}>{family.name} {family.origen == 'novio' ?'🤵':'👰'} {family.assistanceConfirm?'💚':'🚫'}                       
-                            <ul>
-                                {
-                                    family.users.map(user =>
-                                        <li key={user}>{user}</li>
-                                    )
-                                }
-                            </ul>                         
+                      <li className={styles.family} key={family.id}>{family.name} {family.origen == 'novio' ?'🤵':'👰'} {family.assistanceConfirm?'💚':'🚫'}             
+                            <ul>{
+                                    family.users.map(user => <li key={user}>{user}</li>)
+                                }</ul>                         
                       </li>
                     ))}
                   </ul>

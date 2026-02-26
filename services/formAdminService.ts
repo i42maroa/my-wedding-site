@@ -1,5 +1,5 @@
-import { FormDataAdmin, FormErrors } from "@/interfaces/formTypes";
-import { createNewFamily } from "./dbService";
+import { FamilyUpdate, FormDataAdmin, FormErrors } from "@/interfaces/formTypes";
+import { createNewFamily, updateFamily } from "./dbService";
 import { generateAccessCode } from "./accessCodeService";
 
 
@@ -27,6 +27,17 @@ export async function submitForm(formData:FormDataAdmin):Promise<string> {
       accessCode:generateAccessCode(formData)
     };
     return await createNewFamily(formDataClean);
+}
+
+export async function submitEditForm(formData:FormDataAdmin):Promise<string> {
+    const usersClean = cleanUsers(formData.users);
+    const formDataClean:FamilyUpdate = {...formData,
+      users:usersClean,
+      accessCode:generateAccessCode(formData)
+    };
+    //check if id is not null
+    return await updateFamily(formData.id, formDataClean)
+      .then(() => formData.id);
 }
 
 const cleanUsers = (user:string[]): string[] => {

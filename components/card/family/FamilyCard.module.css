@@ -3,8 +3,7 @@
     flex-direction: column;
     margin: 0.5rem 0; 
     gap: 0.5rem;
-    background-color: var(--gold);
-    cursor: pointer;
+    background-color: var(--gold); 
 }
 .title{
     display: grid;
@@ -12,6 +11,7 @@
     padding: 0.5rem;  
     color: var(--white);  
     width: 100%;
+    cursor: pointer;
 }
 
 .detailsContainer{
@@ -36,6 +36,18 @@
 
 .userContainer{
     display: flex;
+}
+
+.buttonEdit{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    width: fit-content;
+    border-radius: 10%;
+}
+.buttonEdit:hover{
+    background-color: var(--gold);
 }
 
 @media (max-width: 768px) {

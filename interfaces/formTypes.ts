@@ -12,6 +12,7 @@ export interface FormDataAsistencia {
 export type OrigenType = 'novio' | 'novia';
 
 export interface FormDataAdmin {
+  id:string;
   name:string;
   mesa:number;
   origen:OrigenType;
@@ -33,6 +34,7 @@ export const FORM_DATA_DEFAULT:FormDataAsistencia = {
   }
 
   export const FORM_DATA_ADMIN_DEFAULT:FormDataAdmin = {
+    id:"",
     name:"",
     mesa:0,
     origen:'novio',
@@ -82,7 +84,15 @@ export interface AssistanceFamilyInterface{
     intolerancia:boolean;
 }
 
-export interface FamilyUpdate{
+export interface FamilyUpdateAssistance{
   assistanceConfirm:boolean;
   assistance:AssistanceFamilyInterface;
+}
+
+export interface FamilyUpdate{
+  origen:OrigenType;
+  name: string;
+  users: string[];
+  accessCode:string;
+  mesa:number;
 }

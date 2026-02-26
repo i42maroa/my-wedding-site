@@ -7,3 +7,7 @@ export const saveItemInLocalStorage = <T> (item:T, id:string) =>{
     const data = JSON.stringify(item);
     localStorage.setItem(id, data);
 }
+
+export const removeLocalStorage =  (id:string) =>{
+    localStorage.removeItem(id);
+}
