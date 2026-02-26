@@ -2,7 +2,6 @@ import { FamilyUpdate, FormDataAdmin, FormErrors } from "@/interfaces/formTypes"
 import { createNewFamily, updateFamily } from "./dbService";
 import { generateAccessCode } from "./accessCodeService";
 
-
 export function validateFormAdmin(data: FormDataAdmin): { isValid: boolean; errors: FormErrors } {
   const errors: FormErrors = {};
   const usersClean = cleanUsers(data.users);
@@ -20,22 +19,23 @@ export function validateFormAdmin(data: FormDataAdmin): { isValid: boolean; erro
 }
 
 export async function submitForm(formData:FormDataAdmin):Promise<string> {
-    const usersClean = cleanUsers(formData.users);
+    const usersClean = cleanUsers(formData.users)
+
     const formDataClean = {...formData,
       assistanceConfirm:false,
       users:usersClean,
-      accessCode:generateAccessCode(formData)
+      code: generateAccessCode()
     };
     return await createNewFamily(formDataClean);
 }
 
 export async function submitEditForm(formData:FormDataAdmin):Promise<string> {
     const usersClean = cleanUsers(formData.users);
-    const formDataClean:FamilyUpdate = {...formData,
-      users:usersClean,
-      accessCode:generateAccessCode(formData)
+    const formDataClean:FamilyUpdate = {
+      ...formData,
+      users:usersClean
     };
-    //check if id is not null
+    
     return await updateFamily(formData.id, formDataClean)
       .then(() => formData.id);
 }

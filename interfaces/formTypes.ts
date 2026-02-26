@@ -93,6 +93,5 @@ export interface FamilyUpdate{
   origen:OrigenType;
   name: string;
   users: string[];
-  accessCode:string;
   mesa:number;
 }

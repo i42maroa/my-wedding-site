@@ -24,7 +24,7 @@ export default function LoginPage() {
                     <h2 className={styles.title}>Introduce tu código de familia</h2>
                       <FormInput
                                 name="accessCode"
-                                placeholder=""
+                                placeholder="XXX-XXX"
                                 value={formData.accessCode}
                                 onChange={handleInputChange}
                                 required
