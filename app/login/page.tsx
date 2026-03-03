@@ -22,15 +22,17 @@ export default function LoginPage() {
             <div className={styles.container}>
                   <form className={styles.formContainer} onSubmit={handleSubmit}>
                     <h2 className={styles.title}>Introduce tu código de familia</h2>
+                    <span className={styles.text}>Se encuentra en la invitación</span>           
+
                       <FormInput
                                 name="accessCode"
-                                placeholder=""
+                                placeholder="XXXX"
                                 value={formData.accessCode}
-                                onChange={handleInputChange}
+                                onChange={(value) => handleInputChange(value, true)}
                                 required
                                 error={formErrors.accessCode}
+                                maxLength={4}
                                 />      
-                       <span className={styles.text}>Se encuentra en la invitación</span>           
                     <FormButton className={styles.button} type="submit" disabled={isLoading}>Enviar</FormButton>
                   </form>                           
             </div>

@@ -1,32 +1,34 @@
 
-import {  FORM_DATA_ADMIN_DEFAULT, FormDataAdmin, FormErrors } from "@/interfaces/formTypes";
+import { FormDataAdmin, FormErrors } from "@/interfaces/formTypes";
 import { useForm, UseFormResult } from "@/hooks/useForm";
-import { submitForm, validateFormAdmin } from "@/services/formAdminService";
-import { showToastSuccess } from "@/services/notificationService";
+import { submitEditForm, submitForm, validateFormAdmin } from "@/services/formAdminService";
 
+export type FormFamilyMode = "create" | "edit";
 
-export type useCreateFamilyForm = UseFormResult<FormDataAdmin, FormErrors> & {
+export type UseFamilyFormResult  = UseFormResult<FormDataAdmin, FormErrors> & {
   addUser: () => void,
   handleIntegranteChange: (index:number, value:string) => void
 };
-export function useCreateFamilyForm(): useCreateFamilyForm {
- 
-  const initialValues =  FORM_DATA_ADMIN_DEFAULT;
+
+export type UseFamilyFormParams = {
+  formMode: FormFamilyMode; 
+  initialData: FormDataAdmin; 
+  onSuccess?: () => void;
+};
+
+export function useFamilyForm({formMode, initialData, onSuccess}: UseFamilyFormParams): UseFamilyFormResult  {
 
   const form = useForm<FormDataAdmin, FormErrors, string>({
-    initialValues,
+    initialValues:initialData,
     validate: validateFormAdmin,
-    submit: (values) => submitForm(values),
-    onSuccess:(newFamilyId)=> {
-        if (newFamilyId) {
-            showToastSuccess("Familia creada correctamente");
-            form.setFormData(FORM_DATA_ADMIN_DEFAULT);
-        }
-      }
+    submit: async (values) => {
+      return formMode === "create" ? submitForm(values) : submitEditForm(values);
+    },
+    onSuccess 
   });
 
   const addUser = () => {
-    !form.formData.users.includes('') && form.setFormData((prev) => ({ ...prev, users: [...form.formData.users, ''] }));
+    !form.formData.users.includes('') && form.setFormData((prev) => ({ ...prev, users: [...prev.users, ''] }));
   }
 
   const handleIntegranteChange = (index:number, value:string) => {

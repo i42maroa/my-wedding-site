@@ -1,4 +1,4 @@
-import { FamilyInterface, FamilyUpdate, FormDataAdmin, FormDataAsistencia } from "@/interfaces/formTypes";
+import { FamilyInterface, FamilyUpdate, FamilyUpdateAssistance, FormDataAdmin, FormDataAsistencia } from "@/interfaces/formTypes";
 import { createDocument, getCollection, getCollectionByFilter, getDocument, getDocumentByField, updateDocument } from "./repositoryFirebase";
 import { mapFirebaseError } from "@/helper/mapFirebaseError";
 
@@ -22,6 +22,10 @@ export async function createNewFamily( data: FormDataAdmin): Promise<string> {
    return handleFirebaseResponse(async () => await createDocument(data))
 }
 
+export async function updateFamily(idFamily:string, familyUpdate: FamilyUpdate): Promise<void> {
+   return handleFirebaseResponse(async () => await updateDocument<FamilyUpdate>(idFamily, familyUpdate))
+}
+
 export async function updateAsistencia(data: FormDataAsistencia, accessCode:string): Promise<void> {
   const assistance = {
         assistanceConfirm:true,
@@ -34,7 +38,7 @@ export async function updateAsistencia(data: FormDataAsistencia, accessCode:stri
       }
   localStorage.removeItem(accessCode);
 
-  return handleFirebaseResponse(async () => await updateDocument<FamilyUpdate>(data.id!, assistance));
+  return handleFirebaseResponse(async () => await updateDocument<FamilyUpdateAssistance>(data.id!, assistance));
 }
 
 async function handleFirebaseResponse<T>(fn: () => Promise<T>): Promise<T> {

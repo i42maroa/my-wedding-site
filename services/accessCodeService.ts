@@ -1,24 +1,14 @@
-import { FormDataAdmin, OrigenType } from "@/interfaces/formTypes";
+const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ346789"; 
+const CODE_LEN = 6;
 
-export const generateAccessCode = (formData:FormDataAdmin) => {
-    if(formData.users && formData.users.length > 0){
-        const firstLetterFamily = formData.name? formData.name.trim()[0] : "";
-        const code = getFirstLetterFromNames(formData.users);
-    
-        if(code == '') return '';
-        return firstLetterFamily + code + formData.users.length + getCodeByOrigin(formData.origen);
-    }
-    return ""; //TODO throw error
+export const generateAccessCode = (len = CODE_LEN) =>{
+  let out = "";
+  for (let i = 0; i < len; i++) {
+    out += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+  }
+  return formatCode(out);
 }
 
-const getFirstLetterFromNames = (names:string[]):string => {
-    return names
-    .map(n => n.trim())
-    .map(n => n.toUpperCase())
-    .map(n => n[0])
-    .join("");
-}
-
-const getCodeByOrigin = (origin:OrigenType):string => {
-    return origin == 'novio' ? "0" : "1";
+const formatCode = (raw: string) =>{
+  return `${raw.slice(0, 3)}-${raw.slice(3, 6)}`;
 }

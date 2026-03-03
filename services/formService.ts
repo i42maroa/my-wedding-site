@@ -22,6 +22,11 @@ export const  validateFormLogin = (data: FormDataLogin): { isValid: boolean; err
     errors.accessCode = "Introduce el codigo de familia";
   }
 
+  if(data.accessCode.length !== 4){
+    errors.accessCode = "Longitud de código errónea";
+  }
+
+
   return { isValid: isValid(errors), errors };
 }
 

@@ -23,7 +23,7 @@ export function useLoginForm(onSuccessDo?: (accessCode:string) => void): UseForm
   const form = useForm<FormDataLogin, FormErrors, FamilyInterface|null>({
     initialValues,
     validate: validateFormLogin,
-    submit: (values) => getFamilyByAccessCode(values.accessCode),
+    submit: (values) => getFamilyByAccessCode(values.accessCode.toUpperCase()),
     onSuccess
   });
 
