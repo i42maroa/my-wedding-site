@@ -5,6 +5,7 @@ import styles from './FamilyCard.module.css'
 import { useState } from 'react';
 import { saveItemInLocalStorage } from '@/services/localStorageService';
 import { useRouter } from 'next/navigation';
+import { showToastError, showToastInfo } from '@/services/notificationService';
 
 export default function FamilyCard({card}:{card:FamilyInterface}) {
   const [showDetails, setShowDetails] = useState(false);
@@ -19,15 +20,26 @@ export default function FamilyCard({card}:{card:FamilyInterface}) {
   }
 
   const writeMessageAcces = (family:FamilyInterface) => {
-    const message = `Hola, queremos invitarte a nuestra boda. 
-      Para ello hemos creado una web y nos gustaría que nos confirmarais si vais a venir.
-      La web es: https://my-wedding-site-phi.vercel.app
+    const message = `
+Hola,
 
-      Vuestro código de familia para confirmar es:
-       ${family.accessCode}
+Nos hace muchísima ilusión invitarte a nuestra boda.
+Queremos compartir este día tan especial contigo y esperamos que puedas acompañarnos.
+
+Hemos preparado una pequeña web con todos los detalles. Allí podrás confirmar tu asistencia:
+
+👉 ${process.env.NEXT_PUBLIC_URL}
+
+Tu código de familia para confirmar es:
+      ${family.accessCode}     
     `;
-
-    console.log(message)
+    
+    try{
+      navigator.clipboard.writeText(message);
+      showToastInfo("copiado en el clipboard")
+    }catch (err: any) {
+      showToastError("No se pudo copiar");
+    }
   }
 
     return (
