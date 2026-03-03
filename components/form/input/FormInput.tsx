@@ -12,10 +12,11 @@ export interface InputInterface {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   required?: boolean;
+  maxLength?:number;
 }
 
 export default function FormInput({name, label, value, placeholder, type = "text", onChange,
-  error, required = false }: InputInterface) {
+  error, required = false, maxLength}: InputInterface) {
   return (
     <div className={styles.container}>
       {label && (
@@ -34,6 +35,7 @@ export default function FormInput({name, label, value, placeholder, type = "text
         onChange={onChange}
         required={required}
         className={`${styles.input} ${error ? styles.errorInput : ""}`}
+        maxLength={maxLength}
       />
       {error && <p className={styles.errorMessage}>{error}</p>}
     </div>

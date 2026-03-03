@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import { AppError } from "@/helper/mapFirebaseError";
+import { sanitize } from "@/helper/sanitizeInput";
 
 export type UseFormResult<FormDataInterface, FormErrorInterface> = {
   formData: FormDataInterface;
@@ -10,7 +11,7 @@ export type UseFormResult<FormDataInterface, FormErrorInterface> = {
   apiError?: AppError;
   isSubmitting: boolean;
   handleInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, sanitize?:boolean
   ) => void;
   setFormData: React.Dispatch<React.SetStateAction<FormDataInterface>>;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
@@ -34,9 +35,9 @@ export function useForm<FormDataInterface, FormErrorInterface, TSubmitResult = u
   const [apiError, setApiError] = useState<AppError>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, sanitizer:boolean = false) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: sanitizer? sanitize(value): value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

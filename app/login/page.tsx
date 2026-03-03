@@ -24,11 +24,12 @@ export default function LoginPage() {
                     <h2 className={styles.title}>Introduce tu código de familia</h2>
                       <FormInput
                                 name="accessCode"
-                                placeholder="XXX-XXX"
+                                placeholder="XXXXX"
                                 value={formData.accessCode}
-                                onChange={handleInputChange}
+                                onChange={(value) => handleInputChange(value, true)}
                                 required
                                 error={formErrors.accessCode}
+                                maxLength={5}
                                 />      
                        <span className={styles.text}>Se encuentra en la invitación</span>           
                     <FormButton className={styles.button} type="submit" disabled={isLoading}>Enviar</FormButton>
