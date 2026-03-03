@@ -18,10 +18,14 @@ export const validateForm = (data: FormDataAsistencia): { isValid: boolean; erro
 export const  validateFormLogin = (data: FormDataLogin): { isValid: boolean; errors: FormErrors } => {
   const errors: FormErrors = {};
 
-  //TODO:check 7 elementos
   if (!data.accessCode) {
     errors.accessCode = "Introduce el codigo de familia";
   }
+
+  if(data.accessCode.length !== 4){
+    errors.accessCode = "Longitud de código errónea";
+  }
+
 
   return { isValid: isValid(errors), errors };
 }

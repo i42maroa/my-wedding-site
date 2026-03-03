@@ -21,7 +21,10 @@ export default function FamilyCard({card}:{card:FamilyInterface}) {
   const writeMessageAcces = (family:FamilyInterface) => {
     const message = `Hola, queremos invitarte a nuestra boda. 
       Para ello hemos creado una web y nos gustaría que nos confirmarais si vais a venir.
-      La web es: https://my-wedding-site-phi.vercel.app/${family.accessCode}
+      La web es: https://my-wedding-site-phi.vercel.app
+
+      Vuestro código de familia para confirmar es:
+       ${family.accessCode}
     `;
 
     console.log(message)
