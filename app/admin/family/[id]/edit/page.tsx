@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import styles from "./AdminEditFamily.module.css";
-import FormFamilyTemplate from "@/components/form-template/FormFamilyTemplate";
+import FormFamilyTemplate from "@/components/form/form-template/FormFamilyTemplate";
 import { FORM_DATA_ADMIN_DEFAULT, FormDataAdmin } from "@/interfaces/formTypes";
 import { showToastError, showToastSuccess } from "@/services/notificationService";
 import { loadItemFromLocalStorage, removeLocalStorage } from "@/services/localStorageService";

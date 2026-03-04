@@ -21,6 +21,7 @@
 
 .title{
   transform: translateY(10px);
+  animation: none;
 }
 
 .stage {

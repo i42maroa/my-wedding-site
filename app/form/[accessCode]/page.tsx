@@ -2,7 +2,7 @@
 
 import styles from "./Form.module.css"
 import FloralLayout from "@/components/layout/floral/FloralLayout";
-import FormTemplateAssistance from "../../../components/form-template/FormAsistenceTemplate";
+import FormTemplateAssistance from "../../../components/form/form-template/FormAsistenceTemplate";
 import { useLoadFamily } from "@/hooks/useLoadFamily";
 import { useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";

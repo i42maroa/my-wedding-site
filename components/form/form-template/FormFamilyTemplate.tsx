@@ -4,9 +4,9 @@ import { useFamilyForm, UseFamilyFormParams } from '@/hooks/useCreateFamilyForm'
 import styles from './FormFamilyTemplate.module.css'
 import { useLoadingStatus } from '@/hooks/useIsLoadingStatus';
 import { useApiErrorToast } from '@/hooks/useApiErrorToast';
-import FormInput from '../form/input/FormInput';
-import RadioButton from '../form/radio-button/RadioButton';
-import FormButton from '../button/FormButton';
+import FormInput from '../input/FormInput';
+import RadioButton from '../radio-button/RadioButton';
+import FormButton from '../../button/FormButton';
 
 
 export default function FormFamilyTemplate({formMode, initialData, onSuccess}: UseFamilyFormParams) {
