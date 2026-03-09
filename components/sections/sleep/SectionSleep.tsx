@@ -11,10 +11,12 @@ export default function SectionSleep() {
   return (
     <section className={styles.container} id="sleep">
         <h2>¿Quieres quedarte a dormir allí?</h2>
-        
+
         <div className={styles.hotelContainer}>
           {HOTELS.map(hotel =><HotelCard card={hotel} key={hotel.title}/>)}
         </div>
+
+        <p>(Pregúntanos y te aconsejamos)</p> 
     </section>
   );
 }

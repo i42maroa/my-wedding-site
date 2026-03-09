@@ -21,17 +21,16 @@ export default function FamilyCard({card}:{card:FamilyInterface}) {
 
   const writeMessageAcces = (family:FamilyInterface) => {
     const message = `
-Hola,
+¡Hola! 👋😊
 
-Nos hace muchísima ilusión invitarte a nuestra boda.
-Queremos compartir este día tan especial contigo y esperamos que puedas acompañarnos.
+Nos hace muchísima ilusión invitarte a nuestra boda 💍✨
+Queremos compartir este día tan especial contigo y esperamos de corazón que puedas acompañarnos 🥰🎉
 
-Hemos preparado una pequeña web con todos los detalles. Allí podrás confirmar tu asistencia:
+Hemos preparado una pequeña web con todos los detalles de la celebración 📅🍾.
+Desde allí también podrás confirmar tu asistencia fácilmente con tú código único: 
 
-👉 ${process.env.NEXT_PUBLIC_URL}
-
-Tu código de familia para confirmar es:
-      ${family.accessCode}     
+👉 ${family.accessCode}
+👉 ${process.env.NEXT_PUBLIC_URL}      
     `;
     
     try{

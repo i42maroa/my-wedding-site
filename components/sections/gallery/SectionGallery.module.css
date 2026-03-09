@@ -4,6 +4,7 @@
   position: relative;
   height: 350vh; /* más alto = más recorrido para el efecto */
   flex-direction: column;
+  margin-bottom: 20rem;
 }
 
 .pinInner {
@@ -65,6 +66,37 @@
   transition: transform 0.1s linear, opacity 0.1s linear;
   position: relative;
 }
+.scrollContainer{
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  margin: auto;
+  display: flex;
+  width: fit-content;
+  font-size: 20px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: transform 0.1s linear, opacity 0.1s linear;
+}
+
+.scrollContainer span{
+  position: relative;
+  opacity: 1;
+  transform: none;
+}
+
+.scrollContainer span::before{
+  content: '';
+  position: absolute;
+  width: 1px;
+  background-color: var(--brown);
+  height: 400px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 35px;
+  opacity: 1;
+}
 
 @media (max-width: 1440px) {
   .pinInner {
@@ -106,6 +138,13 @@
     width: 25rem;
     height: 35rem;
   }
+
+  .scrollContainer{
+    margin: auto;
+    right: 0;
+    left: 0;
+    font-size: 16px;
+}
 }
 
 @media (max-width: 480px) {

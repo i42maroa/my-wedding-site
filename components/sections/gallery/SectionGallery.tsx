@@ -7,6 +7,7 @@ import { lerp, rangeProgress } from "@/helper/mapMovement";
 export default function SectionGallery() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [progress, setProgress] = useState(0); // 0 → inicio sección, 1 → final sección
+   
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -66,6 +67,7 @@ export default function SectionGallery() {
   const p4     = rangeProgress(progress, 0.45, 0.65);
   const pTitle = rangeProgress(progress, 0.65, 0.75);
   const p5     = rangeProgress(progress, 0.65, 0.85);
+  const pScroll = rangeProgress(progress, 0.05, 0.20);
 
   
   // Estilos calculados para cada foto
@@ -100,6 +102,11 @@ export default function SectionGallery() {
     opacity: p5,
     transform: `translate(${lerp(10, 0, p5)}px, ${lerp(-60, 0, p5)}px) rotate(${lerp(8, 3, p5)}deg)`,
   };
+
+  const scrollStyle = {
+  opacity: pScroll,
+  transform: `translateY(${lerp(10, 0, pScroll)}px)`,
+};
 
   return (
     <section ref={sectionRef} className={styles.pinSection} >
@@ -171,7 +178,11 @@ export default function SectionGallery() {
                   </div>
               </div>
           </div>
+          <div className={styles.scrollContainer}  style={scrollStyle}>
+            <span style={scrollStyle}>desliza</span>
+          </div>
       </div>
+      
     </section>
   );
 }
