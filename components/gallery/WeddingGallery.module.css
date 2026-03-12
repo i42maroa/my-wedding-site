@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  gap: 2rem;
+  padding: 0;
+  margin: 2rem 0;
+}
+
+.topRow {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1.4fr 0.8fr;
+  align-items: start;
+}
+
+.albumInfo {
+  background: var(--white);
+  border: 1px solid var(--brown);
+  border-radius: 24px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.albumTitle {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--brown);
+}
+
+.albumDescription {
+  margin: 10px 0 0;
+  color: var(--brown);
+  line-height: 1.6;
+}
+
+.lockedBox {
+  margin-top: 16px;
+  border-radius: 16px;
+  padding: 14px 16px;
+  background: var(--gold);
+  border: 1px solid #ecd79f;
+  color: var(--white);
+}
+
+.placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 240px;
+  border-radius: 24px;
+  background: var(--white);
+  border: 1px solid var(--brown);
+  color: var(--brown);
+  text-align: center;
+  padding: 24px;
+}
+
+@media (max-width: 900px) {
+  .topRow {
+    grid-template-columns: 1fr;
+  }
+}

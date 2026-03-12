@@ -12,6 +12,15 @@
   height: 7vh;
 }
 
+.leftContain{
+  display: flex;
+  gap: 1rem;
+
+  span{
+    margin: auto;
+  }
+}
+
 .logo{
   z-index: 100;
 }
@@ -33,7 +42,7 @@
 
 .navLinks {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .navlink {
@@ -46,8 +55,8 @@
 
 .navlink:hover {
   color: var(--golden);
+  text-decoration: underline;
 }
-
 
 .logo a:focus,
 .logo a:focus-visible,
@@ -55,25 +64,6 @@
 .navlink:focus-visible
 {
   outline: 3px solid var(--gold);
-}
-
-.confirmButton{
-  position: relative;
-  padding: 0.5rem;
-
-  span{
-    color: var(--white);
-  }
-}
-
-.confirmButton::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: var(--green);
-  z-index: -1;
-  transition: transform 0.5s ease-out;
-  transform: scale(1); 
 }
 
 .confirmButton:hover::before{
@@ -116,17 +106,29 @@
 .userEmail{
   font-size: 12px;
   color: #5e5e5e;
+  text-align: center;
+  z-index: 100;
 }
 
+.logoutButton{
+  font-size: 14px;
+  color: var(--green);
+  border: none;
+  background-color: transparent;
+  font-style: inherit;
+  cursor: pointer;
+  padding: 0;
+  margin: auto 0
+}
+
+.logoutButton:hover{
+  text-decoration: underline;
+}
 
 @media (max-width: 768px) {
 
   .navbar{
     padding: 1rem 1rem;
-  }
-
-  .logo a{
-    font-size: 22px;
   }
 
   .navLinks {
@@ -157,9 +159,16 @@
   .navbar a{
       margin: 0 auto;
   }
+
+  .leftContain{
+    width: 100%;
+  }
+  .logoutButton{
+    margin: 0;
+  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) { 
   
   .logo a{
     font-size: 20px;

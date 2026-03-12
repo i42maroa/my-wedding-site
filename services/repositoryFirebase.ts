@@ -1,5 +1,5 @@
 
-import { collection, addDoc, serverTimestamp, doc, updateDoc, query, where, getDocs, DocumentData, getDoc, QueryConstraint } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, updateDoc, query, where, getDocs, DocumentData, getDoc, QueryConstraint, deleteDoc } from "firebase/firestore";
 import { ASISTENCIAS_COLLECTION, db } from "@/firebase/config";
 
 export const createDocument = async <T extends DocumentData>(data: T, collectionName: string = ASISTENCIAS_COLLECTION): Promise<string> => {
@@ -13,6 +13,11 @@ export const updateDocument = async<T> (docId: string, data: T, collectionName:s
   const ref = doc(db, collectionName, docId);
   const dataWithDateChange = {...data, updatedAt: serverTimestamp()}
   await updateDoc(ref, dataWithDateChange);
+};
+
+export const deleteDocument = async (docId: string,collectionName: string): Promise<void> => {
+  const ref = doc(db, collectionName, docId);
+  await deleteDoc(ref);
 };
 
 export const getDocument = async <T extends DocumentData>( docId: string, collectionName: string = ASISTENCIAS_COLLECTION): Promise<T | null> => {

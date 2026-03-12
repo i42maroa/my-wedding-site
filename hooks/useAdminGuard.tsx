@@ -5,6 +5,7 @@ import { auth, googleProvider } from "@/firebase/config";
 import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import { useRouter } from "next/navigation";
+import { showToastSuccess } from "@/services/notificationService";
 
 const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 export function useAdminGuard() {
@@ -36,6 +37,7 @@ export function useAdminGuard() {
   const logout = async () => {
     await auth.signOut();
     router.push("/");
+    showToastSuccess("Sesión cerrada correctamente");
   };
 
   return {isAdmin, userEmail, loginWithGoogle, logout};
