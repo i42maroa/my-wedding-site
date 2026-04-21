@@ -9,6 +9,7 @@ import { useAssistanceForm } from "@/hooks/useAssistanceForm";
 import { useLoadingStatus } from "@/hooks/useIsLoadingStatus";
 import { textConfirmamosOrConfirmo, textSomosOrSoy, userNames } from "@/helper/mapTextByUser";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
+import { showModalByContent } from "@/services/modalService";
 
 export default function FormTemplateAssistance({prechargeFamily, onSuccessSubmit}:
   {prechargeFamily:FamilyInterface, onSuccessSubmit:() => void}) {
@@ -18,8 +19,13 @@ export default function FormTemplateAssistance({prechargeFamily, onSuccessSubmit
   const isLoading = useLoadingStatus(); 
   useApiErrorToast(apiError, "Error al enviar el formulario");
 
+  const showModal = (e: React.FormEvent) =>{
+    e.preventDefault();
+    showModalByContent(formData, names, () => handleSubmit(e))
+  }
+
     return(
-        <form className={styles.formContainer} onSubmit={handleSubmit}>
+        <form className={styles.formContainer} onSubmit={showModal}>
           <div className={styles.formGroup}>
             <p>Hola, {textSomosOrSoy(names)} <span className={styles.names}>{userNames(names)}</span></p> 
             <div className={styles.radioButtonContainer}>

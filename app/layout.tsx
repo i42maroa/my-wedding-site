@@ -4,6 +4,7 @@ import ToastContainer from "@/components/toast/ToastContainer";
 import SpinnerOverlay from "@/components/spinner/SpinnerOverlay";
 import MainLayout from "@/components/layout/main/MainLayout";
 import Footer from "@/components/footer/Footer";
+import ModalContainer from "@/components/modal/ModalContainer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,6 +17,7 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
       <body suppressHydrationWarning>
         <MainLayout>   
           {children}
+          <ModalContainer />
           <ToastContainer />
           <SpinnerOverlay/>
          </MainLayout>      

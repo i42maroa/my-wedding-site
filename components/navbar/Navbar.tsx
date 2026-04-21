@@ -8,6 +8,7 @@ import { useGuestGuard } from "@/hooks/useGuestGuard";
 import { userNames } from "@/helper/mapTextByUser";
 import FormButton from "../button/FormButton";
 import LinkButton from "../button/LinkButton";
+import CloseButton from "../button/base/CloseButton";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -75,7 +76,7 @@ export default function Navbar() {
                 Galería
               </Link>
               <LinkButton href="/form" onClick={closeMenu}>Confirmar asistencia</LinkButton> 
-              {isGuest && <button className={styles.logoutButton} onClick={logoutGuest}>Cerrar sesión</button>}                     
+              {isGuest && <CloseButton  onClick={logoutGuest}>Cerrar sesión</CloseButton>}                     
             </nav>
       }
       {

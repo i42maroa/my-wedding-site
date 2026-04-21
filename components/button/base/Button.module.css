@@ -36,6 +36,23 @@
     margin: auto;
 }
 
+.cancel{
+  background-color: transparent;
+  span{
+    color: var(--green);
+  }
+}
+
+.cancel::before{
+    background-color: transparent;
+  }
+
+.cancel:hover{
+  span{
+    text-decoration: underline;
+  }
+}
+
 @media (max-width: 768px) {
   .container span { font-size: 16px;  }
 }
