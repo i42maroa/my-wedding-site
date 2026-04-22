@@ -11,8 +11,6 @@ import { startLoading, stopLoading } from "@/services/loadingService";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
 import { useGuestGuard } from "@/hooks/useGuestGuard";
 
-//TODO: 
-// Si quieres, en el siguiente paso te enseño cómo hacer que las fotos aparezcan en la galería automáticamente en tiempo real (sin recargar) usando onSnapshot. Para una galería de boda queda bastante espectacular.
 
 export default function WeddingGallery() {
   const [selectedAlbum, setSelectedAlbum] = useState<AlbumInterface>(ALBUMS[0]);
@@ -34,7 +32,7 @@ export default function WeddingGallery() {
   );
 
 
-  const handleUpload = async (files: FileList | null) => {
+  const handleUpload = async (files: File[] | null) => {
     if (!files) return;
 
     startLoading();

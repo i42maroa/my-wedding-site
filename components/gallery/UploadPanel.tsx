@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import styles from "./UploadPanel.module.css";
 import { AlbumInterface } from "@/interfaces/gallery.types";
 import { useLoadingStatus } from "@/hooks/useIsLoadingStatus";
@@ -9,31 +9,79 @@ import BaseButton from "../button/base/BaseButton";
 
 interface UploadPanelProps {
   album: AlbumInterface;
-  onUpload: (files: FileList | null) => Promise<void>;
+  onUpload: (files: File[] | null) => Promise<void>;
+}
+
+interface PreviewFile {
+  file: File;
+  previewUrl: string;
 }
 
 export default function UploadPanel({ album, onUpload }: UploadPanelProps) {
 
-  const [files, setFiles] = useState<FileList | null>();
+  const [files, setFiles] = useState<PreviewFile[]>([]);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const isLoading = useLoadingStatus(); 
 
   const disabled = !album.isUnlocked || !album.guestUploadsEnabled || isLoading;
-  const selectedCount = files?.length ?? 0;
+  const selectedCount = files.length;
 
-  const loadImages = (event:any) => {
+  const clearFiles = () => {
+      files.forEach((item) => URL.revokeObjectURL(item.previewUrl));
+      setFiles([]);
+
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+    };
+
+  const loadImages = (event: ChangeEvent<HTMLInputElement>) => {
     const targetFiles = event.target.files;
-    if(targetFiles?.length > 0){
-      if(targetFiles?.length <= album.maxUploadsPerFamily){
-        setFiles(targetFiles);
-      }
-      else{
-        showToastError(`Solamente puedes subir un máximo de ${album.maxUploadsPerFamily} imagenes a la vez`)
-      }
-    }
-  }
+    if (!targetFiles || targetFiles.length === 0) return;
+    if (targetFiles.length > album.maxUploadsPerFamily) {
+      showToastError(
+        `Solamente puedes subir un máximo de ${album.maxUploadsPerFamily} imágenes a la vez`
+      );
 
-  const uploadImages = () => files && onUpload(files).then(() => setFiles(null));            
-  const cancel = () => setFiles(null);            
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+      return;
+    }
+
+    clearFiles();
+
+    const nextFiles: PreviewFile[] = Array.from(targetFiles).map((file) => ({
+      file,
+      previewUrl: URL.createObjectURL(file),
+    }));
+
+    setFiles(nextFiles);
+  };
+
+  const uploadImages = async () => {
+      if (!files.length) return;
+
+      await onUpload(files.map((item) => item.file));
+      clearFiles();
+    };          
+
+    useEffect(() => {
+    return () => {
+      files.forEach((item) => URL.revokeObjectURL(item.previewUrl));
+    };
+  }, [files]);
+
+  const removeFile = (index: number) => {
+  setFiles((prev) => {
+    const fileToRemove = prev[index];
+
+    // importante: liberar memoria
+    URL.revokeObjectURL(fileToRemove.previewUrl);
+
+    return prev.filter((_, i) => i !== index);
+  });
+};
 
   return (
     <aside className={styles.panel}>
@@ -51,19 +99,44 @@ export default function UploadPanel({ album, onUpload }: UploadPanelProps) {
         />
       </label>
 
-        {!disabled && selectedCount > 0 ? 
+        {!disabled && selectedCount > 0 && (
         <>
           <p>{selectedCount} archivo(s) seleccionado(s).</p>
-          <ul>
-            {files && Array.from(files).map((f) =><li key={f.name}>
-              {f.name}
-            </li>)}
-          </ul>
+
+          <div className={styles.previewGrid}>
+            {files.map((item, index) => (
+              <div
+                key={`${item.file.name}-${item.file.lastModified}`}
+                className={styles.previewCard}
+              >
+                <button
+                  type="button"
+                  className={styles.removeButton}
+                  onClick={(e) => {
+                    e.stopPropagation(); // evita comportamientos raros
+                    removeFile(index);
+                  }}
+                >
+                  ×
+                </button>
+
+                <img
+                  src={item.previewUrl}
+                  alt={item.file.name}
+                  className={styles.previewImage}
+                />
+
+                <p className={styles.previewName}>{item.file.name}</p>
+              </div>
+            ))}
+          </div>
+
           <div className={styles.buttonContainer}>
-            <BaseButton onClick={cancel}>Cancelar</BaseButton>
+            <BaseButton onClick={clearFiles}>Cancelar</BaseButton>
             <BaseButton onClick={uploadImages}>Subir</BaseButton>
           </div>
-        </>: <></>}         
+        </>
+      )}      
     </aside>
   );
 }
