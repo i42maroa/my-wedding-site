@@ -40,3 +40,52 @@
     color: var(--brown);
     text-decoration: underline;
 }
+
+.tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.word {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  fill: var(--brown);
+}
+
+.tooltipbox {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  background-color: var(--brown);
+  color: var(--white);
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+
+  z-index: 10;
+}
+
+.tooltip:hover .tooltipbox {
+  opacity: 1;
+  visibility: visible;
+}

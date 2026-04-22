@@ -10,6 +10,7 @@ import { useLoadingStatus } from "@/hooks/useIsLoadingStatus";
 import { textConfirmamosOrConfirmo, textSomosOrSoy, userNames } from "@/helper/mapTextByUser";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
 import { showModalByContent } from "@/services/modalService";
+import SvgInterrogation from "@/components/svg/SvgInterrogation/SvgInterrogation";
 
 export default function FormTemplateAssistance({prechargeFamily, onSuccessSubmit}:
   {prechargeFamily:FamilyInterface, onSuccessSubmit:() => void}) {
@@ -27,7 +28,19 @@ export default function FormTemplateAssistance({prechargeFamily, onSuccessSubmit
     return(
         <form className={styles.formContainer} onSubmit={showModal}>
           <div className={styles.formGroup}>
-            <p>Hola, {textSomosOrSoy(names)} <span className={styles.names}>{userNames(names)}</span></p> 
+            <p>Hola, {textSomosOrSoy(names)} 
+                     
+              <span className={styles.tooltip}>
+                <span className={styles.trigger}>
+                  <span className={styles.names}>{userNames(names)}</span>  
+                  <SvgInterrogation className={styles.icon}></SvgInterrogation>
+                </span>
+
+                <span className={styles.tooltipbox}>
+                Contáctanos si no es tu nombre
+                </span>
+              </span>
+            </p> 
             <div className={styles.radioButtonContainer}>
               <RadioButton
                   name="assistanceConfirm"
