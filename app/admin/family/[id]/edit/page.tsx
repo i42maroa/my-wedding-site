@@ -24,7 +24,6 @@ export default function AdminEditFamilyPage() {
               const initialValues: FormDataAdmin = {
                 ...FORM_DATA_ADMIN_DEFAULT,
                 ...data,
-                id,
                 users: data?.users ?? FORM_DATA_ADMIN_DEFAULT.users,
             };
 
@@ -42,7 +41,7 @@ export default function AdminEditFamilyPage() {
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Editar familia</h1>
-            {initialData && <FormFamilyTemplate formMode="edit" initialData={initialData} onSuccess={onSuccess} />}
+            {initialData && <FormFamilyTemplate formMode="edit" initialData={initialData} familyId={id} onSuccess={onSuccess} />}
         </div>
     );
 }

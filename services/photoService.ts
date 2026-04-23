@@ -1,4 +1,4 @@
-import { serverTimestamp } from "firebase/firestore";
+import { DocumentData, QueryDocumentSnapshot, serverTimestamp } from "firebase/firestore";
 import {
   getDownloadURL,
   ref,
@@ -6,7 +6,7 @@ import {
 } from "firebase/storage";
 import imageCompression from "browser-image-compression";
 import { storage } from "@/firebase/config";
-import { createDocument, getCollectionByFilter } from "./repositoryFirebase";
+import { createDocument, getCollectionByFilter, getCollectionPageByFilter, PageableInterface } from "./repositoryFirebase";
 import {  handleFirebaseResponse } from "./dbService";
 import { AlbumInterface, AlbumType, ALLOWED_MIME_TYPES, PhotoEntity, PhotoInterface } from "@/interfaces/gallery.types";
 import { getGuestSessionSnapshot } from "./guestSessionBus";
@@ -14,8 +14,8 @@ import { getGuestSessionSnapshot } from "./guestSessionBus";
 const PHOTOS_COLLECTION = "photos";
 export const MAX_PHOTOS_TO_UPLOAD = 5;
 
-export async function getPhotosByAlbum(albumId: AlbumType): Promise<PhotoEntity[]> {
-  return handleFirebaseResponse(async () => await getCollectionByFilter<PhotoEntity,"albumType">("albumType", albumId, PHOTOS_COLLECTION));
+export async function getPhotosPageByAlbum(albumId: AlbumType, pageSize: number, lastDoc?: QueryDocumentSnapshot<DocumentData> | null): Promise<PageableInterface<PhotoEntity>> {
+  return handleFirebaseResponse(async () => await getCollectionPageByFilter<PhotoEntity,"albumType">("albumType", albumId, PHOTOS_COLLECTION, pageSize, lastDoc));
 }
 
 export async function getPhotosByFamilyId(familyId:string): Promise<PhotoEntity[]> {
@@ -49,7 +49,7 @@ async function compressImage(file: File): Promise<File> {
   });
 }
 
-export async function uploadPhotos(album: AlbumInterface,files: FileList | File[]): Promise<string[]> {
+export async function uploadPhotos(album: AlbumInterface,files: FileList | File[]): Promise<PhotoEntity[]> {
   const session = getGuestSessionSnapshot();
 
   if (!session?.familyId) {
@@ -85,9 +85,9 @@ export async function uploadPhotos(album: AlbumInterface,files: FileList | File[
         .then(snapshot => getDownloadURL(snapshot.ref))
         .then(displayUrl => newPhoto(album.id, session.familyId, displayUrl))
         .then(photo =>{
-          return handleFirebaseResponse(() =>
-            createDocument(photo, PHOTOS_COLLECTION)
-          )}
+          return handleFirebaseResponse(() => createDocument(photo, PHOTOS_COLLECTION))
+          .then(id => { return { ...photo, id} as PhotoEntity});
+        }
         )
     )
   );

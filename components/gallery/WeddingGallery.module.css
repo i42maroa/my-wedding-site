@@ -33,7 +33,7 @@
 }
 
 .amountPhotos {
-  margin: 0.7rem 0 0.5rem 0;
+  margin: 2rem 0 0.5rem 0;
   color: var(--brown);
   line-height: 1.6;
   text-align: center;
@@ -59,6 +59,10 @@
   color: var(--brown);
   text-align: center;
   padding: 24px;
+}
+
+.loadMoreButton{
+  margin: auto;
 }
 
 @media (max-width: 900px) {
