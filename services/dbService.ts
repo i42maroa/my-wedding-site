@@ -1,5 +1,5 @@
 import { FamilyInterface, FamilyUpdate, FamilyUpdateAssistance, FormDataAdmin, FormDataAsistencia } from "@/interfaces/formTypes";
-import { createDocument, getCollection, getCollectionPageByFilter, getDocument, getDocumentByField, updateDocument } from "./repositoryFirebase";
+import { createDocument, getCollection, getCollectionByFilter, getDocument, getDocumentByField, updateDocument } from "./repositoryFirebase";
 import { mapFirebaseError } from "@/helper/mapFirebaseError";
 
 export const getFamilyById = async (id: string): Promise<FamilyInterface | null> => {
@@ -15,7 +15,7 @@ export const getAllFamilies = async ():Promise<FamilyInterface[]> =>{
 }
 
 export const getAllFamiliesByAssistence = async (assist:boolean):Promise<FamilyInterface[]> =>{
-  return handleFirebaseResponse(async () => getCollectionPageByFilter<FamilyInterface,"assistanceConfirm">("assistanceConfirm", assist));
+  return handleFirebaseResponse(async () => getCollectionByFilter<FamilyInterface,"assistanceConfirm">("assistanceConfirm", assist));
 }
 
 export async function createNewFamily( data: FormDataAdmin): Promise<string> {
