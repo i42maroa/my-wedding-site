@@ -1,0 +1,8 @@
+.modalContainer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: auto;
+  align-items: center;
+  z-index: 9999;
+}

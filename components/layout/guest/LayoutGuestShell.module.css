@@ -1,3 +1,11 @@
+.container {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
 .formContainer{
     background-color: var(--white);
     display: flex;

@@ -4,13 +4,18 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
 import { useAdminGuard } from "@/hooks/useAdminGuard";
-import BaseButton from "../button/base/BaseButton";
+import { useGuestGuard } from "@/hooks/useGuestGuard";
+import { userNames } from "@/helper/mapTextByUser";
+import FormButton from "../button/FormButton";
+import LinkButton from "../button/LinkButton";
+import CloseButton from "../button/base/CloseButton";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const closeMenu = () => setMenuOpen(false);
-  const {  isAdmin, logout, userEmail } = useAdminGuard();
+  const { isAdmin, logout, userEmail } = useAdminGuard();
+  const { isGuest, session, logoutGuest } = useGuestGuard();
 
   useEffect(() => {
     if (menuOpen && window.innerWidth <= 768) {
@@ -22,18 +27,30 @@ export default function Navbar() {
   }, [menuOpen]);
 
   return (
-    <header className={styles.navbar}>
+    <header className={`${styles.navbar}`}>
       
       {    
-        !isAdmin && <div className={styles.logo}>
+        !isAdmin && !isGuest && <div className={styles.logo}>
             <Link href="/" onClick={closeMenu}>
               <span>Antonio & Sheila</span>
             </Link>
         </div>
       }
       {    
+        isGuest && <div className={styles.leftContain}> 
+          <div className={styles.logo}>
+              <Link href="/" onClick={closeMenu}>
+                <span>A&S</span>
+              </Link>
+          </div>
+          <span className={styles.userEmail}>{session?.familyName} - {userNames(session?session.users:[])}</span>
+          
+        </div>
+      }
+      {    
         isAdmin && <span className={styles.userEmail}>admin: {userEmail}</span>
       }
+
 
       <button
         className={`${styles.hamburgerButton} ${menuOpen ? styles.open : ""}`}
@@ -55,9 +72,11 @@ export default function Navbar() {
               <Link className={styles.navlink} href="/#question" onClick={closeMenu}>
                 Preguntas
               </Link>
-              <Link href="/login" onClick={closeMenu} className={`${styles.navlink} ${styles.confirmButton}`} prefetch={false}>
-                <span>Confirmar asistencia</span>
+              <Link className={styles.navlink} href="/galeria" onClick={closeMenu}>
+                Galería
               </Link>
+              <LinkButton href="/form" onClick={closeMenu}>Confirmar asistencia</LinkButton> 
+              {isGuest && <CloseButton  onClick={logoutGuest}>Cerrar sesión</CloseButton>}                     
             </nav>
       }
       {
@@ -72,9 +91,10 @@ export default function Navbar() {
               <Link className={styles.navlink} href="/admin/mesas" onClick={closeMenu}>
                 Ver mesas
               </Link>  
-              <BaseButton onClick={logout}>Salir</BaseButton>
+              <FormButton onClick={logout}>Salir</FormButton>
             </nav>       
       }   
+    
     </header>
   );
 }

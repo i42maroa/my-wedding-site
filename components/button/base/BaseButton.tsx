@@ -1,7 +1,7 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, ElementType, ReactNode } from "react";
 import styles from "./Button.module.css";
 
-interface BaseButtonProps {
+export interface BaseButtonProps {
   /** Tipo de elemento que se renderiza (button, a, Link...) */
   as?: ElementType;
   /** Href para enlaces */
@@ -15,10 +15,11 @@ interface BaseButtonProps {
   /** Clase extra opcional */
   className?: string;
   disabled?: boolean;
+  cancelType?:boolean;
 }
 
 export default function BaseButton({ as: Component = "button", href, onClick, type = "button", children,
-  className = "", disabled = false,...props} : BaseButtonProps & (ButtonHTMLAttributes<HTMLButtonElement> | AnchorHTMLAttributes<HTMLAnchorElement>)) {
+  className = "", disabled = false, cancelType = false, ...props} : BaseButtonProps & (ButtonHTMLAttributes<HTMLButtonElement> | AnchorHTMLAttributes<HTMLAnchorElement>)) {
   
     const classNames = `${styles.container} ${className}`;
   return (

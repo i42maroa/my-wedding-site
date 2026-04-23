@@ -24,20 +24,20 @@ export async function submitForm(formData:FormDataAdmin):Promise<string> {
     const formDataClean = {...formData,
       assistanceConfirm:false,
       users:usersClean,
-      code: generateAccessCode()
+      accessCode: generateAccessCode()
     };
     return await createNewFamily(formDataClean);
 }
 
-export async function submitEditForm(formData:FormDataAdmin):Promise<string> {
+export async function submitEditForm(familyId:string, formData:FormDataAdmin):Promise<string> {
     const usersClean = cleanUsers(formData.users);
     const formDataClean:FamilyUpdate = {
       ...formData,
       users:usersClean
     };
     
-    return await updateFamily(formData.id, formDataClean)
-      .then(() => formData.id);
+    return await updateFamily(familyId, formDataClean)
+      .then(() => familyId);
 }
 
 const cleanUsers = (user:string[]): string[] => {

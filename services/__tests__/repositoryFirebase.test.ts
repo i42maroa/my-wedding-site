@@ -4,7 +4,7 @@ import {
   updateDocument,
   getDocument,
   getCollection,
-  getCollectionByFilter,
+  getCollectionPageByFilter,
   getDocumentByField
 } from "../repositoryFirebase";
 import { ASISTENCIAS_COLLECTION } from "@/firebase/config";
@@ -218,7 +218,7 @@ describe("repositoryFirebase", () => {
     mockedQuery.mockReturnValue(mockQuery);
     mockedGetDocs.mockResolvedValue(mockQuerySnapshot);
 
-      const result = await getCollectionByFilter<FamilyInterface,"assistanceConfirm">
+      const result = await getCollectionPageByFilter<FamilyInterface,"assistanceConfirm">
         ("assistanceConfirm", true);
 
       expect(where).toHaveBeenCalledWith("assistanceConfirm", "==", true);
@@ -239,7 +239,7 @@ describe("repositoryFirebase", () => {
     mockedQuery.mockReturnValue(mockQuery);
     mockedGetDocs.mockResolvedValue(mockQuerySnapshot);
 
-      const result = await getCollectionByFilter<FamilyInterface,"assistanceConfirm">("assistanceConfirm", true);
+      const result = await getCollectionPageByFilter<FamilyInterface,"assistanceConfirm">("assistanceConfirm", true);
 
       expect(where).toHaveBeenCalledWith("assistanceConfirm", "==", true);
       expect(query).toHaveBeenCalledWith(expect.anything(), mockQueryConstraint);

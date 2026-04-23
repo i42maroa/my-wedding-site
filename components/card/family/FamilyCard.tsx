@@ -29,8 +29,10 @@ Queremos compartir este día tan especial contigo y esperamos de corazón que pu
 Hemos preparado una pequeña web con todos los detalles de la celebración 📅🍾.
 Desde allí también podrás confirmar tu asistencia fácilmente con tú código único: 
 
-👉 ${family.accessCode}
-👉 ${process.env.NEXT_PUBLIC_URL}      
+👉 ${family.accessCode}  
+👉 ${process.env.NEXT_PUBLIC_URL}    
+
+Confirmanos en ${process.env.NEXT_PUBLIC_URL}/form    
     `;
     
     try{
@@ -40,7 +42,7 @@ Desde allí también podrás confirmar tu asistencia fácilmente con tú código
       showToastError("No se pudo copiar");
     }
   }
-
+  
     return (
       <div className={styles.container} >
         

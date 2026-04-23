@@ -2,31 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { FamilyInterface } from "@/interfaces/formTypes";
-import { getFamilyByAccessCode } from "@/services/dbService";
-import { loadItemFromLocalStorage } from "@/services/localStorageService";
+import {  getFamilyById } from "@/services/dbService";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import { AppError } from "@/helper/mapFirebaseError";
 
-export function useLoadFamily(accessCode: string) {
+export function useLoadFamily(familyId: string) {
   const [family, setFamily] = useState<FamilyInterface | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<AppError>();
 
   useEffect(() => {
     const loadFamilyData = async () => {
-     
-      const dataFromLocalStorage =
-        loadItemFromLocalStorage<FamilyInterface>(accessCode);
-
-      if (dataFromLocalStorage) {
-        setFamily(dataFromLocalStorage);
-        setLoading(false);
-        return;
-      }  
       
       startLoading();
+      setLoading(true)
 
-      await getFamilyByAccessCode(accessCode)
+      await getFamilyById(familyId)
         .then(familyFromDB => setFamily(familyFromDB))
         .catch((err:AppError) => {
           setError(err);
@@ -39,7 +30,7 @@ export function useLoadFamily(accessCode: string) {
     };
 
     loadFamilyData();
-  }, [accessCode]);
+  }, [familyId]);
 
   return { family, loading, error };
 }

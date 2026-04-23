@@ -8,11 +8,10 @@ import FormInput from '../input/FormInput';
 import RadioButton from '../radio-button/RadioButton';
 import FormButton from '../../button/FormButton';
 
-
-export default function FormFamilyTemplate({formMode, initialData, onSuccess}: UseFamilyFormParams) {
+export default function FormFamilyTemplate({formMode, initialData, familyId, onSuccess}: UseFamilyFormParams) {
 
     const {formData, formErrors, handleInputChange, setFormData, handleSubmit,
-          apiError, addUser, handleIntegranteChange } = useFamilyForm({formMode, initialData, onSuccess});
+          apiError, addUser, handleIntegranteChange } = useFamilyForm({formMode, initialData, familyId, onSuccess});
 
     const isLoading = useLoadingStatus();
     useApiErrorToast(apiError, "Error al enviar el formulario");

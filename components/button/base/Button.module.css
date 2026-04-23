@@ -1,11 +1,10 @@
 .container{
-    padding: 0.3rem;
     display: flex;
-    width: fit-content;
     cursor: pointer;
     border: none;
     position: relative;
     background-color: var(--green);
+    padding: 0.5rem 0.75rem;
 }
 
 .container:focus{
@@ -27,22 +26,37 @@
 }
 
 .container span{
-    padding: 0.5rem 1rem;
     font-family: 'Cardo', serif;
-    font-size: 0.9rem;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 10px 20px;
     border: none;
-    border-radius: 6px;
-    cursor: pointer;
     color: var(--white);
+    text-align: center;
+    margin: auto;
+}
+
+.cancel{
+  background-color: transparent;
+  span{
+    color: var(--green);
+  }
+}
+
+.cancel::before{
+    background-color: transparent;
+  }
+
+.cancel:hover{
+  span{
+    text-decoration: underline;
+  }
 }
 
 @media (max-width: 768px) {
-  .container span { font-size: 0.85rem; padding: 8px 16px; }
+  .container span { font-size: 16px;  }
 }
 
 @media (max-width: 480px) {
-  .container span { font-size: 0.65rem; padding: 6px 14px; }
+  .container span { font-size: 0.65rem; }
 }

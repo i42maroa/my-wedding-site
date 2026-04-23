@@ -41,7 +41,7 @@ export async function updateAsistencia(data: FormDataAsistencia, accessCode:stri
   return handleFirebaseResponse(async () => await updateDocument<FamilyUpdateAssistance>(data.id!, assistance));
 }
 
-async function handleFirebaseResponse<T>(fn: () => Promise<T>): Promise<T> {
+export async function handleFirebaseResponse<T>(fn: () => Promise<T>): Promise<T> {
   try {
     return await fn();
   } catch (err) {

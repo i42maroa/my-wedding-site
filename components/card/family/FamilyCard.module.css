@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     margin: 0.5rem 0; 
-    gap: 0.5rem;
     background-color: var(--gold); 
 }
 .title{
@@ -12,6 +11,7 @@
     color: var(--white);  
     width: 100%;
     cursor: pointer;
+    gap: 0.5rem;
 }
 
 .detailsContainer{
@@ -27,6 +27,7 @@
     min-width: 10rem;
     list-style-type: none;
     padding: 0;
+    flex-wrap: wrap;
     
     gap: 0.5rem;
     li{

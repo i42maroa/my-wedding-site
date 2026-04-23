@@ -12,19 +12,22 @@ export type UseFamilyFormResult  = UseFormResult<FormDataAdmin, FormErrors> & {
 
 export type UseFamilyFormParams = {
   formMode: FormFamilyMode; 
+  familyId:string;
   initialData: FormDataAdmin; 
   onSuccess?: () => void;
 };
 
-export function useFamilyForm({formMode, initialData, onSuccess}: UseFamilyFormParams): UseFamilyFormResult  {
-
+export function useFamilyForm({formMode, initialData, familyId, onSuccess}: UseFamilyFormParams): UseFamilyFormResult  {
   const form = useForm<FormDataAdmin, FormErrors, string>({
     initialValues:initialData,
     validate: validateFormAdmin,
     submit: async (values) => {
-      return formMode === "create" ? submitForm(values) : submitEditForm(values);
+      return formMode === "create" ? submitForm(values) : submitEditForm(familyId, values);
     },
-    onSuccess 
+    onSuccess: () => {
+      form.setFormData(initialData);
+      onSuccess!()
+    } 
   });
 
   const addUser = () => {

@@ -1,0 +1,22 @@
+.card {
+  overflow: hidden;
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid rgba(107, 91, 77, 0.14);
+  box-shadow: 0 12px 30px rgba(45, 36, 29, 0.08);
+}
+
+.imageWrap {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: #efe6dc;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.footer {
+  padding: 10px;
+  border-top: 1px solid rgba(107, 91, 77, 0.08);
+}

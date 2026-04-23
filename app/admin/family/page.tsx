@@ -3,13 +3,22 @@
 import styles from "./AdminFamily.module.css";
 import BaseButton from "@/components/button/base/BaseButton";
 import FamilyCard from "@/components/card/family/FamilyCard";
+import FormInput from "@/components/form/input/FormInput";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
 import { useFilterFamilies } from "@/hooks/useFilterFamilies";
+import { useState } from "react";
 
 export default function AdminFamilyListPage() {
   const {filteredFamilies, allFamilies, apiError, filterByAssistance,
-        filterFamiliesByBus,filterFamiliesByIntolerancia, filterFamiliesByOrigin, clearFilters} = useFilterFamilies();
+        filterFamiliesByBus,filterFamiliesByIntolerancia, filterFamiliesByOrigin, filterByInput, clearFilters} = useFilterFamilies();
   useApiErrorToast(apiError, "Error al cargar las familias");
+  const [filteredName, setFilteredName] = useState("");
+
+  const setFiltered = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
+     const { value } = e.target;
+    setFilteredName(value);
+    filterByInput(value);
+  }
 
   return (
       <div className={styles.container}>
@@ -27,6 +36,8 @@ export default function AdminFamilyListPage() {
             <BaseButton onClick={() => clearFilters()}>Clear</BaseButton>
           </div>
            
+
+           <FormInput name={""} onChange={setFiltered} value={filteredName} placeholder="Filtra por nombre"></FormInput>
         {
             filteredFamilies.length > 0 && 
             <div className={styles.familyContainer}>
@@ -36,7 +47,8 @@ export default function AdminFamilyListPage() {
             </div>            
         }
         {
-            filteredFamilies.length == 0 && <div className={styles.noFamilyContainer}>
+            filteredFamilies.length == 0 && 
+            <div className={styles.noFamilyContainer}>
                 <span>No hay familias</span>
             </div>
         } 

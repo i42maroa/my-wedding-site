@@ -12,7 +12,7 @@ import {
   getDocument,
   getDocumentByField,
   getCollection,
-  getCollectionByFilter,
+  getCollectionPageByFilter,
   createDocument,
   updateDocument,
 } from "../repositoryFirebase";
@@ -81,11 +81,11 @@ describe("localStorageService", () => {
 
     test("getAllFamiliesByAssistence filtra por asistencia", async () => {
         const confirmedFamily:FamilyInterface[] = [{...MOCKED_FAMILY, assistanceConfirm:true}]
-        vi.mocked(getCollectionByFilter).mockResolvedValue(confirmedFamily);
+        vi.mocked(getCollectionPageByFilter).mockResolvedValue(confirmedFamily);
 
         const result = await getAllFamiliesByAssistence(true);
 
-        expect(getCollectionByFilter).toHaveBeenCalledWith("assistanceConfirm", true);
+        expect(getCollectionPageByFilter).toHaveBeenCalledWith("assistanceConfirm", true);
         expect(result).toEqual(confirmedFamily);
     });
 
