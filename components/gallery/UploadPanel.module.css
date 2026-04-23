@@ -4,11 +4,15 @@
   border-radius: 24px;
   padding: 24px;
   backdrop-filter: blur(10px);
+  
+  h2{
+    margin: 0;
+  }
 }
 
 .text {
   margin: 10px 0 0;
-  color: #5b5148;
+  color: var(--brown);
   line-height: 1.6;
 }
 
@@ -19,7 +23,6 @@
   margin-top: 18px;
   padding: 12px 16px;
   min-height: 48px;
-  border-radius: 14px;
   border: 1px solid var(--green);
   background: var(--green);
   color: var(--white);
@@ -82,8 +85,8 @@
   border: none;
   border-radius: 50%;
 
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
+  background: var(--green);
+  color: var(--white);
 
   font-size: 16px;
   line-height: 1;

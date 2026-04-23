@@ -25,13 +25,16 @@
 
 .active {
   background: var(--brown);
-  color: #fff;
+  color: var(--white);
   border-color: var(--brown);
 }
 
 .badge {
   font-size: 0.8rem;
   opacity: 0.8;
+  margin: 0;
+  padding: 0;
+  text-align: end;
 }
 
 

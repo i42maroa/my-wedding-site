@@ -39,7 +39,7 @@ export const ALBUMS:AlbumInterface[] = [
   {
     id:'preboda',
     name:'Preboda',
-    description:'Queremos que compartáis fotografías con nosostros o',
+    description:'Nos encantaría que compartáis con nosotros recuerdos y momentos especiales. Podéis subir fotos que os parezcan divertidas o que os hagan pensar en nosotros.',
     isVisible:true,
     isUnlocked:true,
     guestUploadsEnabled:true,

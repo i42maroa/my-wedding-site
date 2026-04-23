@@ -9,17 +9,17 @@ import { storage } from "@/firebase/config";
 import { createDocument, getCollectionByFilter } from "./repositoryFirebase";
 import {  handleFirebaseResponse } from "./dbService";
 import { AlbumInterface, AlbumType, ALLOWED_MIME_TYPES, PhotoEntity, PhotoInterface } from "@/interfaces/gallery.types";
-import { showToastSuccess } from "./notificationService";
 import { getGuestSessionSnapshot } from "./guestSessionBus";
 
 const PHOTOS_COLLECTION = "photos";
+export const MAX_PHOTOS_TO_UPLOAD = 5;
 
 export async function getPhotosByAlbum(albumId: AlbumType): Promise<PhotoEntity[]> {
-  const session = getGuestSessionSnapshot();
-  if (!session) {
-    return Promise.reject(new Error("No hay sesión de invitado activa"));
-  }
   return handleFirebaseResponse(async () => await getCollectionByFilter<PhotoEntity,"albumType">("albumType", albumId, PHOTOS_COLLECTION));
+}
+
+export async function getPhotosByFamilyId(familyId:string): Promise<PhotoEntity[]> {
+  return handleFirebaseResponse(async () => await getCollectionByFilter<PhotoEntity, "familyId">("familyId", familyId, PHOTOS_COLLECTION));
 }
 
 export function validateFilesBeforeUpload(files: FileList | File[]): void {
@@ -49,7 +49,7 @@ async function compressImage(file: File): Promise<File> {
   });
 }
 
-export async function uploadPhotos(album: AlbumInterface,files: FileList | File[]): Promise<void> {
+export async function uploadPhotos(album: AlbumInterface,files: FileList | File[]): Promise<string[]> {
   const session = getGuestSessionSnapshot();
 
   if (!session?.familyId) {
@@ -63,7 +63,12 @@ export async function uploadPhotos(album: AlbumInterface,files: FileList | File[
   const fileList = Array.from(files);
   validateFilesBeforeUpload(fileList);
 
-  //TODO: LIMIT DE FOTOS POR USUARIO
+  const photos = await getPhotosByFamilyId(session.familyId)
+          .then(photo => photo.filter(p => p.albumType == album.id));
+
+  if(photos.length >= MAX_PHOTOS_TO_UPLOAD){
+     throw new Error("Has alcanzado el máximo de fotos para subir en este album.");
+  }
 
   return Promise.all(
     fileList.map(file =>
@@ -80,21 +85,13 @@ export async function uploadPhotos(album: AlbumInterface,files: FileList | File[
         .then(snapshot => getDownloadURL(snapshot.ref))
         .then(displayUrl => newPhoto(album.id, session.familyId, displayUrl))
         .then(photo =>{
-          console.log(photo, "pohto")
           return handleFirebaseResponse(() =>
             createDocument(photo, PHOTOS_COLLECTION)
           )}
         )
     )
-  ).then(() => showToastSuccess("Imagenes subidas correctamente"));
+  );
 }
-
-// TODO:
-// Otra mejora recomendable
-// Ahora mismo subes todas las fotos en paralelo.
-// Eso suele estar bien, pero si alguien sube 20 fotos grandes puede saturar la red.
-// Una alternativa más controlada sería subida secuencial, pero eso ya sería con reduce o async/await.
-// Para una boda normalmente no hace falta complicarlo.
 
 
 const newPhoto = (albumType:AlbumType, familyId:string, displayUrl:string):PhotoInterface => {

@@ -6,6 +6,8 @@ import { AlbumInterface } from "@/interfaces/gallery.types";
 import { useLoadingStatus } from "@/hooks/useIsLoadingStatus";
 import { showToastError } from "@/services/notificationService";
 import BaseButton from "../button/base/BaseButton";
+import CloseButton from "../button/base/CloseButton";
+import { MAX_PHOTOS_TO_UPLOAD } from "@/services/photoService";
 
 interface UploadPanelProps {
   album: AlbumInterface;
@@ -38,9 +40,9 @@ export default function UploadPanel({ album, onUpload }: UploadPanelProps) {
   const loadImages = (event: ChangeEvent<HTMLInputElement>) => {
     const targetFiles = event.target.files;
     if (!targetFiles || targetFiles.length === 0) return;
-    if (targetFiles.length > album.maxUploadsPerFamily) {
+    if (targetFiles.length > MAX_PHOTOS_TO_UPLOAD) {
       showToastError(
-        `Solamente puedes subir un máximo de ${album.maxUploadsPerFamily} imágenes a la vez`
+        `Solamente puedes subir un máximo de ${MAX_PHOTOS_TO_UPLOAD} imágenes a la vez`
       );
 
       if (inputRef.current) {
@@ -85,8 +87,8 @@ export default function UploadPanel({ album, onUpload }: UploadPanelProps) {
 
   return (
     <aside className={styles.panel}>
-      <h3 >Subir fotos</h3>
-      <p>Solo imágenes. Máximo permitido en este álbum: {album.maxUploadsPerFamily} fotos por familia.</p>
+      <h2 >Subir fotos</h2>
+      <p>Solo imágenes. El máximo permitido en este álbum es de {MAX_PHOTOS_TO_UPLOAD} fotos por familia.</p>
       <label className={`${styles.inputLabel} ${disabled ? styles.disabled : ""}`}>
         <span>{"Seleccionar imágenes"}</span>
         <input
@@ -132,7 +134,7 @@ export default function UploadPanel({ album, onUpload }: UploadPanelProps) {
           </div>
 
           <div className={styles.buttonContainer}>
-            <BaseButton onClick={clearFiles}>Cancelar</BaseButton>
+            <CloseButton onClick={clearFiles}>Cancelar</CloseButton>
             <BaseButton onClick={uploadImages}>Subir</BaseButton>
           </div>
         </>

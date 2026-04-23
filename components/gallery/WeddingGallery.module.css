@@ -8,7 +8,7 @@
 .topRow {
   display: grid;
   gap: 20px;
-  grid-template-columns: 1.4fr 0.8fr;
+  grid-template-columns: 0.8fr 1fr;
   align-items: start;
 }
 
@@ -30,6 +30,14 @@
   margin: 10px 0 0;
   color: var(--brown);
   line-height: 1.6;
+}
+
+.amountPhotos {
+  margin: 0.7rem 0 0.5rem 0;
+  color: var(--brown);
+  line-height: 1.6;
+  text-align: center;
+  font-style: italic;
 }
 
 .lockedBox {
