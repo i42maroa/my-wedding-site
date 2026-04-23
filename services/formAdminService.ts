@@ -24,7 +24,7 @@ export async function submitForm(formData:FormDataAdmin):Promise<string> {
     const formDataClean = {...formData,
       assistanceConfirm:false,
       users:usersClean,
-      code: generateAccessCode()
+      accessCode: generateAccessCode()
     };
     return await createNewFamily(formDataClean);
 }

@@ -10,7 +10,6 @@ export function useFilterFamilies() {
     const {families, loadFamilies, apiError, setApiError} = useLoadAllFamilies();
     const [filteredFamilies, setFilteredFamilies] = useState<FamilyInterface[]>([]);
 
-    
 
     const allFamilies = () => {
         loadFamilies()
@@ -47,6 +46,16 @@ export function useFilterFamilies() {
         setFilteredFamilies(famFromOrigin); 
     }
 
+    const filterByInput = (input:string) => {
+        const inputLow = input.toLowerCase(); 
+        const filteredFamily = families.filter(f => 
+            f.name.toLowerCase().includes(inputLow) || 
+            f.accessCode.toLowerCase().includes(inputLow) ||
+            f.users.some(v => v.toLowerCase().includes(inputLow))
+        )
+        setFilteredFamilies(filteredFamily)
+    }
+
     const clearFilters = () => {
         setFilteredFamilies(families); 
     }
@@ -58,6 +67,7 @@ export function useFilterFamilies() {
         filterFamiliesByBus,
         filterFamiliesByIntolerancia,
         filterFamiliesByOrigin,
+        filterByInput,
         clearFilters,
         apiError,
     }

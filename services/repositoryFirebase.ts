@@ -72,7 +72,7 @@ export const getCollectionPageByFilter = async <T extends DocumentData, K extend
   const snap = await getDocs(qRef);
 
   const documents = snap.docs.map((d) => ({ id: d.id, ...(d.data() as T)}));
-  console.log(documents)
+  
   return {
       documents,
       lastDoc: snap.docs.length ? snap.docs[snap.docs.length - 1] : null,
