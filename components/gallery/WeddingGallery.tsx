@@ -14,8 +14,8 @@ import { showToastSuccess } from "@/services/notificationService";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import BaseButton from "../button/base/BaseButton";
 
-const INITIAL_PAGE_SIZE = 5;
-const LOAD_MORE_PAGE_SIZE = 2;
+const INITIAL_PAGE_SIZE = 10;
+const LOAD_MORE_PAGE_SIZE = 5;
 
 export default function WeddingGallery() {
   const [selectedAlbum, setSelectedAlbum] = useState<AlbumInterface>(ALBUMS[0]);
