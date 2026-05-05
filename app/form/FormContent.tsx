@@ -27,7 +27,7 @@ export default function RSVPContent() {
 
   const onSuccessSubmit = () => {
     showToastSuccess("Confirmación enviada correctamente. \n ¡Viva los novios!🎉💍");
-    router.push("/");
+    router.push("/galeria");
   };
 
   if (!isGuest) return null;

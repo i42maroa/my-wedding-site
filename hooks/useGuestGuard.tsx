@@ -1,12 +1,10 @@
 "use client";
 
-import { auth } from "@/firebase/config";
 import { GuestSession } from "@/interfaces/guest.interface";
 import {  getGuestSessionSnapshot, initGuestSessionFromStorage, setGuestSession, subscribeToGuestSession } from "@/services/guestSessionBus";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import { showToastSuccess } from "@/services/notificationService";
 import { getGuestSession, loginGuestSession, logoutGuestSession } from "@/services/sessionService";
-import { signInAnonymously } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 
