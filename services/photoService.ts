@@ -12,7 +12,7 @@ import { AlbumInterface, AlbumType, ALLOWED_MIME_TYPES, PhotoEntity, PhotoInterf
 import { getGuestSessionSnapshot } from "./guestSessionBus";
 
 const PHOTOS_COLLECTION = "photos";
-export const MAX_PHOTOS_TO_UPLOAD = 5;
+export const MAX_PHOTOS_TO_UPLOAD = 50;
 
 export async function getPhotosPageByAlbum(albumId: AlbumType, pageSize: number, lastDoc?: QueryDocumentSnapshot<DocumentData> | null): Promise<PageableInterface<PhotoEntity>> {
   return handleFirebaseResponse(async () => await getCollectionPageByFilter<PhotoEntity,"albumType">("albumType", albumId, PHOTOS_COLLECTION, pageSize, lastDoc));
