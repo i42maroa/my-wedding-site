@@ -4,16 +4,11 @@ import { useState, useEffect } from "react";
 import Modal from "./Modal";
 import styles from "./ModalContainer.module.css";
 import { subscribeToNotifications, unsubscribeFromNotifications } from "@/services/modalService";
-import { FormDataAsistencia } from "@/interfaces/formTypes";
+import { ModalItem } from "@/interfaces/modal.interface";
+import ModalConfirmAsistencia from "./templates/ModalConfirmDeleteImage";
+import ModalConfirmDeleteImage from "./templates/ModalConfirmAsistencia";
 
-export interface ModalItem {
-  id: string;
-  formData: FormDataAsistencia;
-  names:string[]
-  confirmModal: () => void
-}
-
-export default function ModalContainer() {
+export default function  ModalContainer() {
   const [modal, setModal] = useState<ModalItem|undefined>();
 
   useEffect(() => {
@@ -34,16 +29,38 @@ export default function ModalContainer() {
      confirmModal();
   };
 
+   const renderTemplate = () => {
+    if (!modal) return null;
+
+    switch (modal.type) {
+      case "confirm-asistencia":
+        return (
+          <ModalConfirmAsistencia
+            formData={modal.data}
+            names={modal.names}
+          />
+        );
+        
+      case "delete-image":
+        return (
+          <ModalConfirmDeleteImage displayPhotoUrl={modal.displayImageUrl}/>
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className={styles.modalContainer}>
     
       {modal && <Modal
           key={modal.id}
-          formData={modal.formData}
-          names={modal.names}
           onClose={removeModal}
           onSend={() => sendModal(modal.confirmModal)}
-        />
+        >
+           {renderTemplate()}  
+        </Modal>
       }
     </div>
   );

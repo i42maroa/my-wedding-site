@@ -1,0 +1,9 @@
+.imageWrap {
+  position: relative;
+  aspect-ratio: 6 / 5;
+  background: var(--white);
+}
+
+.image {
+  object-fit: contain;
+}

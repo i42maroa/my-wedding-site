@@ -1,6 +1,5 @@
 import { FamilyInterface, FORM_DATA_DEFAULT, FormDataAsistencia, FormDataLogin, FormErrors } from "@/interfaces/formTypes";
 import { updateAsistencia } from "./dbService";
-import { showModalByContent } from "./modalService";
 
 export const validateForm = (data: FormDataAsistencia): { isValid: boolean; errors: FormErrors } =>{
   const errors: FormErrors = {};

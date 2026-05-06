@@ -6,13 +6,14 @@ import GalleryGrid from "./GalleryGrid";
 import UploadPanel from "./UploadPanel";
 import styles from "./WeddingGallery.module.css";
 import {  AlbumInterface, ALBUMS, PhotoEntity, ReactionKey } from "@/interfaces/gallery.types";
-import { getPhotosByFamilyId, getPhotosPageByAlbum, uploadPhotos } from "@/services/photoService";
+import { deletePhoto, getPhotosByFamilyId, getPhotosPageByAlbum, uploadPhotos } from "@/services/photoService";
 import { startLoading, stopLoading } from "@/services/loadingService";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
 import { useGuestGuard } from "@/hooks/useGuestGuard";
 import { showToastSuccess } from "@/services/notificationService";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import BaseButton from "../button/base/BaseButton";
+import { showModalConfirmDeleteImage } from "@/services/modalService";
 
 const INITIAL_PAGE_SIZE = 25;
 const LOAD_MORE_PAGE_SIZE = 15;
@@ -72,6 +73,21 @@ export default function WeddingGallery() {
     .finally(() => stopLoading()); 
   };
 
+  const handleDeleteImage = async (photo: PhotoEntity) => {
+    showModalConfirmDeleteImage(photo.displayUrl, () => {
+      startLoading();
+       deletePhoto(photo)
+        .then(() => {
+          setPhotos(prev => prev.filter(p => p.id !== photo.id));
+          setAmountPhotosFamily(amountPhotosFamily - 1)
+          showToastSuccess("Foto eliminada correctamente");
+        })
+      .catch(err => useApiErrorToast(err))
+      .finally(() => stopLoading())
+    }
+    ); 
+  };
+
   const handleReactionToggle = async (photoId: string, emoji: ReactionKey) => {
      //TODO
   };
@@ -89,6 +105,7 @@ export default function WeddingGallery() {
           {selectedAlbum.isUnlocked ? 
             <>
               <p className={styles.albumDescription}>{selectedAlbum.description}</p>
+              <p className={styles.subDescription}>Estas fotografías sólo las pueden ver los invitados.</p>
             </> 
             : (
                 <div className={styles.lockedBox}>
@@ -105,6 +122,7 @@ export default function WeddingGallery() {
           <GalleryGrid
             photos={photos}
             onReactionToggle={handleReactionToggle}
+            onDeleteImage={handleDeleteImage}
           />
 
           {hasMore && photos.length > 0 && (

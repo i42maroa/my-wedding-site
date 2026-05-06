@@ -57,6 +57,15 @@
   margin: auto;
 }
 
+.subDescription {
+  margin: 2rem 0 0.5rem 0;
+  color: var(--brown);
+  line-height: 1.6;
+  text-align: center;
+  font-style: italic;
+}
+
+
 @media (max-width: 900px) {
   .topRow {
     grid-template-columns: 1fr;

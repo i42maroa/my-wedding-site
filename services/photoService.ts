@@ -1,12 +1,13 @@
-import { DocumentData, QueryDocumentSnapshot, serverTimestamp } from "firebase/firestore";
+import { deleteDoc, doc, DocumentData, QueryDocumentSnapshot, serverTimestamp } from "firebase/firestore";
 import {
+  deleteObject,
   getDownloadURL,
   ref,
   uploadBytes,
 } from "firebase/storage";
 import imageCompression from "browser-image-compression";
 import { storage } from "@/firebase/config";
-import { createDocument, getCollectionByFilter, getCollectionPageByFilter, PageableInterface } from "./repositoryFirebase";
+import { createDocument, deleteDocument, getCollectionByFilter, getCollectionPageByFilter, PageableInterface } from "./repositoryFirebase";
 import {  handleFirebaseResponse } from "./dbService";
 import { AlbumInterface, AlbumType, ALLOWED_MIME_TYPES, PhotoEntity, PhotoInterface } from "@/interfaces/gallery.types";
 import { getGuestSessionSnapshot } from "./guestSessionBus";
@@ -91,6 +92,26 @@ export async function uploadPhotos(album: AlbumInterface,files: FileList | File[
         )
     )
   );
+}
+
+export async function deletePhoto(photo: PhotoEntity): Promise<void> {
+  const session = getGuestSessionSnapshot();
+
+  if (!session?.familyId) {
+    throw new Error("No hay sesión activa");
+  }
+
+  // protección frontend
+  if (photo.familyId !== session.familyId) {
+    throw new Error("No puedes eliminar fotos de otra familia");
+  }
+
+  // 1. borrar imagen de storage
+  const storageRef = ref(storage, photo.displayUrl);
+
+  await deleteObject(storageRef);
+
+  deleteDocument(photo.id, PHOTOS_COLLECTION);
 }
 
 

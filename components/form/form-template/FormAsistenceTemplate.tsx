@@ -9,7 +9,7 @@ import { useAssistanceForm } from "@/hooks/useAssistanceForm";
 import { useLoadingStatus } from "@/hooks/useIsLoadingStatus";
 import { textConfirmamosOrConfirmo, textSomosOrSoy, userNames } from "@/helper/mapTextByUser";
 import { useApiErrorToast } from "@/hooks/useApiErrorToast";
-import { showModalByContent } from "@/services/modalService";
+import { showModalConfirmAsistencia } from "@/services/modalService";
 import SvgInterrogation from "@/components/svg/SvgInterrogation/SvgInterrogation";
 
 export default function FormTemplateAssistance({prechargeFamily, onSuccessSubmit}:
@@ -22,7 +22,7 @@ export default function FormTemplateAssistance({prechargeFamily, onSuccessSubmit
 
   const showModal = (e: React.FormEvent) =>{
     e.preventDefault();
-    showModalByContent(formData, names, () => handleSubmit(e))
+    showModalConfirmAsistencia(formData, names, () => handleSubmit(e))
   }
 
     return(

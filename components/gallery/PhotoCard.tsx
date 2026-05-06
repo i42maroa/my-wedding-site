@@ -6,9 +6,11 @@ interface PhotoCardProps {
   photo: PhotoEntity;
   mine:boolean;
   onReactionToggle: (photoId: string, emoji: ReactionKey) => void;
+  onDeleteImage: (photo:PhotoEntity) => void;
 }
 
-export default function PhotoCard({ photo, mine, onReactionToggle }: PhotoCardProps) {
+export default function PhotoCard({ photo, mine,onDeleteImage, onReactionToggle }: PhotoCardProps) {
+
   return (
     <article className={styles.card}>
       <div className={styles.imageWrap}>
@@ -23,6 +25,13 @@ export default function PhotoCard({ photo, mine, onReactionToggle }: PhotoCardPr
       {
         mine && <div className={styles.footer}>
          <span>Subida por mi</span>
+         <button
+            className={styles.removeButton}
+            type="button"
+            onClick={() => onDeleteImage(photo)}
+          >
+            Eliminar
+          </button>
       </div>}
       {/* <div className={styles.footer}>
         <ReactionBar photo={photo} onToggle={(emoji) => onReactionToggle(photo.id, emoji)} />

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import { ModalItem } from "@/components/modal/ModalContainer";
 import { FormDataAsistencia } from "@/interfaces/formTypes";
+import { ConfirmAsistenciaModal, ConfirmDeleteImageModal, ModalItem } from "@/interfaces/modal.interface";
 
 type Subscriber = (toast: ModalItem) => void;
 
@@ -14,19 +14,32 @@ export function unsubscribeFromNotifications(callback: Subscriber) {
   subscribers.delete(callback);
 }
 
-export function showModalByContent(formData: FormDataAsistencia, names:string[], confirmModal:()=>void) {
-  return showModal(formData, names, confirmModal);
-}
-
-export function showModal(formData: FormDataAsistencia, names:string[], confirmModal:()=>void) {
-  const modal: ModalItem = {
-    id: uuidv4(),
-    formData,
-    names,
-    confirmModal
-  };
-
+function emitModal(modal: ModalItem) {
   for (const callback of subscribers) {
     callback(modal);
   }
 }
+
+export function showModalConfirmAsistencia(formData: FormDataAsistencia, names:string[], confirmModal:()=>void) {
+   const modal: ConfirmAsistenciaModal = {
+    id: uuidv4(),
+    type: "confirm-asistencia",
+    data: formData,
+    names,
+    confirmModal
+  };
+
+  emitModal(modal);
+}
+
+export function showModalConfirmDeleteImage(displayImageUrl:string, confirmModal: () => void) {
+  const modal: ConfirmDeleteImageModal = {
+    id: uuidv4(),
+    type: "delete-image",
+    displayImageUrl,
+    confirmModal
+  };
+
+  emitModal(modal);
+}
+

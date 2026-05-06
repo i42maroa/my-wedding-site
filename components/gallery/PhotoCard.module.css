@@ -21,4 +21,23 @@
   border-top: 1px solid rgba(107, 91, 77, 0.08);
   background-color: var(--green);
   color: var(--white);
+  display: flex;
+  justify-content: space-between;
+
+  span{
+    margin: auto 0;
+  }
+}
+
+.removeButton{
+  background-color: transparent;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  font-style: inherit;
+  font-size: 12px;
+  font-style: italic;
+}
+.removeButton:hover{
+  text-decoration: underline;
 }
