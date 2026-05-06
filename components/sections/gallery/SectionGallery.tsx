@@ -61,12 +61,12 @@ export default function SectionGallery() {
   }, []);
 
   // Progresos individuales por foto (tramos)
-  const p1     = rangeProgress(progress, 0.00, 0.15);
-  const p2     = rangeProgress(progress, 0.12, 0.30);
-  const p3     = rangeProgress(progress, 0.28, 0.45);
-  const p4     = rangeProgress(progress, 0.45, 0.65);
-  const pTitle = rangeProgress(progress, 0.65, 0.75);
-  const p5     = rangeProgress(progress, 0.65, 0.85);
+  const p1     = rangeProgress(progress, 0.00, 0.25);
+  const p2     = rangeProgress(progress, 0.22, 0.40);
+  const p3     = rangeProgress(progress, 0.38, 0.55);
+  // const p4     = rangeProgress(progress, 0.45, 0.65);
+  const pTitle = rangeProgress(progress, 0.55, 0.75);
+  const p5     = rangeProgress(progress, 0.55, 0.75);
   const pScroll = rangeProgress(progress, 0.05, 0.20);
 
   
@@ -93,10 +93,10 @@ export default function SectionGallery() {
       0,-3,p3)}deg) scale(${lerp(0.9, 1.02, p3)})`,
   };
 
-  const photo4Style = {
-    opacity: p4,
-    transform: `translate(${lerp(-10, 0, p4)}px, ${lerp(-80, 0, p4)}px) rotate(${lerp(-8, -2, p4)}deg)`,
-  };
+  // const photo4Style = {
+  //   opacity: p4,
+  //   transform: `translate(${lerp(-10, 0, p4)}px, ${lerp(-80, 0, p4)}px) rotate(${lerp(-8, -2, p4)}deg)`,
+  // };
 
   const photo5Style = {
     opacity: p5,
@@ -152,7 +152,7 @@ export default function SectionGallery() {
                   </div>
               </div>
 
-              <div className={`${styles.photo} ${styles.photo4}`}>
+              {/* <div className={`${styles.photo} ${styles.photo4}`}>
                   <div className={styles.photoInner} style={photo4Style}>
                     <Image
                       src="/gallery/photo4.jpg"
@@ -163,7 +163,7 @@ export default function SectionGallery() {
                       sizes="40rem"
                     />
                   </div>
-              </div>
+              </div> */}
 
               <div className={`${styles.photo} ${styles.photo5}`}>
                 <div className={styles.photoInner} style={photo5Style}>

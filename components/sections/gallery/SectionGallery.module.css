@@ -2,7 +2,7 @@
 /* Sección que “ocupa” mucho scroll */
 .pinSection {
   position: relative;
-  height: 350vh; /* más alto = más recorrido para el efecto */
+  height: 300vh; /* más alto = más recorrido para el efecto */
   flex-direction: column;
   margin-bottom: 20rem;
 }
