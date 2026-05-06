@@ -29,7 +29,7 @@ Queremos compartir este día tan especial contigo y esperamos de corazón que pu
 Hemos preparado una pequeña web con todos los detalles de la celebración 📅🍾.
 Desde allí también podrás confirmar tu asistencia fácilmente con tú código único: 
 
-👉 Confirmanos en ${process.env.NEXT_PUBLIC_URL}?accesCode=${family.accessCode}    
+👉 Confirmanos en ${process.env.NEXT_PUBLIC_URL}?accessCode=${family.accessCode}    
 👉 Código de invitado: ${family.accessCode}  
 
 No os olvidéis de subir una foto con nosotros en la galería. Estas imágenes solamente las ven los invitados.

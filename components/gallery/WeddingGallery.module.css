@@ -32,14 +32,6 @@
   line-height: 1.6;
 }
 
-.amountPhotos {
-  margin: 2rem 0 0.5rem 0;
-  color: var(--brown);
-  line-height: 1.6;
-  text-align: center;
-  font-style: italic;
-}
-
 .lockedBox {
   margin-top: 16px;
   border-radius: 16px;

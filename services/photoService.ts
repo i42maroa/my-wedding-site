@@ -32,7 +32,7 @@ export function validateFilesBeforeUpload(files: FileList | File[]): void {
   list.forEach(file => {
     if (!ALLOWED_MIME_TYPES.includes(file.type)) {
           throw new Error(`Formato no permitido: ${file.name}`);
-        }
+    }
 
     if (file.size > 8 * 1024 * 1024) {
           throw new Error(`La imagen ${file.name} supera el máximo de 8 MB`);

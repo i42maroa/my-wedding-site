@@ -14,8 +14,8 @@ import { showToastSuccess } from "@/services/notificationService";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import BaseButton from "../button/base/BaseButton";
 
-const INITIAL_PAGE_SIZE = 10;
-const LOAD_MORE_PAGE_SIZE = 5;
+const INITIAL_PAGE_SIZE = 25;
+const LOAD_MORE_PAGE_SIZE = 15;
 
 export default function WeddingGallery() {
   const [selectedAlbum, setSelectedAlbum] = useState<AlbumInterface>(ALBUMS[0]);
@@ -89,7 +89,6 @@ export default function WeddingGallery() {
           {selectedAlbum.isUnlocked ? 
             <>
               <p className={styles.albumDescription}>{selectedAlbum.description}</p>
-              <p className={styles.amountPhotos}>{amountPhotosFamily > 0 ? `Has subido ${amountPhotosFamily} fotos en este album.`:'Todavía no has subido ninguna foto en este album'}</p>
             </> 
             : (
                 <div className={styles.lockedBox}>
@@ -98,7 +97,7 @@ export default function WeddingGallery() {
               )}
         </div>
 
-        {selectedAlbum.isUnlocked && <UploadPanel album={selectedAlbum} onUpload={handleUpload} />}
+        {selectedAlbum.isUnlocked && <UploadPanel amountPhotosFamily={amountPhotosFamily} album={selectedAlbum} onUpload={handleUpload} />}
       </div>
 
       {selectedAlbum.isUnlocked ? (

@@ -11,6 +11,7 @@ import { MAX_PHOTOS_TO_UPLOAD } from "@/services/photoService";
 
 interface UploadPanelProps {
   album: AlbumInterface;
+  amountPhotosFamily:number;
   onUpload: (files: File[] | null) => Promise<void>;
 }
 
@@ -19,7 +20,7 @@ interface PreviewFile {
   previewUrl: string;
 }
 
-export default function UploadPanel({ album, onUpload }: UploadPanelProps) {
+export default function UploadPanel({ album, amountPhotosFamily, onUpload }: UploadPanelProps) {
 
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -138,7 +139,9 @@ export default function UploadPanel({ album, onUpload }: UploadPanelProps) {
             <BaseButton onClick={uploadImages}>Subir</BaseButton>
           </div>
         </>
-      )}      
+      )}
+      
+      <p className={styles.amountPhotos}>{amountPhotosFamily > 0 ? `Has subido ${amountPhotosFamily} fotos en este album.`:'Todavía no has subido ninguna foto en este album'}</p> 
     </aside>
   );
 }
