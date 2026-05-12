@@ -15,8 +15,8 @@ import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import BaseButton from "../button/base/BaseButton";
 import { showModalConfirmDeleteImage } from "@/services/modalService";
 
-const INITIAL_PAGE_SIZE = 25;
-const LOAD_MORE_PAGE_SIZE = 15;
+const INITIAL_PAGE_SIZE = 30;
+const LOAD_MORE_PAGE_SIZE = 20;
 
 export default function WeddingGallery() {
   const [selectedAlbum, setSelectedAlbum] = useState<AlbumInterface>(ALBUMS[0]);
